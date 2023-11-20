@@ -60,7 +60,12 @@ User dan Guest dapat menambahkan permintaan buku yang ingin diunggah di aplikasi
 Event handler yang digunakan pada modul:
 * onTap pada setiap card buku yang akan memanggil Navigator.push untuk memunculkan halaman Edit Request untuk menyunting permintaan tersebut.
 * onPressed untuk button _Add Request_, _Edit Request_, dan back yang akan mengarahkan ke halaman yang sesuai, kemudian untuk button SAVE dan EDIT yang akan memanggil function yang sesuai untuk menambahkan atau menyunting permintaan atau _request_.
-
+## Integrasi Web dengan Aplikasi
+Berikut adalah langkah-langkah yang akan dilakukan untuk mengintegrasikan aplikasi dengan server web:
+* Mengimplementasikan sebuah wrapper class dengan menggunakan library http dan map untuk mendukung penggunaan cookie-based authentication pada aplikasi.
+* Mengimplementasikan REST API pada Django (views.py) dengan menggunakan JsonResponse atau Django JSON Serializer.
+* Mengimplementasikan desain front-end untuk aplikasi berdasarkan desain website yang sudah ada sebelumnya.
+* Melakukan integrasi antara front-end dengan back-end dengan menggunakan konsep asynchronous HTTP.
 ## Datasets
 _Project_ kami akan menggunakan sumber dataset buku `Book Recommendation Dataset` oleh MÖBIUS dari platform Kaggle
 [Book Recommendation Dataset by MÖBIUS](https://www.kaggle.com/datasets/arashnic/book-recommendation-dataset/)
