@@ -61,12 +61,6 @@ Event handler yang digunakan pada modul:
 * onTap pada setiap card buku yang akan memanggil Navigator.push untuk memunculkan halaman Edit Request untuk menyunting permintaan tersebut.
 * onPressed untuk button _Add Request_, _Edit Request_, dan back yang akan mengarahkan ke halaman yang sesuai, kemudian untuk button SAVE dan EDIT yang akan memanggil function yang sesuai untuk menambahkan atau menyunting permintaan atau _request_.
 
-#### Peran Persona
-| User | Guest |
-| ------------- | ------------- |
-| Dapat menambahkan berbagai permintaan buku yang diinginkan. | Dapat menambahkan berbagai permintaan buku yang diinginkan dengan kuantitas maksimal tiga buku.  |
-| Dapat menyunting permintaan yang telah dibuat. | Dapat menyunting permintaan yang telah dibuat. |
-
 ## Datasets
 _Project_ kami akan menggunakan sumber dataset buku `Book Recommendation Dataset` oleh MÖBIUS dari platform Kaggle
 [Book Recommendation Dataset by MÖBIUS](https://www.kaggle.com/datasets/arashnic/book-recommendation-dataset/)
