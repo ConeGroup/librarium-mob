@@ -12,6 +12,8 @@
 # Librarium 📖
 ## Tautan Situs
 http://librarium-c01-tk.pbp.cs.ui.ac.id.
+## Tautan Aplikasi Mobile
+https://install.appcenter.ms/orgs/pas-c01/apps/librarium/distribution_groups/public.
 ## Background Story
 Literasi adalah kunci untuk pengembangan individu dan kemajuan bangsa. Indonesia memiliki berbagai regulasi yang mendukung peningkatan literasi, termasuk Undang-Undang Dasar 1945 yang menekankan hak warga negara untuk mendapatkan pendidikan yang layak. Librarium, sebagai sebuah _website_ yang mengedepankan kegiatan membaca dan berbicara tentang buku, memiliki peran penting dalam memajukan literasi di Indonesia. Fitur-fitur seperti Book Reviews memungkinkan pengguna untuk mengekspresikan pendapat mereka tentang buku dan berbagi rekomendasi dengan komunitas pembaca lainnya. Hal ini membantu memotivasi masyarakat untuk membaca dan meningkatkan pemahaman mereka tentang literatur.
 
@@ -63,7 +65,6 @@ Pada modul ini, kami mengimplementasikan beberapa _event handler_ :
 * `onTap` pada tiap _card_ di halaman *Collections* sebagai pemicu `Navigator.push` untuk melakukan _push_ ke halaman *Edit Plan* jika ingin menyunting kategori buku tersebut.
 * `onPressed` untuk _button_ `Add Collection`, `Add Book`, dan `Edit Collection`.
 
-
 ### 📥 Book Request (Bimo)
 _User_ dan _Guest_ dapat menambahkan permintaan buku yang ingin diunggah di aplikasi Librarium. Para pengguna dapat menambahkan rincian buku, seperti nama, tahun terbit, nomor ISBN, dan ulasan singkat sebagai bahan pertimbangan pengembang untuk menambahkan buku tersebut ke dalam aplikasi Librarium. Modul ini menerapkan `get` untuk mengambil rincian mengenai buku yang kemudian akan ditampilkan pada laman pengguna. Selain itu, modul ini juga menggunakan metode `post` untuk menambahkan permintaan buku baru serta menyunting permintaan yang sudah ada.<br>
 
@@ -93,3 +94,6 @@ _Member_ merupakan pengguna yang sudah melakukan _register_. Berikut ini hal-hal
 - [x] Mengakses apa saja yang dapat diakses oleh _Guest_.
 - [x] Menyunting rincian data pribadi pada *User Profile*.
 - [x] Mengakses semua fitur utama Librarium, seperti *Book Reviews*, *Book Loans*, *Collections*, dan *Book Request*.
+
+### Build Status
+[![Build status](https://build.appcenter.ms/v0.1/apps/19edfacb-ce87-48b6-a8ff-0ebe61f1c3f9/branches/main/badge)](https://appcenter.ms)
