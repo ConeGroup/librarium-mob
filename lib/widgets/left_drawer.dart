@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:librarium_mob/pages/menu.dart';
+import 'package:librarium_mob/apptheme.dart';
+
 
 class LeftDrawer extends StatelessWidget {
   const LeftDrawer({super.key});
@@ -12,7 +14,7 @@ class LeftDrawer extends StatelessWidget {
           const DrawerHeader(
             // Bagian drawer header
             decoration: BoxDecoration(
-              color: Colors.indigo,
+              color: AppTheme.defaultBlue,
             ),
             child: Column(
               children: [
@@ -22,7 +24,7 @@ class LeftDrawer extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 30,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                    color: AppTheme.defaultYellow,
                   ),
                 ),
                 Padding(padding: EdgeInsets.all(10)),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:librarium_mob/pages/review_form.dart';
 import 'package:librarium_mob/widgets/left_drawer.dart';
+import 'package:librarium_mob/apptheme.dart';
 
 class MyHomePage extends StatelessWidget {
   MyHomePage({Key? key}) : super(key: key);
@@ -37,6 +38,7 @@ class MyHomePage extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 30,
+                    color: AppTheme.defaultYellow,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -78,7 +80,7 @@ class LibrariumCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.indigo,
+      color: AppTheme.defaultBlue,
       child: InkWell(
         // Area responsive terhadap sentuhan
         onTap: () {
