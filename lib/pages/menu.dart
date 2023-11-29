@@ -1,25 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:librarium_mob/pages/review_form.dart';
+import 'package:librarium_mob/widgets/left_drawer.dart';
 
 class MyHomePage extends StatelessWidget {
-    MyHomePage({Key? key}) : super(key: key);
+  MyHomePage({Key? key}) : super(key: key);
 
-    final List<LibrariumItem> items = [
+  final List<LibrariumItem> items = [
     LibrariumItem("Collections", Icons.collections_bookmark),
     LibrariumItem("Book Request", Icons.question_mark_rounded),
     LibrariumItem("Book Loans", Icons.library_books),
     LibrariumItem("Book Reviews", Icons.reviews_rounded),
     LibrariumItem("Logout", Icons.logout),
-    ];
+  ];
 
-    @override
-    Widget build(BuildContext context) {
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
           'Librarium',
         ),
       ),
+      drawer: const LeftDrawer(),
       body: SingleChildScrollView(
         // Widget wrapper yang dapat discroll
         child: Padding(
@@ -58,7 +60,7 @@ class MyHomePage extends StatelessWidget {
         ),
       ),
     );
-    }
+  }
 }
 
 class LibrariumItem {
@@ -85,27 +87,30 @@ class LibrariumCard extends StatelessWidget {
             ..hideCurrentSnackBar()
             ..showSnackBar(SnackBar(
                 content: Text("Kamu telah menekan tombol ${item.name}!")));
-            
-            // TODO: Navigate ke route yang sesuai (tergantung jenis tombol) 
-            // isi sesuai modul yang dikerjakan masing-masing
-          if (item.name == "Collections") {
-            Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const ReviewFormPage()));
-          } else if (item.name == "Book Request") {
-            Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const ReviewFormPage()));
-    
-          } else if (item.name == "Book Loans") {
-            Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const ReviewFormPage()));
-          
-          } else if (item.name == "Book Reviews") {
-            Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const ReviewFormPage()));
-          } else if (item.name == "Logout") {
-          
-          }
 
+          // TODO: Navigate ke route yang sesuai (tergantung jenis tombol)
+          // isi sesuai modul yang dikerjakan masing-masing
+          if (item.name == "Collections") {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const ReviewFormPage()));
+          } else if (item.name == "Book Request") {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const ReviewFormPage()));
+          } else if (item.name == "Book Loans") {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const ReviewFormPage()));
+          } else if (item.name == "Book Reviews") {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const ReviewFormPage()));
+          } else if (item.name == "Logout") {}
         },
         child: Container(
           // Container untuk menyimpan Icon dan Text
