@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:librarium_mob/pages/review_catalog.dart';
 import 'package:librarium_mob/pages/list_review.dart';
-import 'package:librarium_mob/pages/review_page.dart';
-import 'package:librarium_mob/pages/review_form.dart';
 import 'package:librarium_mob/widgets/left_drawer.dart';
 import 'package:librarium_mob/apptheme.dart';
 
-class MyHomePage extends StatelessWidget {
-  MyHomePage({Key? key}) : super(key: key);
+class ReviewPage extends StatelessWidget {
+  ReviewPage({Key? key}) : super(key: key);
 
-  final List<LibrariumItem> items = [
-    LibrariumItem("Collections", Icons.collections_bookmark),
-    LibrariumItem("Book Request", Icons.question_mark_rounded),
-    LibrariumItem("Book Loans", Icons.library_books),
-    LibrariumItem("Book Reviews", Icons.reviews_rounded),
-    LibrariumItem("Logout", Icons.logout),
+  final List<ReviewPageItem> items = [
+    ReviewPageItem("Add Review", Icons.add_comment),
+    ReviewPageItem("Review by Catalog", Icons.book_online_outlined),
+    ReviewPageItem("Your Reviews", Icons.reviews_rounded),
   ];
 
   @override
@@ -36,7 +33,7 @@ class MyHomePage extends StatelessWidget {
                 padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
                 // Widget Text untuk menampilkan tulisan dengan alignment center dan style yang sesuai
                 child: Text(
-                  'Librarium', // Text yang menandakan toko
+                  'Review Page', // Text yang menandakan toko
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 30,
@@ -54,9 +51,9 @@ class MyHomePage extends StatelessWidget {
                 mainAxisSpacing: 10,
                 crossAxisCount: 3,
                 shrinkWrap: true,
-                children: items.map((LibrariumItem item) {
+                children: items.map((ReviewPageItem item) {
                   // Iterasi untuk setiap item
-                  return LibrariumCard(item);
+                  return ReviewPageCard(item);
                 }).toList(),
               ),
             ],
@@ -67,17 +64,17 @@ class MyHomePage extends StatelessWidget {
   }
 }
 
-class LibrariumItem {
+class ReviewPageItem {
   final String name;
   final IconData icon;
 
-  LibrariumItem(this.name, this.icon);
+  ReviewPageItem(this.name, this.icon);
 }
 
-class LibrariumCard extends StatelessWidget {
-  final LibrariumItem item;
+class ReviewPageCard extends StatelessWidget {
+  final ReviewPageItem item;
 
-  const LibrariumCard(this.item, {super.key}); // Constructor
+  const ReviewPageCard(this.item, {super.key}); // Constructor
 
   @override
   Widget build(BuildContext context) {
@@ -94,27 +91,18 @@ class LibrariumCard extends StatelessWidget {
 
           // TODO: Navigate ke route yang sesuai (tergantung jenis tombol)
           // isi sesuai modul yang dikerjakan masing-masing
-          if (item.name == "Collections") {
+          if (item.name == "Your Reviews") {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => ReviewPage()));
-          } else if (item.name == "Book Request") {
+                    builder: (context) => const ReviewListPage()));
+          }
+          else if (item.name == "Review by Catalog") {  // Handle the new item
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => ReviewPage()));
-          } else if (item.name == "Book Loans") {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ReviewPage()));
-          } else if (item.name == "Book Reviews") {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ReviewPage()));
-          } else if (item.name == "Logout") {}
+                    builder: (context) => const BookCatalogPage()));
+          }
         },
         child: Container(
           // Container untuk menyimpan Icon dan Text

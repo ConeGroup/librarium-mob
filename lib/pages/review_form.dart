@@ -1,62 +1,40 @@
 import 'package:flutter/material.dart';
-
-// TODO: Impor drawer yang sudah dibuat sebelumnya
+import 'package:librarium_mob/apptheme.dart';
+import 'package:librarium_mob/models/book_model.dart';
+import 'package:librarium_mob/pages/review_page.dart'; // Import the review page
 
 class ReviewFormPage extends StatefulWidget {
-    const ReviewFormPage({super.key});
+  final Book book;
 
-    @override
-    State<ReviewFormPage> createState() => _ReviewFormPageState();
+  const ReviewFormPage({Key? key, required this.book}) : super(key: key);
+
+  @override
+  State<ReviewFormPage> createState() => _ReviewFormPageState();
 }
 
 class _ReviewFormPageState extends State<ReviewFormPage> {
-    final _formKey = GlobalKey<FormState>();
-    String _bookTitle = "";
-    int _rating = 0;
-    String _description = "";
+  final _formKey = GlobalKey<FormState>();
+  int _rating = 0;
+  String _description = "";
 
-    @override
-    Widget build(BuildContext context) {
-        return Scaffold(
-          appBar: AppBar(
-            title: const Center(
-              child: Text(
-                'Add Your Review',
-              ),
-            ),
-            backgroundColor: Colors.indigo,
-            foregroundColor: Colors.white,
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Center(
+          child: Text(
+            'Add Your Review - ${widget.book.fields.title}',
           ),
-          // TODO: Tambahkan drawer yang sudah dibuat di sini
-          body: Form(
-            key: _formKey,
-            child: SingleChildScrollView(
-              child: Column(
-                 crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextFormField(
-                        decoration: InputDecoration(
-                          hintText: "Nama Buku",
-                          labelText: "Nama Buku",
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5.0),
-                          ),
-                        ),
-                        onChanged: (String? value) {
-                          setState(() {
-                            _bookTitle = value!;
-                          });
-                        },
-                        validator: (String? value) {
-                          if (value == null || value.isEmpty) {
-                            return "Book Title tidak boleh kosong!";
-                          }
-                          return null;
-                        },
-                      ),
-              ),
+        ),
+        backgroundColor: AppTheme.defaultBlue,
+        foregroundColor: Colors.white,
+      ),
+      body: Form(
+        key: _formKey,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
@@ -67,7 +45,6 @@ class _ReviewFormPageState extends State<ReviewFormPage> {
                       borderRadius: BorderRadius.circular(5.0),
                     ),
                   ),
-                  // TODO: Tambahkan variabel yang sesuai
                   onChanged: (String? value) {
                     setState(() {
                       _rating = int.parse(value!);
@@ -96,7 +73,6 @@ class _ReviewFormPageState extends State<ReviewFormPage> {
                   ),
                   onChanged: (String? value) {
                     setState(() {
-                      // TODO: Tambahkan variabel yang sesuai
                       _description = value!;
                     });
                   },
@@ -115,24 +91,23 @@ class _ReviewFormPageState extends State<ReviewFormPage> {
                   child: ElevatedButton(
                     style: ButtonStyle(
                       backgroundColor:
-                          MaterialStateProperty.all(Colors.indigo),
+                          MaterialStateProperty.all(AppTheme.defaultBlue),
                     ),
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                         showDialog(
+                        showDialog(
                           context: context,
                           builder: (context) {
                             return AlertDialog(
-                              title: const Text('Produk berhasil tersimpan'),
+                              title: const Text('Review Saved Successfully'),
                               content: SingleChildScrollView(
                                 child: Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text('Book Title: $_bookTitle'),
+                                    Text(
+                                        'Book Title: ${widget.book.fields.title}'),
                                     Text('Book Rating: $_rating'),
                                     Text('Book Description: $_description'),
-                                    // TODO: Munculkan value-value lainnya
                                   ],
                                 ),
                               ),
@@ -141,14 +116,20 @@ class _ReviewFormPageState extends State<ReviewFormPage> {
                                   child: const Text('OK'),
                                   onPressed: () {
                                     Navigator.pop(context);
+                                    // Navigate to the review page after saving
+                                    Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => ReviewPage(),
+                                      ),
+                                    );
                                   },
                                 ),
                               ],
                             );
                           },
                         );
-                      _formKey.currentState!.reset();
-                      
+                        _formKey.currentState!.reset();
                       }
                     },
                     child: const Text(
@@ -157,13 +138,11 @@ class _ReviewFormPageState extends State<ReviewFormPage> {
                     ),
                   ),
                 ),
-              )
-            ]
-              
-            ),
+              ),
+            ],
           ),
-          )
-        );
-
-    }
+        ),
+      ),
+    );
+  }
 }
