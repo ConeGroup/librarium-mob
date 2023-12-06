@@ -72,7 +72,7 @@ class _BookCatalogPageState extends State<BookCatalogPage> {
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
                 mainAxisSpacing: 13.0,
-                crossAxisSpacing: 13.0,
+                crossAxisSpacing: 20.0,
                 childAspectRatio: 2/3,
               ),
               itemCount: snapshot.data!.length,
@@ -91,11 +91,14 @@ class _BookCatalogPageState extends State<BookCatalogPage> {
 
                     margin: const EdgeInsets.symmetric(vertical: 5.0),
                     decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8.0),
+                    color: AppTheme.defaultYellow,
                       boxShadow: [
                         BoxShadow(
                           color: Colors.grey.withOpacity(0.3),
-                          spreadRadius: 1,
-                          offset: const Offset(0, 3),
+                          spreadRadius: 2,
+                          blurRadius: 4.0,
+                          offset: const Offset(1, 2),
                         ),
                       ],
                     ),
@@ -106,7 +109,7 @@ class _BookCatalogPageState extends State<BookCatalogPage> {
                         children: [
                           Expanded(
                             child: Image.network(
-                              book.fields.imageM,
+                              book.fields.imageL,
                               width: double.infinity,
                               height: double.infinity,
                               fit: BoxFit.cover,

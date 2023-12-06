@@ -245,7 +245,7 @@ class ReviewListItem extends StatelessWidget {
               ),
               image: DecorationImage(
                 fit: BoxFit.cover,
-                image: NetworkImage(book.fields.imageM),
+                image: NetworkImage(book.fields.imageL),
               ),
             ),
           ),

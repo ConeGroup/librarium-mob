@@ -25,15 +25,42 @@ class _ReviewFormPageState extends State<ReviewFormPage> {
     final request = context.watch<CookieRequest>();
 
     return Scaffold(
-      appBar: AppBar(
-        title: Center(
-          child: Text(
-            '${widget.book.fields.title}',
-          ),
-        ),
-        backgroundColor: AppTheme.defaultBlue,
-        foregroundColor: Colors.white,
-      ),
+      body: NestedScrollView(
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return <Widget>[
+            SliverAppBar(
+              foregroundColor: Colors.white,
+              expandedHeight: 300.0,
+              backgroundColor: AppTheme.defaultBlue,
+              floating: false,
+              pinned: true,
+              stretch: true,
+              flexibleSpace: FlexibleSpaceBar(
+                  centerTitle: false,
+                  collapseMode: CollapseMode.parallax,
+                  
+                  title: Text('${widget.book.fields.title}',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18.0,
+                        shadows: [
+                          Shadow(
+                            blurRadius: 5,
+                            color: Color.fromRGBO(0, 0, 0, 0.479),
+                            offset: Offset(1, 2),
+                          ),
+                        ],
+                      )
+                      
+                      ),
+                  background: Image.network(
+                   "${widget.book.fields.imageL}",
+                    fit: BoxFit.cover,
+                  )),
+            ),
+          ];
+        },
+    
       body: Form(
         key: _formKey,
         child: SingleChildScrollView(
@@ -64,7 +91,7 @@ class _ReviewFormPageState extends State<ReviewFormPage> {
                   ),
                   image: DecorationImage(
                     fit: BoxFit.cover,
-                    image: NetworkImage(widget.book.fields.imageM),
+                    image: NetworkImage(widget.book.fields.imageL),
                   ),
                 ),
               ),
@@ -208,6 +235,7 @@ class _ReviewFormPageState extends State<ReviewFormPage> {
             ],
           ),
         ),
+      ),
       ),
     );
   }
