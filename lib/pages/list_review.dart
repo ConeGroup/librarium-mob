@@ -148,7 +148,6 @@ class _ReviewListPageState extends State<ReviewListPage> {
     );
   }
 }
-
 class ReviewListItem extends StatelessWidget {
   final Book book;
   final Review review;
@@ -166,22 +165,90 @@ class ReviewListItem extends StatelessWidget {
         horizontal: 16,
         vertical: 12,
       ),
-      padding: const EdgeInsets.all(20.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 2,
+            blurRadius: 5,
+            offset: const Offset(0, 3),
+          ),
+        ],
+        color: Colors.white,
+      ),
+      child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "${book.fields.title}",
-            style: const TextStyle(
-              fontSize: 18.0,
-              fontWeight: FontWeight.bold,
+          // Left side (book details)
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "${book.fields.title}",
+                    style: const TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.star,
+                        color: Colors.yellow,
+                        size: 20,
+                      ),
+                      Text(
+                        " ${review.fields.rating.toString()}",
+                        style: const TextStyle(
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    "${review.fields.bookReviewDesc}",
+                    style: const TextStyle(fontSize: 14),
+                  ),
+                ],
+              ),
             ),
           ),
-          const SizedBox(height: 10),
-          Text("${review.fields.rating.toString()}"),
-          const SizedBox(height: 10),
-          Text("${review.fields.bookReviewDesc}"),
+          // Right side (book image)
+          Container(
+            width: 100,
+            height: 150,
+            margin: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 12,
+            ),
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 2,
+                  blurRadius: 5,
+                  offset: const Offset(0, 3),
+                ),
+              ],
+              borderRadius: BorderRadius.only(
+                topRight: Radius.circular(12),
+                bottomRight: Radius.circular(12),
+                topLeft: Radius.circular(12),
+                bottomLeft: Radius.circular(12),
+              ),
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                image: NetworkImage(book.fields.imageM),
+              ),
+            ),
+          ),
         ],
       ),
     );

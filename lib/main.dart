@@ -1,3 +1,4 @@
+import 'package:librarium_mob/apptheme.dart';
 import 'package:librarium_mob/pages/login_page.dart';
 import 'package:librarium_mob/pages/register_page.dart';
 import 'package:flutter/material.dart';
@@ -24,8 +25,9 @@ class MyApp extends StatelessWidget {
         title: 'Flutter App',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(
-              seedColor: const Color.fromARGB(255, 38, 0, 255)),
+              seedColor: AppTheme.defaultBlue),
           useMaterial3: true,
+          fontFamily: 'Poppins',
         ),
         home: const HomePage(title: 'Welcome'),
       ),

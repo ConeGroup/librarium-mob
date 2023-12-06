@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:librarium_mob/apptheme.dart';
 import 'dart:convert';
 import 'package:librarium_mob/models/book_model.dart';
 import 'package:librarium_mob/pages/review_form.dart';
@@ -48,6 +49,8 @@ class _BookCatalogPageState extends State<BookCatalogPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Book Catalog'),
+        backgroundColor: AppTheme.defaultBlue,
+        foregroundColor: Colors.white,
       ),
       body: FutureBuilder<List<Book>>(
         future: _bookCatalog,
@@ -64,13 +67,18 @@ class _BookCatalogPageState extends State<BookCatalogPage> {
               ),
             );
           } else {
-            return ListView.builder(
+            return GridView.builder(
+              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                mainAxisSpacing: 13.0,
+                crossAxisSpacing: 13.0,
+                childAspectRatio: 2/3,
+              ),
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index) {
                 var book = snapshot.data![index];
-                return ListTile(
-                  title: Text(book.fields.title),
-                  subtitle: Text(book.fields.author),
+                return GestureDetector(
                   onTap: () {
                     Navigator.push(
                       context,
@@ -79,6 +87,56 @@ class _BookCatalogPageState extends State<BookCatalogPage> {
                       ),
                     );
                   },
+                  child: Container(
+
+                    margin: const EdgeInsets.symmetric(vertical: 5.0),
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.3),
+                          spreadRadius: 1,
+                          offset: const Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Image.network(
+                              book.fields.imageM,
+                              width: double.infinity,
+                              height: double.infinity,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  book.fields.title,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                    fontSize: 14.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  book.fields.author,
+                                  style: TextStyle(fontSize: 12.0),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 );
               },
             );
@@ -94,3 +152,4 @@ void main() {
     home: BookCatalogPage(),
   ));
 }
+

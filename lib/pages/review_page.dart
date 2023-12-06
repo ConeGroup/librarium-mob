@@ -4,13 +4,13 @@ import 'package:librarium_mob/pages/list_review.dart';
 import 'package:librarium_mob/widgets/left_drawer.dart';
 import 'package:librarium_mob/apptheme.dart';
 
+
 class ReviewPage extends StatelessWidget {
   ReviewPage({Key? key}) : super(key: key);
 
   final List<ReviewPageItem> items = [
     ReviewPageItem("Add Review", Icons.add_comment),
-    ReviewPageItem("Review by Catalog", Icons.book_online_outlined),
-    ReviewPageItem("Your Reviews", Icons.reviews_rounded),
+    ReviewPageItem("Your Reviews", Icons.book_online_outlined),
   ];
 
   @override
@@ -97,7 +97,7 @@ class ReviewPageCard extends StatelessWidget {
                 MaterialPageRoute(
                     builder: (context) => const ReviewListPage()));
           }
-          else if (item.name == "Review by Catalog") {  // Handle the new item
+          else if (item.name == "Add Review") {  // Handle the new item
             Navigator.push(
                 context,
                 MaterialPageRoute(

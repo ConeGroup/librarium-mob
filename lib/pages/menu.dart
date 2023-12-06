@@ -34,7 +34,7 @@ class MyHomePage extends StatelessWidget {
             children: <Widget>[
               const Padding(
                 padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                // Widget Text untuk menampilkan tulisan dengan alignment center dan style yang sesuai
+               // Widget Text untuk menampilkan tulisan dengan alignment center dan style yang sesuai
                 child: Text(
                   'Librarium', // Text yang menandakan toko
                   textAlign: TextAlign.center,
@@ -43,6 +43,13 @@ class MyHomePage extends StatelessWidget {
                     color: AppTheme.defaultYellow,
                     fontWeight: FontWeight.bold,
                   ),
+                ),              
+              ),
+              const Text(
+                'Hi, <username>! What\'s your agenda today?',
+                style: TextStyle(
+                  fontSize: 18,
+                  color: AppTheme.defaultBlue,
                 ),
               ),
               // Grid layout
@@ -117,6 +124,7 @@ class LibrariumCard extends StatelessWidget {
           } else if (item.name == "Logout") {}
         },
         child: Container(
+          
           // Container untuk menyimpan Icon dan Text
           padding: const EdgeInsets.all(8),
           child: Center(
@@ -125,7 +133,7 @@ class LibrariumCard extends StatelessWidget {
               children: [
                 Icon(
                   item.icon,
-                  color: Colors.white,
+                  color: AppTheme.defaultYellow,
                   size: 30.0,
                 ),
                 const Padding(padding: EdgeInsets.all(3)),
@@ -138,6 +146,7 @@ class LibrariumCard extends StatelessWidget {
             ),
           ),
         ),
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
       ),
     );
   }
