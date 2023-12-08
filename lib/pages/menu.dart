@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:librarium_mob/pages/review_form.dart';
 import 'package:librarium_mob/widgets/left_drawer.dart';
 import 'package:librarium_mob/apptheme.dart';
+import 'package:librarium_mob/pages/loans_page.dart';
 
 class MyHomePage extends StatelessWidget {
   MyHomePage({Key? key}) : super(key: key);
@@ -106,7 +107,7 @@ class LibrariumCard extends StatelessWidget {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const ReviewFormPage()));
+                    builder: (context) => LoansPage()));
           } else if (item.name == "Book Reviews") {
             Navigator.push(
                 context,
