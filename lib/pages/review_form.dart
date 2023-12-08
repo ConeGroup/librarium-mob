@@ -1,169 +1,242 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
-
-// TODO: Impor drawer yang sudah dibuat sebelumnya
+import 'package:librarium_mob/apptheme.dart';
+import 'package:librarium_mob/models/book_model.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
+import 'package:provider/provider.dart';
+import 'package:librarium_mob/pages/review_page.dart';
 
 class ReviewFormPage extends StatefulWidget {
-    const ReviewFormPage({super.key});
+  final Book book;
 
-    @override
-    State<ReviewFormPage> createState() => _ReviewFormPageState();
+  const ReviewFormPage({Key? key, required this.book}) : super(key: key);
+
+  @override
+  State<ReviewFormPage> createState() => _ReviewFormPageState();
 }
 
 class _ReviewFormPageState extends State<ReviewFormPage> {
-    final _formKey = GlobalKey<FormState>();
-    String _bookTitle = "";
-    int _rating = 0;
-    String _description = "";
+  final _formKey = GlobalKey<FormState>();
+  int _rating = 0;
+  String _description = "";
 
-    @override
-    Widget build(BuildContext context) {
-        return Scaffold(
-          appBar: AppBar(
-            title: const Center(
-              child: Text(
-                'Add Your Review',
-              ),
+  @override
+  Widget build(BuildContext context) {
+    final request = context.watch<CookieRequest>();
+
+    return Scaffold(
+      body: NestedScrollView(
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return <Widget>[
+            SliverAppBar(
+              foregroundColor: Colors.white,
+              expandedHeight: 300.0,
+              backgroundColor: AppTheme.defaultBlue,
+              floating: false,
+              pinned: true,
+              stretch: true,
+              flexibleSpace: FlexibleSpaceBar(
+                  centerTitle: false,
+                  collapseMode: CollapseMode.parallax,
+                  
+                  title: Text('${widget.book.fields.title}',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18.0,
+                        shadows: [
+                          Shadow(
+                            blurRadius: 5,
+                            color: Color.fromRGBO(0, 0, 0, 0.479),
+                            offset: Offset(1, 2),
+                          ),
+                        ],
+                      )
+                      
+                      ),
+                  background: Image.network(
+                   "${widget.book.fields.imageL}",
+                    fit: BoxFit.cover,
+                  )),
             ),
-            backgroundColor: Colors.indigo,
-            foregroundColor: Colors.white,
-          ),
-          // TODO: Tambahkan drawer yang sudah dibuat di sini
-          body: Form(
-            key: _formKey,
-            child: SingleChildScrollView(
-              child: Column(
-                 crossAxisAlignment: CrossAxisAlignment.start,
+          ];
+        },
+    
+      body: Form(
+        key: _formKey,
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+          child: Column(
+            children: [
+              Container(
+                width: 160,
+                height: 240,
+                margin: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 12,
+                ),
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 2,
+                      blurRadius: 5,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(12),
+                    bottomRight: Radius.circular(12),
+                    topLeft: Radius.circular(12),
+                    bottomLeft: Radius.circular(12),
+                  ),
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: NetworkImage(widget.book.fields.imageL),
+                  ),
+                ),
+              ),
+              
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextFormField(
-                        decoration: InputDecoration(
-                          hintText: "Nama Buku",
-                          labelText: "Nama Buku",
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5.0),
+                    SizedBox(height: 16),
+                    Text(
+                      '${widget.book.fields.title}',
+                      style: const TextStyle(
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'By ${widget.book.fields.author}',
+                      style: TextStyle(fontSize: 14.0),
+                    ),
+                    const SizedBox(height: 16),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: List.generate(
+                        5,
+                        (index) => GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _rating = index + 1;
+                            });
+                          },
+                          child: Icon(
+                            Icons.star,
+                            color: index < _rating ? Colors.amber : Colors.grey,
+                            size: 30.0,
                           ),
                         ),
-                        onChanged: (String? value) {
-                          setState(() {
-                            _bookTitle = value!;
-                          });
-                        },
-                        validator: (String? value) {
-                          if (value == null || value.isEmpty) {
-                            return "Book Title tidak boleh kosong!";
-                          }
-                          return null;
-                        },
                       ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                  decoration: InputDecoration(
-                    hintText: "Book Rate",
-                    labelText: "Book Rate",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5.0),
                     ),
-                  ),
-                  // TODO: Tambahkan variabel yang sesuai
-                  onChanged: (String? value) {
-                    setState(() {
-                      _rating = int.parse(value!);
-                    });
-                  },
-                  validator: (String? value) {
-                    if (value == null || value.isEmpty) {
-                      return "Book rate cannot be empty!";
-                    }
-                    if (int.tryParse(value) == null) {
-                      return "Book rate should be a number!";
-                    }
-                    return null;
-                  },
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                  decoration: InputDecoration(
-                    hintText: "Description",
-                    labelText: "Description",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5.0),
-                    ),
-                  ),
-                  onChanged: (String? value) {
-                    setState(() {
-                      // TODO: Tambahkan variabel yang sesuai
-                      _description = value!;
-                    });
-                  },
-                  validator: (String? value) {
-                    if (value == null || value.isEmpty) {
-                      return "Book description cannot be empty!";
-                    }
-                    return null;
-                  },
-                ),
-              ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ElevatedButton(
-                    style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all(Colors.indigo),
-                    ),
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                         showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: const Text('Produk berhasil tersimpan'),
-                              content: SingleChildScrollView(
-                                child: Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                  children: [
-                                    Text('Book Title: $_bookTitle'),
-                                    Text('Book Rating: $_rating'),
-                                    Text('Book Description: $_description'),
-                                    // TODO: Munculkan value-value lainnya
-                                  ],
-                                ),
-                              ),
-                              actions: [
-                                TextButton(
-                                  child: const Text('OK'),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      _formKey.currentState!.reset();
-                      
-                      }
-                    },
-                    child: const Text(
-                      "Save",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                ),
-              )
-            ]
-              
-            ),
-          ),
-          )
-        );
+                    const SizedBox(height: 16),
+                    TextFormField(
+                      maxLines: 9,
+                      minLines: 6,
+                      decoration: InputDecoration(
+                        hintText: "Tell others what you liked (or didn't like) about this book..",
+                        labelText: "Review",
 
-    }
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.0),
+                        ),
+                      ),
+                      onChanged: (String? value) {
+                        setState(() {
+                          _description = value!;
+                        });
+                      },
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return "Book description cannot be empty!";
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(AppTheme.defaultBlue),
+                        ),
+                        onPressed: () async {
+                          if (_formKey.currentState!.validate()) {
+                            final response = await request.postJson(
+                                "http://127.0.0.1:8000/reviews/create-review/",
+                                jsonEncode(<String, dynamic>{
+                                  'book_id': widget.book.pk.toString(),
+                                  'rating': _rating.toString(),
+                                  'book_review_desc': _description,
+                                  'is_recommended': 'true',
+                                }));
+                            if (response['status'] == 'success') {
+                            
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title:
+                                        const Text('Review Saved Successfully'),
+                                    content: SingleChildScrollView(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                              'Book Title: ${widget.book.fields.title}'),
+                                          Text('Book Rating: $_rating'),
+                                          Text('Book Description: $_description')
+                                        ],
+                                      ),
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        child: const Text('OK'),
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                          // Navigate to the review page after saving
+                                          Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => ReviewPage(),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            } else {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(const SnackBar(
+                                content: Text(
+                                    "Terdapat kesalahan, silakan coba lagi."),
+                              ));
+                            }
+                            _formKey.currentState!.reset();
+                          }
+                        },
+                        child: const Text(
+                          "Save",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+      ),
+    );
+  }
 }
