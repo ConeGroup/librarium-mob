@@ -4,7 +4,7 @@ import 'package:librarium_mob/apptheme.dart';
 import 'package:librarium_mob/models/book_model.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
-import 'package:librarium_mob/pages/review_page.dart';
+import 'package:librarium_mob/pages/reviews/review_page.dart';
 
 class ReviewFormPage extends StatefulWidget {
   final Book book;

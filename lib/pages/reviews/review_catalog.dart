@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:librarium_mob/apptheme.dart';
 import 'dart:convert';
 import 'package:librarium_mob/models/book_model.dart';
-import 'package:librarium_mob/pages/review_form.dart';
+import 'package:librarium_mob/pages/reviews/review_form.dart';
 
 class BookCatalogPage extends StatefulWidget {
   const BookCatalogPage({Key? key}) : super(key: key);
@@ -48,7 +48,7 @@ class _BookCatalogPageState extends State<BookCatalogPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Book Catalog'),
+        title: const Text('Choose one book to review..'),
         backgroundColor: AppTheme.defaultBlue,
         foregroundColor: Colors.white,
       ),
@@ -68,9 +68,9 @@ class _BookCatalogPageState extends State<BookCatalogPage> {
             );
           } else {
             return GridView.builder(
-              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
+                crossAxisCount: 2,
                 mainAxisSpacing: 13.0,
                 crossAxisSpacing: 20.0,
                 childAspectRatio: 2/3,
@@ -88,11 +88,10 @@ class _BookCatalogPageState extends State<BookCatalogPage> {
                     );
                   },
                   child: Container(
-
                     margin: const EdgeInsets.symmetric(vertical: 5.0),
                     decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8.0),
-                    color: AppTheme.defaultYellow,
+                    color: AppTheme.defaultBlue,
                       boxShadow: [
                         BoxShadow(
                           color: Colors.grey.withOpacity(0.3),
@@ -127,11 +126,12 @@ class _BookCatalogPageState extends State<BookCatalogPage> {
                                   style: const TextStyle(
                                     fontSize: 14.0,
                                     fontWeight: FontWeight.bold,
+                                    color: AppTheme.defaultYellow,
                                   ),
                                 ),
                                 Text(
                                   book.fields.author,
-                                  style: TextStyle(fontSize: 12.0),
+                                  style: TextStyle(fontSize: 12.0, color: AppTheme.darkBeige),
                                 ),
                               ],
                             ),
