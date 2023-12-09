@@ -95,12 +95,12 @@ class LoansCard extends StatelessWidget {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const ReviewFormPage()));
+                    builder: (context) => const LoansCatalogPage()));
           } else if (item.name == "Add Loans") {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const ReviewFormPage()));
+                    builder: (context) => const LoansCatalogPage()));
           } else if (item.name == "Catalog") {
             Navigator.push(
                 context,
