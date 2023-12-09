@@ -113,7 +113,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => ReviewPage()));
+                    builder: (context) => LoansPage()));
           } else if (items[index].name == "Book Reviews") {
             Navigator.push(
                 context,

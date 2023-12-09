@@ -20,7 +20,7 @@ class RecentReviews extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: SectionTitle(
-            title: "Your Reviews",
+            title: "Your Recent Reviews",
             press: () {
               Navigator.push(
                 context,
@@ -47,7 +47,6 @@ class RecentReviews extends StatelessWidget {
               return Column(
                 children: [
                   ReviewList(reviews: reviewSnapshot.data!, books: books),
-                  // Add other widgets or UI elements you want below ReviewListPage
                 ],
               );
             }
@@ -85,7 +84,9 @@ class ReviewList extends StatelessWidget {
             ),
           );
         } else {
-          final lastThreeReviews = reviews.take(3).toList();
+          final lastThreeReviews = reviews.length > 3
+              ? reviews.sublist(reviews.length - 3)
+              : reviews;
 
           return Column(
             children: lastThreeReviews.map((review) {
@@ -103,59 +104,3 @@ class ReviewList extends StatelessWidget {
     );
   }
 }
-
-//         SingleChildScrollView(
-//           scrollDirection: Axis.horizontal,
-//           child: FutureBuilder<List<Review>>(
-//             future: reviews,
-//             builder: (context, AsyncSnapshot<List<Review>> reviewSnapshot) {
-//               if (reviewSnapshot.connectionState == ConnectionState.waiting) {
-//                 return const Center(child: CircularProgressIndicator());
-//               } else if (reviewSnapshot.hasError) {
-//                 return Center(child: Text('Error: ${reviewSnapshot.error}'));
-//               } else if (!reviewSnapshot.hasData || reviewSnapshot.data!.isEmpty) {
-//                 return const Center(
-//                   child: Text(
-//                     "No recent reviews.",
-//                     style: TextStyle(color: Color(0xff59A5D8), fontSize: 20),
-//                   ),
-//                 );
-//               } else {
-//                 return Row(
-//                   children: reviewSnapshot.data!.map((review) {
-//                     return FutureBuilder<List<Book>>(
-//                       future: books,
-//                       builder: (context, AsyncSnapshot<List<Book>> bookSnapshot) {
-//                         if (bookSnapshot.connectionState == ConnectionState.waiting) {
-//                           return const Center(child: CircularProgressIndicator());
-//                         } else if (bookSnapshot.hasError) {
-//                           return Center(child: Text('Error: ${bookSnapshot.error}'));
-//                         } else if (!bookSnapshot.hasData || bookSnapshot.data!.isEmpty) {
-//                           return const Center(
-//                             child: Text(
-//                               "You haven't reviewed any books yet",
-//                               style: TextStyle(color: Color(0xff59A5D8), fontSize: 20),
-//                             ),
-//                           );
-//                         } else {
-//                           // Find the corresponding book for the review
-//                           var book = bookSnapshot.data!.firstWhere(
-//                             (book) => book.pk == review.fields.bookId,
-//                           );
-//                           return ReviewListItem(
-//                             book: book,
-//                             review: review,
-//                           );
-//                         }
-//                       },
-//                     );
-//                   }).toList(),
-//                 );
-//               }
-//             },
-//           ),
-//         ),
-//       ],
-//     );
-//   }
-// }
