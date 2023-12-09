@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:librarium_mob/pages/list_review.dart';
+import 'package:librarium_mob/pages/reviews/components/book_scroll.dart';
+import 'package:librarium_mob/pages/reviews/components/user_reviews.dart';
+import 'package:librarium_mob/pages/reviews/review_catalog.dart';
+import 'package:librarium_mob/pages/reviews/list_review.dart';
 import 'package:librarium_mob/widgets/left_drawer.dart';
 import 'package:librarium_mob/apptheme.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
+import 'package:provider/provider.dart';
 
 
 class ReviewPage extends StatelessWidget {
@@ -9,22 +14,19 @@ class ReviewPage extends StatelessWidget {
 
   final List<ReviewPageItem> items = [
     ReviewPageItem("Add Review", Icons.add_comment),
-    ReviewPageItem("Your Reviews", Icons.book_online_outlined),
   ];
 
   @override
   Widget build(BuildContext context) {
+    final request = context.watch<CookieRequest>();
+
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Librarium',
-        ),
-      ),
+      appBar: appBar,
       drawer: const LeftDrawer(),
       body: SingleChildScrollView(
         // Widget wrapper yang dapat discroll
         child: Padding(
-          padding: const EdgeInsets.all(10.0), // Set padding dari halaman
+          padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 20.0), // Set padding dari halaman
           child: Column(
             // Widget untuk menampilkan children secara vertikal
             children: <Widget>[
@@ -32,29 +34,37 @@ class ReviewPage extends StatelessWidget {
                 padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
                 // Widget Text untuk menampilkan tulisan dengan alignment center dan style yang sesuai
                 child: Text(
-                  'Review Page', // Text yang menandakan toko
-                  textAlign: TextAlign.center,
+                  'Book Reviews', 
+                  textAlign: TextAlign.left,
                   style: TextStyle(
                     fontSize: 30,
-                    color: AppTheme.defaultYellow,
+                    color: AppTheme.defaultBlue,
                     fontWeight: FontWeight.bold,
+                    shadows: [
+                      Shadow(
+                        blurRadius: 5,
+                        color: Color.fromRGBO(0, 0, 0, 0.3),
+                        offset: Offset(0, 2),
+                      ),
+                    ]
                   ),
                 ),
               ),
-              // Grid layout
-              GridView.count(
+              ListView(
                 // Container pada card kita.
                 primary: true,
-                padding: const EdgeInsets.all(20),
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-                crossAxisCount: 3,
+                padding: const EdgeInsets.symmetric(vertical:10.0, horizontal:20.0),
                 shrinkWrap: true,
                 children: items.map((ReviewPageItem item) {
                   // Iterasi untuk setiap item
                   return ReviewPageCard(item);
                 }).toList(),
               ),
+              // const PopularBooks(),
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 20.0),
+                child: RecentReviews(),
+              ),              // Grid layout
             ],
           ),
         ),
@@ -78,7 +88,7 @@ class ReviewPageCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: AppTheme.defaultBlue,
+      borderRadius: BorderRadius.circular(30),
       child: InkWell(
         // Area responsive terhadap sentuhan
         onTap: () {
@@ -104,22 +114,34 @@ class ReviewPageCard extends StatelessWidget {
           }
         },
         child: Container(
-          // Container untuk menyimpan Icon dan Text
-          padding: const EdgeInsets.all(8),
+          margin: const EdgeInsets.symmetric(vertical: 10.0),
+          decoration: BoxDecoration(
+            color: AppTheme.defaultBlue,
+            borderRadius: BorderRadius.circular(50),
+            boxShadow: [
+              BoxShadow(
+                color: const Color.fromRGBO(174, 174, 174, 0.6),
+                spreadRadius: 1,
+                blurRadius: 5,
+                offset: const Offset(1,3), // changes position of shadow
+              ),
+            ],
+          ),
+          padding: const EdgeInsets.all(15),
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(
                   item.icon,
-                  color: Colors.white,
+                  color: AppTheme.defaultYellow,
                   size: 30.0,
                 ),
                 const Padding(padding: EdgeInsets.all(3)),
                 Text(
                   item.name,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(color: Colors.white),
+                  style: const TextStyle(color: AppTheme.defaultYellow),
                 ),
               ],
             ),

@@ -4,6 +4,8 @@ import 'dart:convert';
 import 'package:librarium_mob/models/review_model.dart';
 import 'package:librarium_mob/widgets/left_drawer.dart';
 import 'package:librarium_mob/models/book_model.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
+import 'package:provider/provider.dart';
 
 class ReviewListPage extends StatefulWidget {
   const ReviewListPage({Key? key}) : super(key: key);
@@ -12,59 +14,32 @@ class ReviewListPage extends StatefulWidget {
   _ReviewListPageState createState() => _ReviewListPageState();
 }
 
-class _ReviewListPageState extends State<ReviewListPage> {
-  late Future<List<Review>> _reviews;
-  late Future<List<Book>> _books;
-
-  @override
-  void initState() {
-    super.initState();
-    _reviews = fetchReview();
-    _books = fetchBookCatalog();
-  }
-
-  Future<Book?> fetchBookById(int bookId) async {
+  Future<List<Review>> fetchReview(CookieRequest request) async {
     try {
-      var url = Uri.parse('http://localhost:8000/reviews/get-book-by-id-mob/$bookId/');
-      var response = await http.get(
-        url,
-        headers: {"Content-Type": "application/json"},
-      );
+      // var url = Uri.parse('http://localhost:8000/reviews/get-rev-by-user-mob/');
+      // var response = await http.get(
+      //   url,
+      //   headers: {"Content-Type": "application/json"},
+      // );
+      var response = await request.get('http://127.0.0.1:8000/reviews/get-rev-by-user-mob/');
 
-      if (response.statusCode == 200) {
-        var data = jsonDecode(utf8.decode(response.bodyBytes));
-        return Book.fromJson(data);
-      } else {
-        throw Exception('Failed to fetch book details');
-      }
-    } catch (error) {
-      throw Exception('Error: $error');
-    }
-  }
-
-  Future<List<Review>> fetchReview() async {
-    try {
-      var url = Uri.parse('http://localhost:8000/reviews/get-review-json/');
-      var response = await http.get(
-        url,
-        headers: {"Content-Type": "application/json"},
-      );
-
-      if (response.statusCode == 200) {
-        var data = jsonDecode(utf8.decode(response.bodyBytes));
+      // if (response.statusCode == 200) {
+        // var data = jsonDecode(utf8.decode(response.bodyBytes));
         List<Review> listReview = [];
 
-        for (var reviewJson in data) {
+        for (var reviewJson in response) {
           if (reviewJson != null) {
             listReview.add(Review.fromJson(reviewJson));
           }
         }
         return listReview;
-      } else {
-        throw Exception('Failed to load reviews');
-      }
+      // } 
+      // else {
+      //   throw Exception('Failed to load reviews');
+      // }
     } catch (error) {
-      throw Exception('Error: $error');
+      print('Error during fetchItem: $error');
+      throw Exception('ErrorReview: $error');
     }
   }
 
@@ -89,8 +64,43 @@ class _ReviewListPageState extends State<ReviewListPage> {
     }
   }
 
+
+  Future<Book?> fetchBookById(int bookId) async {
+    try {
+      var url = Uri.parse('http://localhost:8000/reviews/get-book-by-id-mob/$bookId/');
+      var response = await http.get(
+        url,
+        headers: {"Content-Type": "application/json"},
+      );
+
+      if (response.statusCode == 200) {
+        var data = jsonDecode(utf8.decode(response.bodyBytes));
+        return Book.fromJson(data);
+      } else {
+        throw Exception('Failed to fetch book details');
+      }
+    } catch (error) {
+      throw Exception('Error: $error');
+    }
+  }
+
+class _ReviewListPageState extends State<ReviewListPage> {
+
+  late Future<List<Review>> _reviews;
+  late Future<List<Book>> _books;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+
   @override
   Widget build(BuildContext context) {
+    final request = context.watch<CookieRequest>();
+    _reviews = fetchReview(request);
+    _books = fetchBookCatalog();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Review'),
@@ -106,7 +116,7 @@ class _ReviewListPageState extends State<ReviewListPage> {
           } else if (!reviewSnapshot.hasData || reviewSnapshot.data!.isEmpty) {
             return const Center(
               child: Text(
-                "Tidak ada data item.",
+                "You haven't review any book yet",
                 style: TextStyle(color: Color(0xff59A5D8), fontSize: 20),
               ),
             );
@@ -121,7 +131,7 @@ class _ReviewListPageState extends State<ReviewListPage> {
                 } else if (!bookSnapshot.hasData || bookSnapshot.data!.isEmpty) {
                   return const Center(
                     child: Text(
-                      "Tidak ada data item.",
+                      "You haven't review any book yet",
                       style: TextStyle(color: Color(0xff59A5D8), fontSize: 20),
                     ),
                   );
