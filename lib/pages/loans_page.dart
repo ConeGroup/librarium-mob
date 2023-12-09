@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:librarium_mob/pages/review_form.dart';
+import 'package:librarium_mob/pages/reviews/review_form.dart';
 import 'package:librarium_mob/widgets/left_drawer.dart';
 import 'package:librarium_mob/apptheme.dart';
 import 'package:librarium_mob/pages/loans_catalog_pages.dart';
@@ -95,12 +95,12 @@ class LoansCard extends StatelessWidget {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const ReviewFormPage()));
+                    builder: (context) => const LoansCatalogPage()));
           } else if (item.name == "Add Loans") {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const ReviewFormPage()));
+                    builder: (context) => const LoansCatalogPage()));
           } else if (item.name == "Catalog") {
             Navigator.push(
                 context,
