@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:librarium_mob/pages/reviews/review_form.dart';
+import 'package:librarium_mob/pages/reviews/list_review.dart';
+import 'package:librarium_mob/pages/reviews/review_catalog.dart';
 import 'package:librarium_mob/widgets/left_drawer.dart';
 import 'package:librarium_mob/apptheme.dart';
-import 'package:librarium_mob/pages/loans_catalog_pages.dart';
 
-class LoansPage extends StatelessWidget {
-  LoansPage({Key? key}) : super(key: key);
 
-  final List<LoansItem> items = [
-    LoansItem("View myLoans", Icons.collections_bookmark_rounded),
-    LoansItem("Add Loans", Icons.add_box_outlined),
-    LoansItem("Catalog", Icons.book_online_outlined),
+class ReviewPage extends StatelessWidget {
+  ReviewPage({Key? key}) : super(key: key);
+
+  final List<ReviewPageItem> items = [
+    ReviewPageItem("Add Review", Icons.add_comment),
+    ReviewPageItem("Your Reviews", Icons.book_online_outlined),
   ];
 
   @override
@@ -33,7 +33,7 @@ class LoansPage extends StatelessWidget {
                 padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
                 // Widget Text untuk menampilkan tulisan dengan alignment center dan style yang sesuai
                 child: Text(
-                  'Librarium Loans', // Text yang menandakan toko
+                  'Review Page', // Text yang menandakan toko
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 30,
@@ -51,9 +51,9 @@ class LoansPage extends StatelessWidget {
                 mainAxisSpacing: 10,
                 crossAxisCount: 3,
                 shrinkWrap: true,
-                children: items.map((LoansItem item) {
+                children: items.map((ReviewPageItem item) {
                   // Iterasi untuk setiap item
-                  return LoansCard(item);
+                  return ReviewPageCard(item);
                 }).toList(),
               ),
             ],
@@ -64,17 +64,17 @@ class LoansPage extends StatelessWidget {
   }
 }
 
-class LoansItem {
+class ReviewPageItem {
   final String name;
   final IconData icon;
 
-  LoansItem(this.name, this.icon);
+  ReviewPageItem(this.name, this.icon);
 }
 
-class LoansCard extends StatelessWidget {
-  final LoansItem item;
+class ReviewPageCard extends StatelessWidget {
+  final ReviewPageItem item;
 
-  const LoansCard(this.item, {super.key}); // Constructor
+  const ReviewPageCard(this.item, {super.key}); // Constructor
 
   @override
   Widget build(BuildContext context) {
@@ -91,21 +91,17 @@ class LoansCard extends StatelessWidget {
 
           // TODO: Navigate ke route yang sesuai (tergantung jenis tombol)
           // isi sesuai modul yang dikerjakan masing-masing
-          if (item.name == "View myLoans") {
+          if (item.name == "Your Reviews") {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const LoansCatalogPage()));
-          } else if (item.name == "Add Loans") {
+                    builder: (context) => const ReviewListPage()));
+          }
+          else if (item.name == "Add Review") {  // Handle the new item
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const LoansCatalogPage()));
-          } else if (item.name == "Catalog") {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const LoansCatalogPage()));
+                    builder: (context) => const BookCatalogPage()));
           }
         },
         child: Container(
