@@ -37,7 +37,7 @@ class _LoansCatalogPageState extends State<LoansCatalogPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Product'),
+          title: const Text('Available Books'),
         ),
         drawer: const LeftDrawer(),
         body: FutureBuilder(
