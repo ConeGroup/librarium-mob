@@ -45,52 +45,216 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  bool isHoveredLogin = false;
+  bool isHoveredRegister = false;
+  bool isHoveredEnter = false;
+
+  MouseCursor _cursorTypeLogin = SystemMouseCursors.basic;
+  MouseCursor _cursorTypeRegister = SystemMouseCursors.basic;
+  MouseCursor _cursorTypeEnter = SystemMouseCursors.basic;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
+      // appBar: AppBar(
+      //   title: Text(widget.title),
+      // ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: ElevatedButton(
-                    onPressed: () =>
-                    {Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => const LoginPage()),
-                    )},
-                    child: const Text("Login",
-                        style: TextStyle(fontWeight: FontWeight.bold))),
+              Image.asset(
+                'lib/images/librarium-logo.png',
+                height: 150,
               ),
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: ElevatedButton(
-                    onPressed: () =>
-                    {Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => const RegisterPage()),
-                    )},
-                    child: const Text("Register",
-                        style: TextStyle(fontWeight: FontWeight.bold))),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: ElevatedButton(
-                    onPressed: () =>
-                    {Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => MyHomePage()),
-                    )},
-                    child: const Text("Enter as Guest",
-                        style: TextStyle(fontWeight: FontWeight.bold))),
-              )
             ],
+          ),
+          Text(
+            'Librarium',
+            style: TextStyle(
+              color: AppTheme.defaultBlue,
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+
+          const SizedBox(height: 100),
+
+          // Login Button
+          GestureDetector(
+            onTap: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => LoginPage()),
+              );
+            },
+
+            child: MouseRegion(
+              onEnter: (_) {
+                setState(() {
+                  isHoveredLogin = true;
+                  _cursorTypeLogin = SystemMouseCursors.click;
+                });
+              },
+              onExit: (_) {
+                setState(() {
+                  isHoveredLogin = false;
+                  _cursorTypeLogin = SystemMouseCursors.basic;
+                });
+              },
+              cursor: _cursorTypeLogin,
+              child: Container(
+                padding: EdgeInsets.all(20),
+                margin: EdgeInsets.symmetric(horizontal: 20),
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: isHoveredLogin ? Colors.black : AppTheme.defaultBlue,
+                    width: 3,
+                  ),
+                  color: isHoveredLogin ? Colors.white : AppTheme.defaultBlue,
+                  borderRadius: BorderRadius.circular(40),
+                ),
+                child: Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.login,
+                        color: isHoveredLogin ? Colors.black : Colors.white,
+                        size: 30.0,
+                      ),
+                      const SizedBox(width: 4),
+                      Text(
+                        'Login',
+                        style: TextStyle(
+                          color: isHoveredLogin ? Colors.black : Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+
+          const SizedBox(height: 20),
+
+          // Register Button
+          GestureDetector(
+            onTap: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => RegisterPage()),
+              );
+            },
+
+            child: MouseRegion(
+              onEnter: (_) {
+                setState(() {
+                  isHoveredRegister = true;
+                  _cursorTypeRegister = SystemMouseCursors.click;
+                });
+              },
+              onExit: (_) {
+                setState(() {
+                  isHoveredRegister = false;
+                  _cursorTypeRegister = SystemMouseCursors.basic;
+                });
+              },
+              cursor: _cursorTypeRegister,
+              child: Container(
+                padding: EdgeInsets.all(20),
+                margin: EdgeInsets.symmetric(horizontal: 20),
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: isHoveredRegister ? Colors.black : AppTheme.defaultBlue,
+                    width: 3,
+                  ),
+                  color: isHoveredRegister ? Colors.white : AppTheme.defaultBlue,
+                  borderRadius: BorderRadius.circular(40),
+
+
+                ),
+                child: Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.app_registration,
+                        color: isHoveredRegister ? Colors.black : Colors.white,
+                        size: 30.0,
+                      ),
+                      const SizedBox(width: 3),
+                      Text(
+                        'Register',
+                        style: TextStyle(
+                          color: isHoveredRegister ? Colors.black : Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+
+          const SizedBox(height: 20),
+
+          // Guest Button
+          GestureDetector(
+            onTap: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => MyHomePage()),
+              );
+            },
+
+            child: MouseRegion(
+              onEnter: (_) {
+                setState(() {
+                  isHoveredEnter = true;
+                  _cursorTypeEnter = SystemMouseCursors.click;
+                });
+              },
+              onExit: (_) {
+                setState(() {
+                  isHoveredEnter = false;
+                  _cursorTypeEnter = SystemMouseCursors.basic;
+                });
+              },
+              cursor: _cursorTypeEnter,
+              child: Container(
+                padding: EdgeInsets.all(20),
+                margin: EdgeInsets.symmetric(horizontal: 20),
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: isHoveredEnter ? Colors.black : AppTheme.defaultBlue,
+                    width: 3,
+                  ),
+                  color: isHoveredEnter ? Colors.white : AppTheme.defaultBlue,
+                  borderRadius: BorderRadius.circular(40),
+
+
+                ),
+                child: Center(
+                  child: Text(
+                    'Enter as Guest',
+                    style: TextStyle(
+                      color: isHoveredEnter ? Colors.black : Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ),
         ],
       ),

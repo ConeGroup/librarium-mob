@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:librarium_mob/pages/list_review.dart';
+import 'package:librarium_mob/pages/reviews/list_review.dart';
+import 'package:librarium_mob/pages/reviews/review_catalog.dart';
 import 'package:librarium_mob/widgets/left_drawer.dart';
 import 'package:librarium_mob/apptheme.dart';
 
