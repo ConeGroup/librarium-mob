@@ -25,6 +25,7 @@ class _MyHomePageState extends State<MyHomePage> {
     LibrariumItem("Book Request", Icons.question_mark_rounded),
     LibrariumItem("Book Loans", Icons.library_books),
     LibrariumItem("Book Reviews", Icons.reviews_rounded),
+    LibrariumItem("User Settings", Icons.settings),
     LibrariumItem("Logout", Icons.logout),
   ];
 
@@ -199,7 +200,12 @@ class LibrariumCard extends StatelessWidget {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => ReviewPage()));
+                    builder: (context) => const ReviewPage()));
+          } else if (item.name == "User Settings") {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const ReviewFormPage()));
           } else if (item.name == "Logout") {
             // Handle logout
           }
