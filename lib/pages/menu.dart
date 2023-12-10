@@ -11,6 +11,7 @@ class MyHomePage extends StatelessWidget {
     LibrariumItem("Book Request", Icons.question_mark_rounded),
     LibrariumItem("Book Loans", Icons.library_books),
     LibrariumItem("Book Reviews", Icons.reviews_rounded),
+    LibrariumItem("User Settings", Icons.settings),
     LibrariumItem("Logout", Icons.logout),
   ];
 
@@ -108,6 +109,11 @@ class LibrariumCard extends StatelessWidget {
                 MaterialPageRoute(
                     builder: (context) => const ReviewFormPage()));
           } else if (item.name == "Book Reviews") {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const ReviewFormPage()));
+          } else if (item.name == "User Settings") {
             Navigator.push(
                 context,
                 MaterialPageRoute(
