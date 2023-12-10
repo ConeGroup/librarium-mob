@@ -44,6 +44,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final request = context.watch<CookieRequest>();
+
     return Scaffold(
       // appBar: AppBar(
       //   title: const Text('Login'),
@@ -169,14 +170,15 @@ class _LoginPageState extends State<LoginPage> {
                 if (request.loggedIn) {
                   String message = response['message'];
                   String uname = response['username'];
+                  String email = response['email'];
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => MyHomePage()),
                   );
                   ScaffoldMessenger.of(context)
                     ..hideCurrentSnackBar()
-                    ..showSnackBar(SnackBar(
-                        content: Text("$message Welcome, $uname.")));
+                    ..showSnackBar(
+                        SnackBar(content: Text("$message Welcome, $uname.")));
                 } else {
                   showDialog(
                     context: context,
@@ -195,7 +197,6 @@ class _LoginPageState extends State<LoginPage> {
                   );
                 }
               },
-
               child: MouseRegion(
                 onEnter: (_) {
                   setState(() {
@@ -220,8 +221,6 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     color: isHovered ? Colors.white : AppTheme.defaultBlue,
                     borderRadius: BorderRadius.circular(40),
-
-
                   ),
                   child: Center(
                     child: Text(
