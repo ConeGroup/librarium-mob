@@ -4,11 +4,12 @@ import 'package:librarium_mob/pages/reviews/components/book_scroll.dart';
 import 'package:librarium_mob/pages/reviews/list_review.dart';
 import 'package:librarium_mob/pages/reviews/review_page.dart';
 import 'package:librarium_mob/pages/reviews/review_form.dart';
-import 'package:librarium_mob/pages/userprofile_page.dart';
+import 'package:librarium_mob/pages/edit_profile.dart';
 import 'package:librarium_mob/widgets/left_drawer.dart';
 import 'package:librarium_mob/apptheme.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
+import 'package:librarium_mob/pages/user_page.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -110,6 +111,9 @@ class _MyHomePageState extends State<MyHomePage> {
           } else if (items[index].name == "Book Reviews") {
             Navigator.push(
                 context, MaterialPageRoute(builder: (context) => ReviewPage()));
+          } else if (items[index].name == "User Settings") {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => UserProfile()));
           }
         },
         currentIndex: currentSelectedIndex,
@@ -136,6 +140,10 @@ class _MyHomePageState extends State<MyHomePage> {
           BottomNavigationBarItem(
             icon: Icon(Icons.reviews_rounded),
             label: "Book Reviews",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_circle),
+            label: "Profile",
           ),
         ],
       ),
