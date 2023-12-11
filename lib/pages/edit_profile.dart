@@ -8,6 +8,9 @@ import 'package:http/http.dart' as http;
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
+var requestglobal;
 
 class UserPage extends StatefulWidget {
   UserPage({Key? key}) : super(key: key);
@@ -70,6 +73,7 @@ class _UserProfileContentState extends State<UserProfileContent> {
 
   Future<void> fetchUserProfileData() async {
     final request = context.watch<CookieRequest>();
+    requestglobal = request;
     final response = await request
         .get('http://127.0.0.1:8000/userprofile/api/show_userprofile/');
     Countloansbook = response['CountLoansBook'];
@@ -140,8 +144,72 @@ class _UserProfileContentState extends State<UserProfileContent> {
 }
 
 class EditUsernamePasswordContent extends StatelessWidget {
-  final TextEditingController _usernameController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _oldPasswordController = TextEditingController();
+  final TextEditingController _newPasswordController = TextEditingController();
+  final TextEditingController _newPasswordConfirmController =
+      TextEditingController();
+
+  // final storage = new FlutterSecureStorage();
+
+  void showAlert(String message, String category) {
+    // Implementasikan fungsi ini sesuai dengan kebutuhan Anda
+  }
+
+  Future<void> savePassword(String oldPassword, String newPassword,
+      String newPasswordConfirm, BuildContext context) async {
+    if (oldPassword.isEmpty ||
+        newPassword.isEmpty ||
+        newPasswordConfirm.isEmpty) {
+      showAlert("Please fill the form!", 'warning');
+      return;
+    }
+    if (newPassword != newPasswordConfirm) {
+      showAlert('Wrong confirm Password', 'warning');
+      return;
+    }
+
+    String url = "http://127.0.0.1:8000/userprofile/api/change_password/";
+    // String token = await storage.read(key: "token");
+    // print(requestglobal);
+    // print(oldPassword);
+    // print(newPassword);
+    // print(newPasswordConfirm);
+
+    // var response = await requestglobal.postJson(
+    //   Uri.parse(url),
+    //   body: <String, String>{
+    //     'old_password': oldPassword,
+    //     'new_password1': newPassword,
+    //     'new_password2': newPasswordConfirm,
+    //   },
+    // );
+
+    var response = await requestglobal.postJson(
+        "http://127.0.0.1:8000/userprofile/api/change_password/",
+        jsonEncode(<String, String>{
+          'old_password': oldPassword,
+          'new_password1': newPassword,
+          'new_password2': newPasswordConfirm,
+        }));
+
+    if (response['message'] == 'Password successfully changed') {
+      // Password changed successfully
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Password has been successfully changed!'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+    } else {
+      // Handle other status codes if needed
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('An error occurred. Please try again.'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -151,24 +219,35 @@ class EditUsernamePasswordContent extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            'Edit Your Username and Email',
+            'Edit Your Username and Password',
             style: TextStyle(fontSize: 24),
           ),
           SizedBox(height: 20),
           TextField(
-            controller: _usernameController,
-            decoration: InputDecoration(labelText: 'Username'),
+            controller: _oldPasswordController,
+            decoration: InputDecoration(labelText: 'Old Password'),
           ),
           SizedBox(height: 20),
           TextField(
-            controller: _passwordController,
+            controller: _newPasswordController,
             obscureText: true,
-            decoration: InputDecoration(labelText: 'Email'),
+            decoration: InputDecoration(labelText: 'New Password'),
+          ),
+          SizedBox(height: 20),
+          TextField(
+            controller: _newPasswordConfirmController,
+            obscureText: true,
+            decoration: InputDecoration(labelText: 'Confirm New Password'),
           ),
           SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {
-              print('Changes saved!');
+              savePassword(
+                _oldPasswordController.text,
+                _newPasswordController.text,
+                _newPasswordConfirmController.text,
+                context,
+              );
             },
             child: Text('Save Changes'),
           ),
