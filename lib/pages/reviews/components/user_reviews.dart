@@ -24,7 +24,7 @@ class RecentReviews extends StatelessWidget {
             press: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => ReviewListPage()),
+                MaterialPageRoute(builder: (context) => const ReviewListPage()),
               );
             },
           ),

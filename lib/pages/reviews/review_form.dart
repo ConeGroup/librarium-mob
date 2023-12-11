@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:librarium_mob/apptheme.dart';
@@ -9,7 +11,7 @@ import 'package:librarium_mob/pages/reviews/review_page.dart';
 class ReviewFormPage extends StatefulWidget {
   final Book book;
 
-  const ReviewFormPage({Key? key, required this.book}) : super(key: key);
+  const ReviewFormPage({super.key, required this.book});
 
   @override
   State<ReviewFormPage> createState() => _ReviewFormPageState();
@@ -39,8 +41,8 @@ class _ReviewFormPageState extends State<ReviewFormPage> {
                   centerTitle: false,
                   collapseMode: CollapseMode.parallax,
                   
-                  title: Text('${widget.book.fields.title}',
-                      style: TextStyle(
+                  title: Text(widget.book.fields.title,
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 18.0,
                         shadows: [
@@ -54,7 +56,7 @@ class _ReviewFormPageState extends State<ReviewFormPage> {
                       
                       ),
                   background: Image.network(
-                   "${widget.book.fields.imageL}",
+                   widget.book.fields.imageL,
                     fit: BoxFit.cover,
                   )),
             ),
@@ -83,7 +85,7 @@ class _ReviewFormPageState extends State<ReviewFormPage> {
                       offset: const Offset(0, 3),
                     ),
                   ],
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                     topRight: Radius.circular(12),
                     bottomRight: Radius.circular(12),
                     topLeft: Radius.circular(12),
@@ -140,7 +142,6 @@ class _ReviewFormPageState extends State<ReviewFormPage> {
                       decoration: InputDecoration(
                         hintText: "Tell others what you liked (or didn't like) about this book..",
                         labelText: "Review",
-
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5.0),
                         ),
@@ -176,7 +177,6 @@ class _ReviewFormPageState extends State<ReviewFormPage> {
                                   'is_recommended': 'true',
                                 }));
                             if (response['status'] == 'success') {
-                            
                               showDialog(
                                 context: context,
                                 builder: (context) {
@@ -191,7 +191,7 @@ class _ReviewFormPageState extends State<ReviewFormPage> {
                                           Text(
                                               'Book Title: ${widget.book.fields.title}'),
                                           Text('Book Rating: $_rating'),
-                                          Text('Book Description: $_description')
+                                          // Text('Book Description: $_description')
                                         ],
                                       ),
                                     ),

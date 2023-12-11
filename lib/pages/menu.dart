@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:librarium_mob/pages/loans_page.dart';
+import 'package:librarium_mob/pages/request_page.dart';
 import 'package:librarium_mob/pages/reviews/components/book_scroll.dart';
 import 'package:librarium_mob/pages/reviews/list_review.dart';
 import 'package:librarium_mob/pages/reviews/review_page.dart';
@@ -20,7 +21,6 @@ class _MyHomePageState extends State<MyHomePage> {
   int currentSelectedIndex = 0;
 
   final List<LibrariumItem> items = [
-    LibrariumItem("Home", Icons.home),
     LibrariumItem("Collections", Icons.collections_bookmark),
     LibrariumItem("Book Request", Icons.question_mark_rounded),
     LibrariumItem("Book Loans", Icons.library_books),
@@ -31,6 +31,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final request = context.watch<CookieRequest>();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Librarium',
@@ -44,21 +45,22 @@ class _MyHomePageState extends State<MyHomePage> {
         toolbarHeight: 60.0,
       ),
       drawer: const LeftDrawer(),
+      bottomNavigationBar: const BottomNavBarFb1(),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(0.0),
           child: Column(
             children: <Widget>[
               Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: AppTheme.defaultBlue,
                 ),
-                constraints: BoxConstraints.expand(height:50.0),
-                child: Column(
+                constraints: const BoxConstraints.expand(height:50.0),
+                child: const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Hi, <username>! What\'s your agenda today?',
+                    'Hi! What\'s your agenda today?',
                     style: TextStyle(
                       fontSize: 16,
                       color: Colors.white,
@@ -80,74 +82,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 }).toList(),
               ),
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 25.0, vertical: 10.0),
+                padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 10.0),
                 child: const PopularBooks(),
               ),
             ],
           ),
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: (index) {
-          setState(() {
-            currentSelectedIndex = index;
-          });
-
-          // Navigate to the corresponding route based on the selected index
-          if (items[index].name == "Home") {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const MyHomePage()));
-          }
-          else if (items[index].name == "Collections") {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ReviewPage()));
-          } else if (items[index].name == "Book Request") {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ReviewPage()));
-          } else if (items[index].name == "Book Loans") {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => LoansPage()));
-          } else if (items[index].name == "Book Reviews") {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ReviewPage()));
-          } 
-        },
-        currentIndex: currentSelectedIndex,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        type: BottomNavigationBarType.fixed,
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: "Home",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.collections_bookmark),
-            label: "Collections",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.question_mark_rounded),
-            label: "Book Request",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.library_books),
-            label: "Book Loans",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.reviews_rounded),
-            label: "Book Reviews",
-          ),
-        ],
       ),
     );
   }
@@ -190,7 +130,7 @@ class LibrariumCard extends StatelessWidget {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => ReviewPage()));
+                    builder: (context) => const RequestPage()));
           } else if (item.name == "Book Loans") {
             Navigator.push(
                 context,
@@ -200,27 +140,28 @@ class LibrariumCard extends StatelessWidget {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const ReviewPage()));
+                    builder: (context) => ReviewPage()));
           } else if (item.name == "User Settings") {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const ReviewFormPage()));
+                    builder: (context) => ReviewPage()));
           } else if (item.name == "Logout") {
             // Handle logout
           }
         },
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
         child: Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
             color: AppTheme.defaultBlue,
             borderRadius: BorderRadius.circular(20),
-            boxShadow: [
+            boxShadow: const [
               BoxShadow(
-                color: const Color.fromRGBO(174, 174, 174, 0.6),
+                color: Color.fromRGBO(174, 174, 174, 0.6),
                 spreadRadius: 1,
                 blurRadius: 5,
-                offset: const Offset(1,3), // changes position of shadow
+                offset: Offset(1,3), // changes position of shadow
               ),
             ],
           ),
@@ -243,7 +184,131 @@ class LibrariumCard extends StatelessWidget {
             ),
           ),
         ),
-        borderRadius: const BorderRadius.all(Radius.circular(10)),
+      ),
+    );
+  }
+}
+
+
+class BottomNavBarFb1 extends StatelessWidget {
+  const BottomNavBarFb1({Key? key}) : super(key: key);
+
+  final primaryColor = AppTheme.defaultBlue;
+  final secondaryColor = const Color(0xff6D28D9);
+  final back = const Color(0xffffffff);
+
+  @override
+  Widget build(BuildContext context) {
+    return BottomAppBar(
+        color: Colors.white,
+        child: SizedBox(
+          height: 56,
+          width: MediaQuery.of(context).size.width,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 25.0, right: 25.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                IconBottomBar(
+                    text: "Book Loans",
+                    icon: Icons.feed,
+                    selected: false,
+                    onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => LoansPage()));
+                    }),
+                IconBottomBar(
+                    text: "Book Collections",
+                    icon: Icons.collections_bookmark,
+                    selected: false,
+                    onPressed: () {}),
+                IconBottomBar2(
+                    text: "Home",
+                    icon: Icons.home,
+                    selected: true,
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const MyHomePage()));
+                    }),
+                IconBottomBar(
+                    text: "Book Request",
+                    icon: Icons.live_help_rounded,
+                    selected: false,
+                    onPressed: () {}),
+                IconBottomBar(
+                    text: "User Settings",
+                    icon: Icons.account_circle_rounded,
+                    selected: false,
+                    onPressed: () {})
+              ],
+            ),
+          ),
+        ),
+    );
+  }
+}
+
+class IconBottomBar extends StatelessWidget {
+  const IconBottomBar(
+      {Key? key,
+      required this.text,
+      required this.icon,
+      required this.selected,
+      required this.onPressed})
+      : super(key: key);
+  final String text;
+  final IconData icon;
+  final bool selected;
+  final Function() onPressed;
+
+ final primaryColor = AppTheme.defaultBlue;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        IconButton(
+          onPressed: onPressed,
+          icon: Icon(
+            icon,
+            size: 25,
+            color: selected ? primaryColor : Colors.black54,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class IconBottomBar2 extends StatelessWidget {
+  const IconBottomBar2(
+      {Key? key,
+      required this.text,
+      required this.icon,
+      required this.selected,
+      required this.onPressed})
+      : super(key: key);
+  final String text;
+  final IconData icon;
+  final bool selected;
+  final Function() onPressed;
+  final primaryColor = AppTheme.defaultBlue;
+  @override
+  Widget build(BuildContext context) {
+    return CircleAvatar(
+      backgroundColor: primaryColor,
+      child: IconButton(
+        onPressed: onPressed,
+        icon: Icon(
+          icon,
+          size: 25,
+          color: Colors.white,
+        ),
       ),
     );
   }

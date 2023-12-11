@@ -3,58 +3,36 @@ import 'package:http/http.dart' as http;
 import 'package:librarium_mob/apptheme.dart';
 import 'dart:convert';
 import 'package:librarium_mob/models/book_model.dart';
-import 'package:librarium_mob/pages/reviews/review_form.dart';
+import 'package:librarium_mob/pages/reviews/components/section_title.dart';
+import 'package:librarium_mob/pages/reviews/eachbook_review.dart';
+import 'package:librarium_mob/pages/reviews/list_review.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
+import 'package:provider/provider.dart';
 
-class BookCatalogPage extends StatefulWidget {
-  const BookCatalogPage({Key? key}) : super(key: key);
-
-  @override
-  _BookCatalogPageState createState() => _BookCatalogPageState();
-}
-
-class _BookCatalogPageState extends State<BookCatalogPage> {
-  late Future<List<Book>> _bookCatalog;
-
-  int? hoveredIndex;
-  @override
-  void initState() {
-    super.initState();
-    _bookCatalog = fetchBookCatalog();
-  }
-
-  Future<List<Book>> fetchBookCatalog() async {
-    var url = Uri.parse('http://localhost:8000/reviews/get-book-json/');
-
-    try {
-      var response = await http.get(
-        url,
-        headers: {"Content-Type": "application/json"},
-      );
-
-      if (response.statusCode == 200) {
-        final List<dynamic> data =
-            jsonDecode(utf8.decode(response.bodyBytes));
-        List<Book> bookCatalog =
-            data.map((json) => Book.fromJson(json)).toList();
-        return bookCatalog;
-      } else {
-        throw Exception('Failed to fetch book catalog');
-      }
-    } catch (error) {
-      throw Exception('Error: $error');
-    }
-  }
+class AllBookReviews extends StatelessWidget {
+  const AllBookReviews({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Choose one book to review..'),
-        backgroundColor: AppTheme.defaultBlue,
-        foregroundColor: Colors.white,
-      ),
-      body: FutureBuilder<List<Book>>(
-        future: _bookCatalog,
+    final request = context.watch<CookieRequest>();
+
+    final Future<List<Book>> books = fetchBookCatalog();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          child: Text( "Checkout our Book Reviews",
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            color: Colors.black,
+          ),
+        ),
+        ),
+        FutureBuilder<List<Book>>(
+        future: books,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -68,7 +46,10 @@ class _BookCatalogPageState extends State<BookCatalogPage> {
               ),
             );
           } else {
-            return GridView.builder(
+            return Column(
+              children: [
+            GridView.builder(
+              shrinkWrap: true,
               padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
@@ -79,39 +60,22 @@ class _BookCatalogPageState extends State<BookCatalogPage> {
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index) {
                 var book = snapshot.data![index];
-                return MouseRegion(
-                  cursor: SystemMouseCursors.click,
-                  onEnter: (_) {
-                    setState(() {
-                      hoveredIndex = index;
-                    });
-                  },
-                  onExit: (_) {
-                    setState(() {
-                      hoveredIndex = null;
-                    });
-                  },
-                  child: GestureDetector(
+                // return Column(children: [
+                return GestureDetector(
                     onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ReviewFormPage(book: book),
+                          builder: (context) => BookPage(book: book),
                         ),
                       );
                     },
                     child: Container(
-                      margin: hoveredIndex == index ?  const EdgeInsets.symmetric(vertical : 9.0, horizontal: 5.0) : const EdgeInsets.symmetric(vertical: 5.0),
+                      margin: const EdgeInsets.symmetric(vertical: 5.0),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8.0),
-                        color: hoveredIndex == index ? Colors.white : AppTheme.defaultBlue,
-                        boxShadow: [ hoveredIndex == index ? 
-                        BoxShadow(
-                            color: Colors.grey.withOpacity(0.4),
-                            spreadRadius: 5,
-                            blurRadius: 5.0,
-                            offset: const Offset(1, 3),
-                          ) : 
+                        color: AppTheme.defaultBlue,
+                        boxShadow: [
                           BoxShadow(
                             color: Colors.grey.withOpacity(0.3),
                             spreadRadius: 2,
@@ -142,15 +106,15 @@ class _BookCatalogPageState extends State<BookCatalogPage> {
                                     book.fields.title,
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontSize: 14.0,
                                       fontWeight: FontWeight.bold,
-                                      color: hoveredIndex == index ? AppTheme.defaultBlue : AppTheme.defaultYellow,
+                                      color: AppTheme.defaultYellow,
                                     ),
                                   ),
                                   Text(
                                     book.fields.author,
-                                    style: TextStyle(fontSize: 12.0, color: hoveredIndex == index ? AppTheme.defaultBlue : AppTheme.darkBeige,),
+                                    style: const TextStyle(fontSize: 12.0, color: AppTheme.darkBeige),
                                   ),
                                 ],
                               ),
@@ -159,19 +123,17 @@ class _BookCatalogPageState extends State<BookCatalogPage> {
                         ),
                       ),
                     ),
-                  ),
+                  
                 );
+                // ],);
               },
+            ),]
             );
+            // ],);
           }
         },
       ),
+      ],
     );
   }
-}
-
-void main() {
-  runApp(const MaterialApp(
-    home: BookCatalogPage(),
-  ));
 }

@@ -2,21 +2,122 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:librarium_mob/models/review_model.dart';
+import 'package:librarium_mob/pages/reviews/components/section_title.dart';
 import 'package:librarium_mob/widgets/left_drawer.dart';
+import 'package:librarium_mob/pages/reviews/list_review.dart';
 import 'package:librarium_mob/models/book_model.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
 
-class ReviewListPage extends StatefulWidget {
-  const ReviewListPage({super.key});
-
+class RecentReviews extends StatelessWidget {
   @override
-  _ReviewListPageState createState() => _ReviewListPageState();
+  Widget build(BuildContext context) {
+    final request = context.watch<CookieRequest>();
+
+    final Future<List<Review>> reviews = fetchReview(request);
+    final Future<List<Book>> books = fetchBookCatalog();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: SectionTitle(
+            title: "All Other Book Reviews",
+            press: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const ReviewListPage()),
+              );
+            },
+          ),
+        ),
+        FutureBuilder<List<Review>>(
+          future: reviews,
+          builder: (context, AsyncSnapshot<List<Review>> reviewSnapshot) {
+            if (reviewSnapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (reviewSnapshot.hasError) {
+              return Center(child: Text('Error: ${reviewSnapshot.error}'));
+            } else if (!reviewSnapshot.hasData || reviewSnapshot.data!.isEmpty) {
+              return const Center(
+                child: Text(
+                  "You haven't reviewed any book yet",
+                  style: TextStyle(color: Color(0xff59A5D8), fontSize: 20),
+                ),
+              );
+            } else {
+              return Column(
+                children: [
+                  ReviewList(reviews: reviewSnapshot.data!, books: books),
+                ],
+              );
+            }
+          },
+        ),
+      ],
+    );
+  }
 }
 
-  Future<List<Review>> fetchReview(CookieRequest request) async {
+class ReviewList extends StatelessWidget {
+  final List<Review> reviews;
+  final Future<List<Book>> books;
+
+  const ReviewList({
+    Key? key,
+    required this.reviews,
+    required this.books,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<List<Book>>(
+      future: books,
+      builder: (context, AsyncSnapshot<List<Book>> bookSnapshot) {
+        if (bookSnapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (bookSnapshot.hasError) {
+          return Center(child: Text('Error: ${bookSnapshot.error}'));
+        } else if (!bookSnapshot.hasData || bookSnapshot.data!.isEmpty) {
+          return const Center(
+            child: Text(
+              "You haven't reviewed any book yet",
+              style: TextStyle(color: Color(0xff59A5D8), fontSize: 20),
+            ),
+          );
+        } else {
+          final lastThreeReviews = reviews.length > 3
+              ? reviews.sublist(reviews.length - 3)
+              : reviews;
+
+          return Column(
+            children: lastThreeReviews.map((review) {
+              var book = bookSnapshot.data!.firstWhere(
+                (book) => book.pk == review.fields.bookId,
+              );
+              return ReviewListItem(
+                book: book,
+                review: review,
+              );
+            }).toList(),
+          );
+        }
+      },
+    );
+  }
+}
+
+class AllReviewPage extends StatefulWidget {
+  const AllReviewPage({Key? key}) : super(key: key);
+
+  @override
+  _AllReviewPageState createState() => _AllReviewPageState();
+}
+
+  Future<List<Review>> fetchAllReview(CookieRequest request) async {
     try {
-      var response = await request.get('http://127.0.0.1:8000/reviews/get-rev-by-user-mob/');
+      var response = await request.get('http://127.0.0.1:8000/reviews/get-review-json/');
       // if (response.statusCode == 200) {
         // var data = jsonDecode(utf8.decode(response.bodyBytes));
         List<Review> listReview = [];
@@ -32,53 +133,11 @@ class ReviewListPage extends StatefulWidget {
       //   throw Exception('Failed to load reviews');
       // }
     } catch (error) {
-      print('Error during fetchItem: $error');
       throw Exception('ErrorReview: $error');
     }
   }
 
-    Future<List<Book>> fetchBookCatalog() async {
-    var url = Uri.parse('http://localhost:8000/reviews/get-book-json/');
-
-    try {
-      var response = await http.get(
-        url,
-        headers: {"Content-Type": "application/json"},
-      );
-
-      if (response.statusCode == 200) {
-        final List<dynamic> data = jsonDecode(utf8.decode(response.bodyBytes));
-        List<Book> bookCatalog = data.map((json) => Book.fromJson(json)).toList();
-        return bookCatalog;
-      } else {
-        throw Exception('Failed to fetch book catalog');
-      }
-    } catch (error) {
-      throw Exception('Error: $error');
-    }
-  }
-
-
-  Future<Book?> fetchBookById(int bookId) async {
-    try {
-      var url = Uri.parse('http://localhost:8000/reviews/get-book-by-id-mob/$bookId/');
-      var response = await http.get(
-        url,
-        headers: {"Content-Type": "application/json"},
-      );
-
-      if (response.statusCode == 200) {
-        var data = jsonDecode(utf8.decode(response.bodyBytes));
-        return Book.fromJson(data);
-      } else {
-        throw Exception('Failed to fetch book details');
-      }
-    } catch (error) {
-      throw Exception('Error: $error');
-    }
-  }
-
-class _ReviewListPageState extends State<ReviewListPage> {
+class _AllReviewPageState extends State<AllReviewPage> {
 
   late Future<List<Review>> _reviews;
   late Future<List<Book>> _books;
@@ -92,7 +151,7 @@ class _ReviewListPageState extends State<ReviewListPage> {
   @override
   Widget build(BuildContext context) {
     final request = context.watch<CookieRequest>();
-    _reviews = fetchReview(request);
+    _reviews = fetchAllReview(request);
     _books = fetchBookCatalog();
 
     return Scaffold(
@@ -110,8 +169,8 @@ class _ReviewListPageState extends State<ReviewListPage> {
           } else if (!reviewSnapshot.hasData || reviewSnapshot.data!.isEmpty) {
             return const Center(
               child: Text(
-                "You haven't review any book yet",
-                style: TextStyle(color: Color(0xff59A5D8), fontSize: 20),
+                "There is no book review yet",
+                style: TextStyle(color: Color(0xff59A5D8), fontSize: 16),
               ),
             );
           } else {
@@ -125,8 +184,8 @@ class _ReviewListPageState extends State<ReviewListPage> {
                 } else if (!bookSnapshot.hasData || bookSnapshot.data!.isEmpty) {
                   return const Center(
                     child: Text(
-                      "You haven't review any book yet",
-                      style: TextStyle(color: Color(0xff59A5D8), fontSize: 20),
+                      "There is no book review yet",
+                      style: TextStyle(color: Color(0xff59A5D8), fontSize: 16),
                     ),
                   );
                 } else {
@@ -152,11 +211,11 @@ class _ReviewListPageState extends State<ReviewListPage> {
     );
   }
 }
-class ReviewListItem extends StatelessWidget {
+class AllReviewItem extends StatelessWidget {
   final Book book;
   final Review review;
 
-  const ReviewListItem({
+  const AllReviewItem({
     super.key,
     required this.book,
     required this.review,
@@ -192,7 +251,7 @@ class ReviewListItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "${book.fields.title}",
+                    book.fields.title,
                     style: const TextStyle(
                       fontSize: 18.0,
                       fontWeight: FontWeight.bold,

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:librarium_mob/pages/reviews/components/book_scroll.dart';
 import 'package:librarium_mob/pages/reviews/components/user_reviews.dart';
 import 'package:librarium_mob/pages/reviews/review_catalog.dart';
-import 'package:librarium_mob/pages/reviews/list_review.dart';
+import 'package:librarium_mob/pages/reviews/reviews.dart';
 import 'package:librarium_mob/widgets/left_drawer.dart';
 import 'package:librarium_mob/apptheme.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
@@ -23,6 +22,36 @@ class ReviewPage extends StatelessWidget {
     return Scaffold(
       appBar: appBar,
       drawer: const LeftDrawer(),
+      floatingActionButton: FloatingActionButton.extended(
+        elevation: 10,
+        backgroundColor: AppTheme.defaultBlue,
+        isExtended: true,
+        label: const Text(
+                    'Add review',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: AppTheme.defaultYellow,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+        onPressed: () { 
+          ScaffoldMessenger.of(context)
+              ..hideCurrentSnackBar()
+              ..showSnackBar(const SnackBar(
+                  content: Text("Let's add new review!")));
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const BookCatalogPage()),
+              );
+         },
+        icon: const Icon(
+                    Icons.add_comment,
+                    color: AppTheme.defaultYellow,
+                    size: 30.0,
+                  ),
+        ),
+      floatingActionButtonLocation:    
+          FloatingActionButtonLocation.endFloat,
       body: SingleChildScrollView(
         // Widget wrapper yang dapat discroll
         child: Padding(
@@ -50,6 +79,15 @@ class ReviewPage extends StatelessWidget {
                   ),
                 ),
               ),
+              const Text(
+                "Uncover the world of books through insightful reviews. \n Share your thoughts and discover your next great read!",
+                textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: AppTheme.defaultBlue,
+                    fontWeight: FontWeight.normal,
+                  ),
+              ),
               ListView(
                 // Container pada card kita.
                 primary: true,
@@ -64,7 +102,11 @@ class ReviewPage extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.symmetric(vertical: 20.0),
                 child: RecentReviews(),
-              ),              // Grid layout
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 20.0),
+                child: const AllBookReviews(),
+              ),           
             ],
           ),
         ),
@@ -80,74 +122,82 @@ class ReviewPageItem {
   ReviewPageItem(this.name, this.icon);
 }
 
-class ReviewPageCard extends StatelessWidget {
+class ReviewPageCard extends StatefulWidget {
   final ReviewPageItem item;
 
-  const ReviewPageCard(this.item, {super.key}); // Constructor
+  const ReviewPageCard(this.item, {Key? key}) : super(key: key);
+
+  @override
+  _ReviewPageCardState createState() => _ReviewPageCardState();
+}
+
+class _ReviewPageCardState extends State<ReviewPageCard> {
+  bool isHovered = false;
 
   @override
   Widget build(BuildContext context) {
     return Material(
       borderRadius: BorderRadius.circular(30),
-      child: InkWell(
-        // Area responsive terhadap sentuhan
-        onTap: () {
-          // Memunculkan SnackBar ketika diklik
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(SnackBar(
-                content: Text("Kamu telah menekan tombol ${item.name}!")));
-
-          // TODO: Navigate ke route yang sesuai (tergantung jenis tombol)
-          // isi sesuai modul yang dikerjakan masing-masing
-          if (item.name == "Your Reviews") {
-            Navigator.push(
+      child: MouseRegion(
+        onEnter: (_) => _onHover(true),
+        onExit: (_) => _onHover(false),
+        child: GestureDetector(
+            onTap: () {
+            ScaffoldMessenger.of(context)
+              ..hideCurrentSnackBar()
+              ..showSnackBar(SnackBar(
+                  content: Text("Kamu telah menekan tombol ${widget.item.name}!")));
+              Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(
-                    builder: (context) => const ReviewListPage()));
-          }
-          else if (item.name == "Add Review") {  // Handle the new item
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const BookCatalogPage()));
-          }
-        },
-        child: Container(
-          margin: const EdgeInsets.symmetric(vertical: 10.0),
-          decoration: BoxDecoration(
-            color: AppTheme.defaultBlue,
-            borderRadius: BorderRadius.circular(50),
-            boxShadow: [
-              BoxShadow(
-                color: const Color.fromRGBO(174, 174, 174, 0.6),
-                spreadRadius: 1,
-                blurRadius: 5,
-                offset: const Offset(1,3), // changes position of shadow
-              ),
-            ],
-          ),
-          padding: const EdgeInsets.all(15),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  item.icon,
-                  color: AppTheme.defaultYellow,
-                  size: 30.0,
-                ),
-                const Padding(padding: EdgeInsets.all(3)),
-                Text(
-                  item.name,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(color: AppTheme.defaultYellow),
+                MaterialPageRoute(builder: (context) => const BookCatalogPage()),
+              );
+            },
+          child: Container(
+            margin: const EdgeInsets.symmetric(vertical: 10.0),
+            decoration: BoxDecoration(
+              color: isHovered ? Colors.white : AppTheme.defaultBlue,
+              border: Border.all(color: AppTheme.defaultBlue, width: 3),
+              borderRadius: BorderRadius.circular(50),
+              boxShadow: const [
+                BoxShadow(
+                  color: Color.fromRGBO(174, 174, 174, 0.6),
+                  spreadRadius: 1,
+                  blurRadius: 5,
+                  offset: Offset(1, 3),
                 ),
               ],
+            ),
+            padding: const EdgeInsets.all(15),
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    widget.item.icon,
+                    color: isHovered ? AppTheme.defaultBlue : AppTheme.defaultYellow,
+                    size: 30.0,
+                  ),
+                  const Padding(padding: EdgeInsets.all(3)),
+                  Text(
+                    widget.item.name,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: isHovered ? AppTheme.defaultBlue : AppTheme.defaultYellow,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
       ),
     );
+  }
+
+  void _onHover(bool hovered) {
+    setState(() {
+      isHovered = hovered;
+    });
   }
 }
