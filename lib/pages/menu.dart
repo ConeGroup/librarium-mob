@@ -200,12 +200,12 @@ class LibrariumCard extends StatelessWidget {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const ReviewPage()));
+                    builder: (context) => ReviewPage()));
           } else if (item.name == "User Settings") {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const ReviewFormPage()));
+                    builder: (context) => ReviewPage()));
           } else if (item.name == "Logout") {
             // Handle logout
           }
