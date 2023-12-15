@@ -32,6 +32,8 @@ class LoansBook {
     };
 }
 
+
+
 class Fields {
     int user;
     int numberBook;
