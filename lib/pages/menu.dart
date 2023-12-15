@@ -264,7 +264,10 @@ class BottomNavBarFb1 extends StatelessWidget {
                     text: "User Settings",
                     icon: Icons.account_circle_rounded,
                     selected: false,
-                    onPressed: () {})
+                    onPressed: () {
+                      Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => UserProfile()));
+                    })
               ],
             ),
           ),
