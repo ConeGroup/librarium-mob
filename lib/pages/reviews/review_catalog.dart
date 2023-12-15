@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:librarium_mob/apptheme.dart';
-import 'dart:convert';
 import 'package:librarium_mob/models/book_model.dart';
 import 'package:librarium_mob/pages/reviews/review_form.dart';
+import 'package:librarium_mob/utils/fetch_reviews.dart';
 
 class BookCatalogPage extends StatefulWidget {
-  const BookCatalogPage({Key? key}) : super(key: key);
+  const BookCatalogPage({super.key});
 
   @override
   _BookCatalogPageState createState() => _BookCatalogPageState();
@@ -22,28 +21,6 @@ class _BookCatalogPageState extends State<BookCatalogPage> {
     _bookCatalog = fetchBookCatalog();
   }
 
-  Future<List<Book>> fetchBookCatalog() async {
-    var url = Uri.parse('http://localhost:8000/reviews/get-book-json/');
-
-    try {
-      var response = await http.get(
-        url,
-        headers: {"Content-Type": "application/json"},
-      );
-
-      if (response.statusCode == 200) {
-        final List<dynamic> data =
-            jsonDecode(utf8.decode(response.bodyBytes));
-        List<Book> bookCatalog =
-            data.map((json) => Book.fromJson(json)).toList();
-        return bookCatalog;
-      } else {
-        throw Exception('Failed to fetch book catalog');
-      }
-    } catch (error) {
-      throw Exception('Error: $error');
-    }
-  }
 
   @override
   Widget build(BuildContext context) {

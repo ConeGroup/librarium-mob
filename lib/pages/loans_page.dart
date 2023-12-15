@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:librarium_mob/pages/loans_form.dart';
+import 'package:librarium_mob/pages/menu.dart';
 import 'package:librarium_mob/pages/reviews/review_form.dart';
 import 'package:librarium_mob/widgets/left_drawer.dart';
 import 'package:librarium_mob/apptheme.dart';
@@ -24,6 +25,7 @@ class LoansPage extends StatelessWidget {
     return Scaffold(
       appBar: appBar,
       drawer: const LeftDrawer(),
+      bottomNavigationBar: const BottomNavBarFb1(),
       body: SingleChildScrollView(
         // Widget wrapper yang dapat discroll
         child: Padding(

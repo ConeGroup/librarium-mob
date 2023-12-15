@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:librarium_mob/pages/reviews/list_review.dart';
+import 'package:librarium_mob/utils/fetch_reviews.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
 import '../../../models/review_model.dart';
@@ -7,6 +8,8 @@ import '../../../models/book_model.dart';
 import 'section_title.dart';
 
 class RecentReviews extends StatelessWidget {
+  const RecentReviews({super.key});
+
   @override
   Widget build(BuildContext context) {
     final request = context.watch<CookieRequest>();
@@ -62,10 +65,10 @@ class ReviewList extends StatelessWidget {
   final Future<List<Book>> books;
 
   const ReviewList({
-    Key? key,
+    super.key,
     required this.reviews,
     required this.books,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

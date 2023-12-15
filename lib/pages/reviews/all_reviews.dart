@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 import 'package:librarium_mob/models/review_model.dart';
 import 'package:librarium_mob/pages/reviews/components/section_title.dart';
+import 'package:librarium_mob/utils/fetch_reviews.dart';
 import 'package:librarium_mob/widgets/left_drawer.dart';
 import 'package:librarium_mob/pages/reviews/list_review.dart';
 import 'package:librarium_mob/models/book_model.dart';
@@ -10,6 +9,8 @@ import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
 
 class RecentReviews extends StatelessWidget {
+  const RecentReviews({super.key});
+
   @override
   Widget build(BuildContext context) {
     final request = context.watch<CookieRequest>();
@@ -65,10 +66,10 @@ class ReviewList extends StatelessWidget {
   final Future<List<Book>> books;
 
   const ReviewList({
-    Key? key,
+    super.key,
     required this.reviews,
     required this.books,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -109,33 +110,11 @@ class ReviewList extends StatelessWidget {
 }
 
 class AllReviewPage extends StatefulWidget {
-  const AllReviewPage({Key? key}) : super(key: key);
+  const AllReviewPage({super.key});
 
   @override
   _AllReviewPageState createState() => _AllReviewPageState();
 }
-
-  Future<List<Review>> fetchAllReview(CookieRequest request) async {
-    try {
-      var response = await request.get('http://127.0.0.1:8000/reviews/get-review-json/');
-      // if (response.statusCode == 200) {
-        // var data = jsonDecode(utf8.decode(response.bodyBytes));
-        List<Review> listReview = [];
-
-        for (var reviewJson in response) {
-          if (reviewJson != null) {
-            listReview.add(Review.fromJson(reviewJson));
-          }
-        }
-        return listReview;
-      // } 
-      // else {
-      //   throw Exception('Failed to load reviews');
-      // }
-    } catch (error) {
-      throw Exception('ErrorReview: $error');
-    }
-  }
 
 class _AllReviewPageState extends State<AllReviewPage> {
 

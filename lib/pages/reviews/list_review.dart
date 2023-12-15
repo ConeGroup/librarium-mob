@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import 'package:librarium_mob/apptheme.dart';
 import 'package:librarium_mob/models/review_model.dart';
-import 'package:librarium_mob/widgets/left_drawer.dart';
 import 'package:librarium_mob/models/book_model.dart';
+import 'package:librarium_mob/utils/fetch_reviews.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
 
@@ -13,70 +12,6 @@ class ReviewListPage extends StatefulWidget {
   @override
   _ReviewListPageState createState() => _ReviewListPageState();
 }
-
-  Future<List<Review>> fetchReview(CookieRequest request) async {
-    try {
-      var response = await request.get('http://127.0.0.1:8000/reviews/get-rev-by-user-mob/');
-      // if (response.statusCode == 200) {
-        // var data = jsonDecode(utf8.decode(response.bodyBytes));
-        List<Review> listReview = [];
-
-        for (var reviewJson in response) {
-          if (reviewJson != null) {
-            listReview.add(Review.fromJson(reviewJson));
-          }
-        }
-        return listReview;
-      // } 
-      // else {
-      //   throw Exception('Failed to load reviews');
-      // }
-    } catch (error) {
-      print('Error during fetchItem: $error');
-      throw Exception('ErrorReview: $error');
-    }
-  }
-
-    Future<List<Book>> fetchBookCatalog() async {
-    var url = Uri.parse('http://localhost:8000/reviews/get-book-json/');
-
-    try {
-      var response = await http.get(
-        url,
-        headers: {"Content-Type": "application/json"},
-      );
-
-      if (response.statusCode == 200) {
-        final List<dynamic> data = jsonDecode(utf8.decode(response.bodyBytes));
-        List<Book> bookCatalog = data.map((json) => Book.fromJson(json)).toList();
-        return bookCatalog;
-      } else {
-        throw Exception('Failed to fetch book catalog');
-      }
-    } catch (error) {
-      throw Exception('Error: $error');
-    }
-  }
-
-
-  Future<Book?> fetchBookById(int bookId) async {
-    try {
-      var url = Uri.parse('http://localhost:8000/reviews/get-book-by-id-mob/$bookId/');
-      var response = await http.get(
-        url,
-        headers: {"Content-Type": "application/json"},
-      );
-
-      if (response.statusCode == 200) {
-        var data = jsonDecode(utf8.decode(response.bodyBytes));
-        return Book.fromJson(data);
-      } else {
-        throw Exception('Failed to fetch book details');
-      }
-    } catch (error) {
-      throw Exception('Error: $error');
-    }
-  }
 
 class _ReviewListPageState extends State<ReviewListPage> {
 
@@ -88,7 +23,6 @@ class _ReviewListPageState extends State<ReviewListPage> {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
     final request = context.watch<CookieRequest>();
@@ -97,9 +31,17 @@ class _ReviewListPageState extends State<ReviewListPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Review'),
+        title: const Text('Your Reviews',
+        style: TextStyle(
+            fontSize: 35,
+            color: AppTheme.defaultYellow,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        toolbarHeight: 80.0,
+        backgroundColor: AppTheme.defaultBlue,
+        foregroundColor: Colors.white,
       ),
-      drawer: const LeftDrawer(),
       body: FutureBuilder<List<Review>>(
         future: _reviews,
         builder: (context, AsyncSnapshot<List<Review>> reviewSnapshot) {
@@ -192,7 +134,7 @@ class ReviewListItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "${book.fields.title}",
+                    book.fields.title,
                     style: const TextStyle(
                       fontSize: 18.0,
                       fontWeight: FontWeight.bold,

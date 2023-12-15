@@ -2,13 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:librarium_mob/main.dart';
 import 'package:librarium_mob/pages/loans_page.dart';
 import 'package:librarium_mob/pages/request_page.dart';
-import 'package:librarium_mob/pages/register_page.dart';
-import 'package:librarium_mob/pages/request_page.dart';
 import 'package:librarium_mob/pages/reviews/components/book_scroll.dart';
-import 'package:librarium_mob/pages/reviews/list_review.dart';
 import 'package:librarium_mob/pages/reviews/review_page.dart';
-import 'package:librarium_mob/pages/reviews/review_form.dart';
-import 'package:librarium_mob/pages/user_page.dart';
 import 'package:librarium_mob/widgets/left_drawer.dart';
 import 'package:librarium_mob/apptheme.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
@@ -38,19 +33,8 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     final request = context.watch<CookieRequest>();
-
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Librarium',
-          style: TextStyle(
-            fontSize: 35,
-            color: AppTheme.defaultYellow,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        backgroundColor: AppTheme.defaultBlue,
-        toolbarHeight: 60.0,
-      ),
+      appBar: appBar,
       drawer: const LeftDrawer(),
       bottomNavigationBar: const BottomNavBarFb1(),
       body: SingleChildScrollView(
@@ -61,10 +45,21 @@ class _MyHomePageState extends State<MyHomePage> {
               Container(
                 decoration: const BoxDecoration(
                   color: AppTheme.defaultBlue,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Color.fromRGBO(174, 174, 174, 0.6),
+                      spreadRadius: 1,
+                      blurRadius: 5,
+                      offset: Offset(1,3),
+                    ),
+                  ],
+                  borderRadius: BorderRadius.vertical(
+                    bottom: Radius.circular(90),
+                  ),
                 ),
                 constraints: const BoxConstraints.expand(height:50.0),
-                child: const Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                child:  const Column(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
                     'Hi! What\'s your agenda today?',
@@ -129,27 +124,27 @@ class LibrariumCard extends StatelessWidget {
 
           // TODO: Navigate to the corresponding route based on the item
           if (item.name == "Collections") {
-            Navigator.push(
+            Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
                     builder: (context) => ReviewPage()));
           } else if (item.name == "Book Request") {
-            Navigator.push(
+            Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => RequestPage()));
+                    builder: (context) => const RequestPage()));
           } else if (item.name == "Book Loans") {
-            Navigator.push(
+            Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
                     builder: (context) => LoansPage()));
           } else if (item.name == "Book Reviews") {
-            Navigator.push(
+            Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
                     builder: (context) => ReviewPage()));
           } else if (item.name == "User Settings") {
-            Navigator.push(
+            Navigator.pushReplacement(
                 context, MaterialPageRoute(builder: (context) => UserPage()));
           } else if (item.name == "Logout") {
             final response = await request.logout(
@@ -215,96 +210,80 @@ class BottomNavBarFb1 extends StatelessWidget {
   const BottomNavBarFb1({Key? key}) : super(key: key);
 
   final primaryColor = AppTheme.defaultBlue;
-  final secondaryColor = const Color(0xff6D28D9);
   final back = const Color(0xffffffff);
 
   @override
   Widget build(BuildContext context) {
-    return BottomAppBar(
-        color: Colors.white,
+    return ClipRRect(
+      borderRadius: const BorderRadius.only(
+        topLeft: Radius.circular(60),
+        topRight: Radius.circular(60),
+      ),
+      child: BottomAppBar(
+        color: AppTheme.defaultYellow,
+        surfaceTintColor: AppTheme.defaultYellow,
+        shadowColor: Colors.grey.withOpacity(0.5),
         child: SizedBox(
-          height: 56,
+          height: 45,
           width: MediaQuery.of(context).size.width,
           child: Padding(
-            padding: const EdgeInsets.only(left: 25.0, right: 25.0),
+            padding: const EdgeInsets.only(left: 10.0, right: 10.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                IconBottomBar(
+                IconBottomBar2(
                     text: "Book Loans",
                     icon: Icons.feed,
                     selected: false,
                     onPressed: () {
-                        Navigator.push(
+                        Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                               builder: (context) => LoansPage()));
                     }),
-                IconBottomBar(
-                    text: "Book Collections",
-                    icon: Icons.collections_bookmark,
+                IconBottomBar2(
+                    text: "Book Reviews",
+                    icon: Icons.reviews_rounded,
                     selected: false,
-                    onPressed: () {}),
+                    onPressed: () {
+                       Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ReviewPage()));
+                    }),
                 IconBottomBar2(
                     text: "Home",
                     icon: Icons.home,
                     selected: true,
                     onPressed: () {
-                      Navigator.push(
+                      Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                               builder: (context) => const MyHomePage()));
                     }),
-                IconBottomBar(
+                IconBottomBar2(
                     text: "Book Request",
                     icon: Icons.live_help_rounded,
                     selected: false,
-                    onPressed: () {}),
-                IconBottomBar(
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const RequestPage()));
+                    }),
+                IconBottomBar2(
                     text: "User Settings",
                     icon: Icons.account_circle_rounded,
                     selected: false,
                     onPressed: () {
-                      Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => UserProfile()));
+                      Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => UserPage()));
                     })
               ],
             ),
           ),
         ),
-    );
-  }
-}
-
-class IconBottomBar extends StatelessWidget {
-  const IconBottomBar(
-      {Key? key,
-      required this.text,
-      required this.icon,
-      required this.selected,
-      required this.onPressed})
-      : super(key: key);
-  final String text;
-  final IconData icon;
-  final bool selected;
-  final Function() onPressed;
-
- final primaryColor = AppTheme.defaultBlue;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        IconButton(
-          onPressed: onPressed,
-          icon: Icon(
-            icon,
-            size: 25,
-            color: selected ? primaryColor : Colors.black54,
-          ),
-        ),
-      ],
+      ),  
     );
   }
 }
@@ -321,17 +300,18 @@ class IconBottomBar2 extends StatelessWidget {
   final IconData icon;
   final bool selected;
   final Function() onPressed;
-  final primaryColor = AppTheme.defaultBlue;
+  final primaryColor = AppTheme.defaultYellow;
   @override
   Widget build(BuildContext context) {
     return CircleAvatar(
-      backgroundColor: primaryColor,
+      backgroundColor: selected ? AppTheme.defaultBlue : primaryColor,
+      minRadius: selected ? 40.0 : 25.0,
       child: IconButton(
         onPressed: onPressed,
         icon: Icon(
           icon,
-          size: 25,
-          color: Colors.white,
+          size: selected ? 35 : 25,
+          color: selected ? Colors.white : AppTheme.defaultBlue,
         ),
       ),
     );

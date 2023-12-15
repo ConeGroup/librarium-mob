@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:librarium_mob/pages/menu.dart';
+import 'package:librarium_mob/pages/reviews/components/floating_button.dart';
 import 'package:librarium_mob/pages/reviews/components/user_reviews.dart';
 import 'package:librarium_mob/pages/reviews/review_catalog.dart';
 import 'package:librarium_mob/pages/reviews/reviews.dart';
@@ -22,34 +24,8 @@ class ReviewPage extends StatelessWidget {
     return Scaffold(
       appBar: appBar,
       drawer: const LeftDrawer(),
-      floatingActionButton: FloatingActionButton.extended(
-        elevation: 10,
-        backgroundColor: AppTheme.defaultBlue,
-        isExtended: true,
-        label: const Text(
-                    'Add review',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: AppTheme.defaultYellow,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-        onPressed: () { 
-          ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(const SnackBar(
-                  content: Text("Let's add new review!")));
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => const BookCatalogPage()),
-              );
-         },
-        icon: const Icon(
-                    Icons.add_comment,
-                    color: AppTheme.defaultYellow,
-                    size: 30.0,
-                  ),
-        ),
+      bottomNavigationBar: const BottomNavBarFb1(),
+      floatingActionButton: const FloatingAddReviewBtn(),
       floatingActionButtonLocation:    
           FloatingActionButtonLocation.endFloat,
       body: SingleChildScrollView(
@@ -125,7 +101,7 @@ class ReviewPageItem {
 class ReviewPageCard extends StatefulWidget {
   final ReviewPageItem item;
 
-  const ReviewPageCard(this.item, {Key? key}) : super(key: key);
+  const ReviewPageCard(this.item, {super.key});
 
   @override
   _ReviewPageCardState createState() => _ReviewPageCardState();
@@ -147,7 +123,7 @@ class _ReviewPageCardState extends State<ReviewPageCard> {
               ..hideCurrentSnackBar()
               ..showSnackBar(SnackBar(
                   content: Text("Kamu telah menekan tombol ${widget.item.name}!")));
-              Navigator.pushReplacement(
+              Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const BookCatalogPage()),
               );

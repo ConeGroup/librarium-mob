@@ -1,11 +1,14 @@
-import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:librarium_mob/apptheme.dart';
 import 'package:librarium_mob/models/book_model.dart';
 import 'package:librarium_mob/models/review_model.dart';
-import 'package:librarium_mob/pages/reviews/list_review.dart';
+import 'package:librarium_mob/pages/reviews/components/floating_button.dart';
+import 'package:librarium_mob/utils/fetch_reviews.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
+
 
 class BookPage extends StatefulWidget {
   final Book book;
@@ -15,39 +18,6 @@ class BookPage extends StatefulWidget {
   @override
   State<BookPage> createState() => _BookPageState();
 }
-
-Future<List<Review>> fetchBookReview(CookieRequest request, int bookId) async {
-  var response;
-    try {
-      response = await request.get('http://127.0.0.1:8000/reviews/get-rev-by-book-mob/$bookId/');
-      // if (response.statusCode == 200) {
-        // var data = jsonDecode(utf8.decode(response.bodyBytes));
-        List<Review> listReview = [];
-
-        for (var reviewJson in response) {
-          if (reviewJson != null) {
-            listReview.add(Review.fromJson(reviewJson));
-          }
-        }
-        return listReview;
-      // } 
-      // else {
-      //   throw Exception('Failed to load reviews');
-      // }
-    } catch (error) {
-      return [];
-    }
-  }
-
-  //   Future<String> fetchUserbyId(CookieRequest request, int userId) async {
-  //   try {
-  //     var response = await request.get('http://127.0.0.1:8000/reviews/get-user-by-id-mob/$userId/');
-  //       return response;
-  //   } catch (error) {
-  //     throw Exception('Error: $error');
-  //   }
-  // }
-
 
 class _BookPageState extends State<BookPage> {
   late Book book;
@@ -61,8 +31,10 @@ class _BookPageState extends State<BookPage> {
     _reviews = fetchBookReview(request, book.pk);
 
     return Scaffold(
+      floatingActionButton: FloatingThisBookReviewBtn(thisBook: book),
+      floatingActionButtonLocation:    
+          FloatingActionButtonLocation.endFloat,
       body: NestedScrollView(
-
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
             SliverAppBar(
@@ -137,7 +109,7 @@ class _BookPageState extends State<BookPage> {
                 children: [
                   const SizedBox(height: 16),
                   Text(
-                    '${widget.book.fields.title}',
+                    widget.book.fields.title,
                     style: const TextStyle(
                       fontSize: 18.0,
                       fontWeight: FontWeight.bold,
@@ -189,6 +161,12 @@ class _BookPageState extends State<BookPage> {
       // ),       
     );
   }
+}
+
+String formatDate(DateTime dateTime) {
+  String formattedDate =
+      DateFormat('EEEE, MMMM d y').format(dateTime);
+  return formattedDate;
 }
 
 
@@ -252,39 +230,15 @@ class BookReviewItem extends StatelessWidget {
                     review.fields.bookReviewDesc,
                     style: const TextStyle(fontSize: 14),
                   ),
+                  const SizedBox(height: 8),
+                  Text(
+                    formatDate(review.fields.dateAdded),
+                    style: const TextStyle(fontSize: 12, color: Colors.grey),
+                  ),
                 ],
               ),
             ),
-          ),
-          // Right side (book image)
-          Container(
-            width: 100,
-            height: 150,
-            margin: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 12,
-            ),
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  spreadRadius: 2,
-                  blurRadius: 5,
-                  offset: const Offset(0, 3),
-                ),
-              ],
-              borderRadius: const BorderRadius.only(
-                topRight: Radius.circular(12),
-                bottomRight: Radius.circular(12),
-                topLeft: Radius.circular(12),
-                bottomLeft: Radius.circular(12),
-              ),
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: NetworkImage(book.fields.imageL),
-              ),
-            ),
-          ),
+          ),         
         ],
       ),
     );

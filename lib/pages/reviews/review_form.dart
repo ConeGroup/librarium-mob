@@ -103,9 +103,9 @@ class _ReviewFormPageState extends State<ReviewFormPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     Text(
-                      '${widget.book.fields.title}',
+                      widget.book.fields.title,
                       style: const TextStyle(
                         fontSize: 18.0,
                         fontWeight: FontWeight.bold,
@@ -114,7 +114,7 @@ class _ReviewFormPageState extends State<ReviewFormPage> {
                     const SizedBox(height: 8),
                     Text(
                       'By ${widget.book.fields.author}',
-                      style: TextStyle(fontSize: 14.0),
+                      style: const TextStyle(fontSize: 14.0),
                     ),
                     const SizedBox(height: 16),
                     Row(

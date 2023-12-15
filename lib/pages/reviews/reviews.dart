@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:librarium_mob/apptheme.dart';
-import 'dart:convert';
 import 'package:librarium_mob/models/book_model.dart';
-import 'package:librarium_mob/pages/reviews/components/section_title.dart';
 import 'package:librarium_mob/pages/reviews/eachbook_review.dart';
-import 'package:librarium_mob/pages/reviews/list_review.dart';
+import 'package:librarium_mob/utils/fetch_reviews.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
 
@@ -60,7 +57,6 @@ class AllBookReviews extends StatelessWidget {
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index) {
                 var book = snapshot.data![index];
-                // return Column(children: [
                 return GestureDetector(
                     onTap: () {
                       Navigator.push(
