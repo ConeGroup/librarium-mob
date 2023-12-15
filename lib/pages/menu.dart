@@ -7,10 +7,13 @@ import 'package:librarium_mob/pages/reviews/components/book_scroll.dart';
 import 'package:librarium_mob/pages/reviews/list_review.dart';
 import 'package:librarium_mob/pages/reviews/review_page.dart';
 import 'package:librarium_mob/pages/reviews/review_form.dart';
+import 'package:librarium_mob/pages/user_page.dart';
 import 'package:librarium_mob/widgets/left_drawer.dart';
 import 'package:librarium_mob/apptheme.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
+
+import 'edit_profile.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -28,6 +31,7 @@ class _MyHomePageState extends State<MyHomePage> {
     LibrariumItem("Book Request", Icons.question_mark_rounded),
     LibrariumItem("Book Loans", Icons.library_books),
     LibrariumItem("Book Reviews", Icons.reviews_rounded),
+    LibrariumItem("User Settings", Icons.settings),
     LibrariumItem("Logout", Icons.logout),
   ];
 
@@ -123,6 +127,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => ReviewPage()));
+          } else if (items[index].name == "User Settings") {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => UserProfile()));
           }
         },
         currentIndex: currentSelectedIndex,
@@ -149,6 +156,10 @@ class _MyHomePageState extends State<MyHomePage> {
           BottomNavigationBarItem(
             icon: Icon(Icons.reviews_rounded),
             label: "Book Reviews",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_circle),
+            label: "Profile",
           ),
         ],
       ),
@@ -204,6 +215,9 @@ class LibrariumCard extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                     builder: (context) => ReviewPage()));
+          } else if (item.name == "User Settings") {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => UserPage()));
           } else if (item.name == "Logout") {
             final response = await request.logout(
               // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
