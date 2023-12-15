@@ -8,22 +8,22 @@ import 'package:librarium_mob/pages/login_page.dart';
 import 'menu.dart';
 
 
-class ItemFormPage extends StatefulWidget {
-  const ItemFormPage({super.key});
+class RequestFormPage extends StatefulWidget {
+  const RequestFormPage({super.key});
 
   @override
-  State<ItemFormPage> createState() => _ItemFormPageState();
+  State<RequestFormPage> createState() => _RequestFormPageState();
 }
 
-class _ItemFormPageState extends State<ItemFormPage> {
+class _RequestFormPageState extends State<RequestFormPage> {
   final _formKey = GlobalKey<FormState>();
   String _title = "";
   String _author = "";
   int _isbn = 0;
   int _year = 0;
   String _publisher = "";
-  String _initial_review = "";
-  String _image_m = "";
+  String _initialReview = "";
+  String _imageM = "";
   // String _user = "";
 
   @override
@@ -34,7 +34,7 @@ class _ItemFormPageState extends State<ItemFormPage> {
       appBar: AppBar(
         title: const Center(
           child: Text(
-            'Item Form',
+            'Request Form',
           ),
         ),
         backgroundColor: Colors.indigo,
@@ -65,7 +65,7 @@ class _ItemFormPageState extends State<ItemFormPage> {
                   },
                   validator: (String? value) {
                     if (value == null || value.isEmpty) {
-                      return "title cannot be empty!";
+                      return "Please insert the book title.";
                     }
                     return null;
                   },
@@ -89,7 +89,7 @@ class _ItemFormPageState extends State<ItemFormPage> {
                   },
                   validator: (String? value) {
                     if (value == null || value.isEmpty) {
-                      return "Author cannot be empty!";
+                      return "Please insert the author of the book";
                     }
                     return null;
                   },
@@ -113,7 +113,7 @@ class _ItemFormPageState extends State<ItemFormPage> {
                   },
                   validator: (String? value) {
                     if (value == null || value.isEmpty) {
-                      return "ISBN cannot be empty!";
+                      return "Please insert the book's ISBN.";
                     }
                     if (int.tryParse(value) == null) {
                       return "Number type input required";
@@ -140,7 +140,7 @@ class _ItemFormPageState extends State<ItemFormPage> {
                   },
                   validator: (String? value) {
                     if (value == null || value.isEmpty) {
-                      return "Year cannot be empty!";
+                      return "Please insert the year of book publication.";
                     }
                     if (int.tryParse(value) == null) {
                       return "Number type input required";
@@ -167,7 +167,7 @@ class _ItemFormPageState extends State<ItemFormPage> {
                   },
                   validator: (String? value) {
                     if (value == null || value.isEmpty) {
-                      return "Publisher cannot be empty!";
+                      return "Please insert the book publisher.";
                     }
                     return null;
                   },
@@ -186,12 +186,12 @@ class _ItemFormPageState extends State<ItemFormPage> {
                   onChanged: (String? value) {
                     setState(() {
                       // TODO: Tambahkan variabel yang sesuai
-                      _initial_review = value!;
+                      _initialReview = value!;
                     });
                   },
                   validator: (String? value) {
                     if (value == null || value.isEmpty) {
-                      return "Review cannot be empty!";
+                      return "Please insert your short review.";
                     }
                     return null;
                   },
@@ -210,15 +210,15 @@ class _ItemFormPageState extends State<ItemFormPage> {
                   onChanged: (String? value) {
                     setState(() {
                       // TODO: Tambahkan variabel yang sesuai
-                      _image_m = value!;
+                      _imageM = value!;
                     });
                   },
-                  validator: (String? value) {
-                    if (value == null || value.isEmpty) {
-                      return "Cover cannot be empty!";
-                    }
-                    return null;
-                  },
+                  // validator: (String? value) {
+                  //   if (value == null || value.isEmpty) {
+                  //     return "Cover cannot be empty!";
+                  //   }
+                  //   return null;
+                  // },
                 ),
               ),
               Align(
@@ -234,7 +234,7 @@ class _ItemFormPageState extends State<ItemFormPage> {
                         // Kirim ke Django dan tunggu respons
                         // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
                         final response = await request.postJson(
-                            "http://127.0.0.1:8000/create-flutter/",
+                            "http://127.0.0.1:8000/book-request/create-flutter/",
                             jsonEncode(<String, String>{
                               // TODO: Sesuaikan field data sesuai dengan aplikasimu
                               'title': _title,
@@ -242,25 +242,25 @@ class _ItemFormPageState extends State<ItemFormPage> {
                               'isbn': _isbn.toString(),
                               'year': _year.toString(),
                               'publisher': _publisher,
-                              'initial_review': _initial_review,
-                              'image_m': _image_m,
+                              'initial_review': _initialReview,
+                              'image_m': _imageM,
                               // 'user': loggedInUsername,
                             }));
                         if (response['status'] == 'success') {
                           ScaffoldMessenger.of(context)
                               .showSnackBar(const SnackBar(
-                            content: Text("Kartu baru berhasil disimpan!"),
+                            content: Text("Request saved"),
                           ));
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => MyHomePage()),
+                                builder: (context) => RequestPage()),
                           );
                         } else {
                           ScaffoldMessenger.of(context)
                               .showSnackBar(const SnackBar(
                             content:
-                            Text("Terdapat kesalahan, silakan coba lagi."),
+                            Text("An error occurred, please try again."),
                           ));
                         }
                       }

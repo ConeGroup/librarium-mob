@@ -29,16 +29,16 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           fontFamily: 'Poppins',
         ),
-        home: const HomePage(title: 'Welcome'),
+        home: const HomePage(),
       ),
     );
   }
 }
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key, required this.title});
+  const HomePage({super.key});
 
-  final String title;
+  // final String title;
 
   @override
   State<HomePage> createState() => _HomePageState();
