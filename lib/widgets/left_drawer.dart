@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:librarium_mob/pages/menu.dart';
 import 'package:librarium_mob/apptheme.dart';
 
-
 class LeftDrawer extends StatelessWidget {
   const LeftDrawer({super.key});
 
@@ -79,6 +78,13 @@ class LeftDrawer extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.reviews_rounded),
             title: const Text('Books Reviews'),
+            onTap: () {
+              // Handle redirection to the Books Reviews page
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.settings),
+            title: const Text('User Settings'),
             onTap: () {
               // Handle redirection to the Books Reviews page
             },
