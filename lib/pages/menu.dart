@@ -7,12 +7,10 @@ import 'package:librarium_mob/pages/reviews/components/book_scroll.dart';
 import 'package:librarium_mob/pages/reviews/list_review.dart';
 import 'package:librarium_mob/pages/reviews/review_page.dart';
 import 'package:librarium_mob/pages/reviews/review_form.dart';
-import 'package:librarium_mob/pages/edit_profile.dart';
 import 'package:librarium_mob/widgets/left_drawer.dart';
 import 'package:librarium_mob/apptheme.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
-import 'package:librarium_mob/pages/user_page.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -30,7 +28,6 @@ class _MyHomePageState extends State<MyHomePage> {
     LibrariumItem("Book Request", Icons.question_mark_rounded),
     LibrariumItem("Book Loans", Icons.library_books),
     LibrariumItem("Book Reviews", Icons.reviews_rounded),
-    LibrariumItem("User Settings", Icons.settings),
     LibrariumItem("Logout", Icons.logout),
   ];
 
@@ -40,8 +37,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Librarium',
+        title: const Text('Librarium',
           style: TextStyle(
             fontSize: 35,
             color: AppTheme.defaultYellow,
@@ -61,10 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   decoration: BoxDecoration(
                     color: AppTheme.defaultBlue,
                   ),
-                ]
-                )
-              ),
-                  constraints: BoxConstraints.expand(height: 50.0),
+                  constraints: BoxConstraints.expand(height:50.0),
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -76,11 +69,12 @@ class _MyHomePageState extends State<MyHomePage> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                      ])),
+                      ]
+                  )
+              ),
               GridView.count(
                 primary: true,
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 40.0, vertical: 30.0),
+                padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 30.0),
                 crossAxisSpacing: 20,
                 mainAxisSpacing: 20,
                 crossAxisCount: 3,
@@ -105,23 +99,30 @@ class _MyHomePageState extends State<MyHomePage> {
 
           // Navigate to the corresponding route based on the selected index
           if (items[index].name == "Home") {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const MyHomePage()));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const MyHomePage()));
           } else if (items[index].name == "Collections") {
             Navigator.push(
-                context, MaterialPageRoute(builder: (context) => ReviewPage()));
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ReviewPage()));
           } else if (items[index].name == "Book Request") {
             Navigator.push(
-                context, MaterialPageRoute(builder: (context) => RequestPage()));
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const RequestPage()));
           } else if (items[index].name == "Book Loans") {
             Navigator.push(
-                context, MaterialPageRoute(builder: (context) => LoansPage()));
+                context,
+                MaterialPageRoute(
+                    builder: (context) => LoansPage()));
           } else if (items[index].name == "Book Reviews") {
             Navigator.push(
-                context, MaterialPageRoute(builder: (context) => ReviewPage()));
-          } else if (items[index].name == "User Settings") {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => UserProfile()));
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ReviewPage()));
           }
         },
         currentIndex: currentSelectedIndex,
@@ -149,10 +150,6 @@ class _MyHomePageState extends State<MyHomePage> {
             icon: Icon(Icons.reviews_rounded),
             label: "Book Reviews",
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle),
-            label: "Profile",
-          ),
         ],
       ),
     );
@@ -177,31 +174,36 @@ class LibrariumCard extends StatelessWidget {
     return Material(
       color: AppTheme.defaultBlue,
       borderRadius: BorderRadius.circular(20),
-      shadowColor: const Color.fromRGBO(174, 174, 174, 0.399),
+      shadowColor:  const Color.fromRGBO(174, 174, 174, 0.399),
+
       child: InkWell(
         onTap: () async {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
-            ..showSnackBar(
-                SnackBar(content: Text("You pressed ${item.name}!")));
+            ..showSnackBar(SnackBar(
+                content: Text("You pressed ${item.name}!")));
 
           // TODO: Navigate to the corresponding route based on the item
           if (item.name == "Collections") {
             Navigator.push(
-                context, MaterialPageRoute(builder: (context) => ReviewPage()));
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ReviewPage()));
           } else if (item.name == "Book Request") {
             Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => RequestPage()));
+                MaterialPageRoute(
+                    builder: (context) => RequestPage()));
           } else if (item.name == "Book Loans") {
             Navigator.push(
-                context, MaterialPageRoute(builder: (context) => LoansPage()));
+                context,
+                MaterialPageRoute(
+                    builder: (context) => LoansPage()));
           } else if (item.name == "Book Reviews") {
             Navigator.push(
-                context, MaterialPageRoute(builder: (context) => ReviewPage()));
-          } else if (item.name == "User Settings") {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => UserPage()));
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ReviewPage()));
           } else if (item.name == "Logout") {
             final response = await request.logout(
               // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
@@ -233,7 +235,7 @@ class LibrariumCard extends StatelessWidget {
                 color: const Color.fromRGBO(174, 174, 174, 0.6),
                 spreadRadius: 1,
                 blurRadius: 5,
-                offset: const Offset(1, 3), // changes position of shadow
+                offset: const Offset(1,3), // changes position of shadow
               ),
             ],
           ),
