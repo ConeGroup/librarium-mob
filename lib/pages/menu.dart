@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:librarium_mob/main.dart';
 import 'package:librarium_mob/pages/loans_page.dart';
+import 'package:librarium_mob/pages/register_page.dart';
+import 'package:librarium_mob/pages/request_page.dart';
 import 'package:librarium_mob/pages/reviews/components/book_scroll.dart';
 import 'package:librarium_mob/pages/reviews/list_review.dart';
 import 'package:librarium_mob/pages/reviews/review_page.dart';
@@ -30,6 +33,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final request = context.watch<CookieRequest>();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Librarium',
@@ -64,6 +69,14 @@ class _MyHomePageState extends State<MyHomePage> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+                  // Text(
+                  //   userData['username'],
+                  //   style: TextStyle(
+                  //     fontSize: 16,
+                  //     color: Colors.white,
+                  //     fontWeight: FontWeight.bold,
+                  //   ),
+                  // ),
                 ]
                 )
               ),
@@ -98,8 +111,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => const MyHomePage()));
-          }
-          else if (items[index].name == "Collections") {
+          } else if (items[index].name == "Collections") {
             Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -108,7 +120,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => ReviewPage()));
+                    builder: (context) => RequestPage()));
           } else if (items[index].name == "Book Loans") {
             Navigator.push(
                 context,
@@ -173,7 +185,7 @@ class LibrariumCard extends StatelessWidget {
       shadowColor:  const Color.fromRGBO(174, 174, 174, 0.399),
 
       child: InkWell(
-        onTap: () {
+        onTap: () async {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(SnackBar(
@@ -189,7 +201,7 @@ class LibrariumCard extends StatelessWidget {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => ReviewPage()));
+                    builder: (context) => RequestPage()));
           } else if (item.name == "Book Loans") {
             Navigator.push(
                 context,
@@ -201,7 +213,24 @@ class LibrariumCard extends StatelessWidget {
                 MaterialPageRoute(
                     builder: (context) => ReviewPage()));
           } else if (item.name == "Logout") {
-            // Handle logout
+            final response = await request.logout(
+              // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
+                "http://127.0.0.1:8000/auth/logout/");
+            String message = response["message"];
+            if (response['status']) {
+              String uname = response["username"];
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text("$message Sampai jumpa, $uname."),
+              ));
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const HomePage()),
+              );
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text("$message"),
+              ));
+            }
           }
         },
         child: Container(

@@ -1,25 +1,25 @@
 // To parse this JSON data, do
 //
-//     final product = productFromJson(jsonString);
+//     final bookRequest = bookRequestFromJson(jsonString);
 
 import 'dart:convert';
 
-List<RequestBook> productFromJson(String str) => List<RequestBook>.from(json.decode(str).map((x) => RequestBook.fromJson(x)));
+List<BookRequest> bookRequestFromJson(String str) => List<BookRequest>.from(json.decode(str).map((x) => BookRequest.fromJson(x)));
 
-String productToJson(List<RequestBook> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String bookRequestToJson(List<BookRequest> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class RequestBook {
+class BookRequest {
   String model;
   int pk;
   Fields fields;
 
-  RequestBook({
+  BookRequest({
     required this.model,
     required this.pk,
     required this.fields,
   });
 
-  factory RequestBook.fromJson(Map<String, dynamic> json) => RequestBook(
+  factory BookRequest.fromJson(Map<String, dynamic> json) => BookRequest(
     model: json["model"],
     pk: json["pk"],
     fields: Fields.fromJson(json["fields"]),
@@ -33,45 +33,53 @@ class RequestBook {
 }
 
 class Fields {
-  String name;
-  int amount;
-  int price;
-  int power;
-  int energyCost;
-  String description;
-  DateTime dateAdded;
+  String title;
+  String author;
+  String isbn;
+  String year;
+  String publisher;
+  String initialReview;
+  dynamic imageS;
+  String imageM;
+  dynamic imageL;
   int user;
 
   Fields({
-    required this.name,
-    required this.amount,
-    required this.price,
-    required this.power,
-    required this.energyCost,
-    required this.description,
-    required this.dateAdded,
+    required this.title,
+    required this.author,
+    required this.isbn,
+    required this.year,
+    required this.publisher,
+    required this.initialReview,
+    required this.imageS,
+    required this.imageM,
+    required this.imageL,
     required this.user,
   });
 
   factory Fields.fromJson(Map<String, dynamic> json) => Fields(
-    name: json["name"],
-    amount: json["amount"],
-    price: json["price"],
-    power: json["power"],
-    energyCost: json["energy_cost"],
-    description: json["description"],
-    dateAdded: DateTime.parse(json["date_added"]),
+    title: json["title"],
+    author: json["author"],
+    isbn: json["isbn"],
+    year: json["year"],
+    publisher: json["publisher"],
+    initialReview: json["initial_review"],
+    imageS: json["image_s"],
+    imageM: json["image_m"],
+    imageL: json["image_l"],
     user: json["user"],
   );
 
   Map<String, dynamic> toJson() => {
-    "name": name,
-    "amount": amount,
-    "price": price,
-    "power": power,
-    "energy_cost": energyCost,
-    "description": description,
-    "date_added": "${dateAdded.year.toString().padLeft(4, '0')}-${dateAdded.month.toString().padLeft(2, '0')}-${dateAdded.day.toString().padLeft(2, '0')}",
+    "title": title,
+    "author": author,
+    "isbn": isbn,
+    "year": year,
+    "publisher": publisher,
+    "initial_review": initialReview,
+    "image_s": imageS,
+    "image_m": imageM,
+    "image_l": imageL,
     "user": user,
   };
 }
