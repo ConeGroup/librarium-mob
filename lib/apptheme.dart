@@ -20,5 +20,7 @@ AppBar appBar = AppBar(
                   ),
               ),
         backgroundColor: AppTheme.defaultBlue,
-        toolbarHeight: 60.0,
+        toolbarHeight: 80.0,
+        centerTitle: true,
+        foregroundColor: Colors.white,
   );

@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:librarium_mob/apptheme.dart';
 import 'dart:convert';
 import 'package:librarium_mob/models/request_model.dart';
+import 'package:librarium_mob/pages/menu.dart';
 import 'package:librarium_mob/pages/request_form.dart';
 import 'package:librarium_mob/utils/fetch_request.dart';
 import 'package:librarium_mob/widgets/left_drawer.dart';
@@ -53,6 +54,7 @@ class _RequestPageState extends State<RequestPage> {
           ],
         ),
         drawer: const LeftDrawer(),
+        bottomNavigationBar: const BottomNavBarFb1(),
         body: FutureBuilder(
             future: fetchRequest(request),
             builder: (context, AsyncSnapshot snapshot) {
