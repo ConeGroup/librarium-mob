@@ -192,6 +192,7 @@ class _RequestPageState extends State<RequestPage> {
                                                     await request.get(
                                                         "http://127.0.0.1:8000/book-request/remove-request/${snapshot.data![index].pk}/").then(
                                                           (value) => {
+                                                            Navigator.pop(context),
                                                             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const RequestPage())),
                                                             showDialog(
                                                               context: context,
@@ -474,6 +475,7 @@ class _RequestPageState extends State<RequestPage> {
                                                                             .showSnackBar(const SnackBar(
                                                                           content: Text("Request updated!"),
                                                                         ));
+                                                                        Navigator.pop(context);
                                                                         Navigator.pushReplacement(
                                                                           context,
                                                                           MaterialPageRoute(

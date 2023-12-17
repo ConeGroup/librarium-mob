@@ -251,6 +251,7 @@ class _RequestFormPageState extends State<RequestFormPage> {
                               .showSnackBar(const SnackBar(
                             content: Text("Request saved"),
                           ));
+                          Navigator.pop(context);
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
