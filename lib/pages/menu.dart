@@ -9,6 +9,8 @@ import 'package:librarium_mob/apptheme.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
 
+import 'package:librarium_mob/pages/collections/collections_page.dart';
+
 import 'edit_profile.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -127,7 +129,7 @@ class LibrariumCard extends StatelessWidget {
             Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => ReviewPage()));
+                    builder: (context) => CollectionsPage()));
           } else if (item.name == "Book Request") {
             Navigator.pushReplacement(
                 context,
