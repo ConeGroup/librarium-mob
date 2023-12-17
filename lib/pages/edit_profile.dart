@@ -23,11 +23,17 @@ class UserPage extends StatefulWidget {
 class _UserPageState extends State<UserPage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  int _selectedIndex = 0;
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this);
+    _tabController = TabController(length: 3, vsync: this)
+      ..addListener(() {
+        setState(() {
+          _selectedIndex = _tabController.index;
+        });
+      });
   }
 
   @override
@@ -42,10 +48,13 @@ class _UserPageState extends State<UserPage>
       appBar: AppBar(
         title: const Text('Librarium'),
         bottom: TabBar(
+          isScrollable: true,
+          tabAlignment: TabAlignment.center,
           controller: _tabController,
           tabs: [
             Tab(text: 'User Profile'),
-            Tab(text: 'Edit Username and Email'),
+            Tab(text: 'Change Password'),
+            Tab(text: 'Edit Email'),
           ],
         ),
       ),
@@ -56,6 +65,7 @@ class _UserPageState extends State<UserPage>
         children: [
           UserProfileContent(),
           EditUsernamePasswordContent(),
+          EditEmailContent(),
         ],
       ),
     );
@@ -222,7 +232,7 @@ class EditUsernamePasswordContent extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            'Edit Your Username and Password',
+            'Change Your Password',
             style: TextStyle(fontSize: 24),
           ),
           SizedBox(height: 20),
@@ -249,6 +259,96 @@ class EditUsernamePasswordContent extends StatelessWidget {
                 _oldPasswordController.text,
                 _newPasswordController.text,
                 _newPasswordConfirmController.text,
+                context,
+              );
+            },
+            child: Text('Save Changes'),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class EditEmailContent extends StatelessWidget {
+  final TextEditingController _newEmailController = TextEditingController();
+
+  // final storage = new FlutterSecureStorage();
+
+  void showAlert(String message, String category) {
+    // Implementasikan fungsi ini sesuai dengan kebutuhan Anda
+  }
+
+  Future<void> saveEmail(String newEmail, BuildContext context) async {
+    if (newEmail.isEmpty) {
+      showAlert("Please fill the form!", 'warning');
+      return;
+    }
+
+    String url = "http://127.0.0.1:8000/userprofile/api/edit_profile/";
+    // String token = await storage.read(key: "token");
+    // print(requestglobal);
+    // print(oldPassword);
+    // print(newPassword);
+    // print(newPasswordConfirm);
+
+    // var response = await requestglobal.postJson(
+    //   Uri.parse(url),
+    //   body: <String, String>{
+    //     'old_password': oldPassword,
+    //     'new_password1': newPassword,
+    //     'new_password2': newPasswordConfirm,
+    //   },
+    // );
+
+    var response = await requestglobal.postJson(
+        "http://127.0.0.1:8000/userprofile/api/edit_profile/",
+        jsonEncode(<String, String>{
+          'username': requestglobal.jsonData["username"],
+          'email': newEmail,
+        }));
+
+    requestglobal.jsonData['email'] = newEmail;
+    if (response['message'] == 'Email successfully changed') {
+      // Password changed successfully
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Email has been successfully changed!'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+    } else {
+      // Handle other status codes if needed
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('An error occurred. Please try again.'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'Change Your Email',
+            style: TextStyle(fontSize: 24),
+          ),
+          SizedBox(height: 20),
+          TextField(
+            controller: _newEmailController,
+            decoration: InputDecoration(labelText: 'Email'),
+          ),
+          SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: () {
+              saveEmail(
+                _newEmailController.text,
                 context,
               );
             },
