@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:librarium_mob/pages/reviews/review_catalog.dart';
+import 'package:librarium_mob/pages/reviews/eachbook_review.dart';
 import 'package:librarium_mob/pages/reviews/review_page.dart';
+import 'package:librarium_mob/utils/fetch_reviews.dart';
 
 import 'section_title.dart';
 
 class PopularBooks extends StatelessWidget {
   const PopularBooks({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,14 +19,14 @@ class PopularBooks extends StatelessWidget {
           child: SectionTitle(
             title: "Popular books lately",
             press: () {
-              Navigator.push(
+              Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const BookCatalogPage()));
+                        builder: (context) =>  ReviewPage()));
             },
           ),
         ),
-        SingleChildScrollView(
+        const SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
             children: [
@@ -33,58 +34,33 @@ class PopularBooks extends StatelessWidget {
                 image: "http://images.amazon.com/images/P/0446310786.01.LZZZZZZZ.jpg",
                 title: "To Kill a Mockingbird",
                 author: "Harper Lee",
-                press: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const BookCatalogPage()));
-                    },
+                bookId: 38,
               ),
               PopularBookCard(
                 image: "http://images.amazon.com/images/P/0441783589.01.LZZZZZZZ.jpg",
                 title: "Starship Troopers",
                 author: "Robert A. Heinlein",
-                press: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const BookCatalogPage()));
-                    },
+                bookId: 78,
               ),
               PopularBookCard(
                 image: "http://images.amazon.com/images/P/0316769487.01.LZZZZZZZ.jpg",
                 title: "The Catcher in the Rye",
                 author: "J.D. Salinger",
-                press: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const BookCatalogPage()));
-                    },
+                bookId: 91,
               ),
               PopularBookCard(
                 image: "http://images.amazon.com/images/P/0440234743.01.LZZZZZZZ.jpg",
                 title: "The Testament",
                 author: "John Grisham",
-                press: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const BookCatalogPage()));
-                    },
+                bookId: 19,
               ),
               PopularBookCard(
                 image: "http://images.amazon.com/images/P/1552041778.01.LZZZZZZZ.jpg",
                 title: "Jane Doe",
                 author: "R. J. Kaiser",
-                press: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const BookCatalogPage()));
-                    },
+                bookId: 14,
               ),
-              const SizedBox(width: 20, height: 20),
+              SizedBox(width: 20, height: 20),
             ],
           ),
         ),
@@ -95,24 +71,31 @@ class PopularBooks extends StatelessWidget {
 
 class PopularBookCard extends StatelessWidget {
   const PopularBookCard({
-    Key? key,
+    super.key,
     required this.title,
     required this.image,
     required this.author,
-    required this.press,
-  }) : super(key: key);
+    required this.bookId,
+  });
 
   final String title;
   final String image;
   final String author;
-  final GestureTapCallback press;
+  final int bookId;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(left: 20),
       child: GestureDetector(
-        onTap: press,
+        onTap: (){
+            fetchBookById(bookId).then((book) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => BookPage(book: book)));
+          });
+        },        
         child: SizedBox(
           width: 160,
           height: 240,

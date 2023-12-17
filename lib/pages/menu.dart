@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:librarium_mob/main.dart';
 import 'package:librarium_mob/pages/loans_page.dart';
-import 'package:librarium_mob/pages/register_page.dart';
 import 'package:librarium_mob/pages/request_page.dart';
 import 'package:librarium_mob/pages/reviews/components/book_scroll.dart';
-import 'package:librarium_mob/pages/reviews/list_review.dart';
 import 'package:librarium_mob/pages/reviews/review_page.dart';
-import 'package:librarium_mob/pages/reviews/review_form.dart';
-import 'package:librarium_mob/pages/user_page.dart';
 import 'package:librarium_mob/widgets/left_drawer.dart';
 import 'package:librarium_mob/apptheme.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
+
+import 'package:librarium_mob/pages/collections/collections_page.dart';
 
 import 'edit_profile.dart';
 
@@ -26,7 +24,6 @@ class _MyHomePageState extends State<MyHomePage> {
   int currentSelectedIndex = 0;
 
   final List<LibrariumItem> items = [
-    LibrariumItem("Home", Icons.home),
     LibrariumItem("Collections", Icons.collections_bookmark),
     LibrariumItem("Book Request", Icons.question_mark_rounded),
     LibrariumItem("Book Loans", Icons.library_books),
@@ -38,43 +35,44 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     final request = context.watch<CookieRequest>();
-
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Librarium',
-          style: TextStyle(
-            fontSize: 35,
-            color: AppTheme.defaultYellow,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        backgroundColor: AppTheme.defaultBlue,
-        toolbarHeight: 60.0,
-      ),
+      appBar: appBar,
       drawer: const LeftDrawer(),
+      bottomNavigationBar: const BottomNavBarFb1(),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(0.0),
           child: Column(
             children: <Widget>[
               Container(
-                  decoration: BoxDecoration(
-                    color: AppTheme.defaultBlue,
+                decoration: const BoxDecoration(
+                  color: AppTheme.defaultBlue,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Color.fromRGBO(174, 174, 174, 0.6),
+                      spreadRadius: 1,
+                      blurRadius: 5,
+                      offset: Offset(1,3),
+                    ),
+                  ],
+                  borderRadius: BorderRadius.vertical(
+                    bottom: Radius.circular(90),
                   ),
-                  constraints: BoxConstraints.expand(height:50.0),
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Hi, <username>! What\'s your agenda today?',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ]
-                  )
+                ),
+                constraints: const BoxConstraints.expand(height:50.0),
+                child:  const Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    'Hi! What\'s your agenda today?',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ]
+                )
               ),
               GridView.count(
                 primary: true,
@@ -88,80 +86,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 }).toList(),
               ),
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 25.0, vertical: 10.0),
+                padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 10.0),
                 child: const PopularBooks(),
               ),
             ],
           ),
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: (index) {
-          setState(() {
-            currentSelectedIndex = index;
-          });
-
-          // Navigate to the corresponding route based on the selected index
-          if (items[index].name == "Home") {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const MyHomePage()));
-          } else if (items[index].name == "Collections") {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ReviewPage()));
-          } else if (items[index].name == "Book Request") {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const RequestPage()));
-          } else if (items[index].name == "Book Loans") {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => LoansPage()));
-          } else if (items[index].name == "Book Reviews") {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ReviewPage()));
-          } else if (items[index].name == "User Settings") {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => UserProfile()));
-          }
-        },
-        currentIndex: currentSelectedIndex,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        type: BottomNavigationBarType.fixed,
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: "Home",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.collections_bookmark),
-            label: "Collections",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.question_mark_rounded),
-            label: "Book Request",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.library_books),
-            label: "Book Loans",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.reviews_rounded),
-            label: "Book Reviews",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle),
-            label: "Profile",
-          ),
-        ],
       ),
     );
   }
@@ -196,27 +126,27 @@ class LibrariumCard extends StatelessWidget {
 
           // TODO: Navigate to the corresponding route based on the item
           if (item.name == "Collections") {
-            Navigator.push(
+            Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => ReviewPage()));
+                    builder: (context) => CollectionsPage()));
           } else if (item.name == "Book Request") {
-            Navigator.push(
+            Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => RequestPage()));
+                    builder: (context) => const RequestPage()));
           } else if (item.name == "Book Loans") {
-            Navigator.push(
+            Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
                     builder: (context) => LoansPage()));
           } else if (item.name == "Book Reviews") {
-            Navigator.push(
+            Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
                     builder: (context) => ReviewPage()));
           } else if (item.name == "User Settings") {
-            Navigator.push(
+            Navigator.pushReplacement(
                 context, MaterialPageRoute(builder: (context) => UserPage()));
           } else if (item.name == "Logout") {
             final response = await request.logout(
@@ -244,12 +174,12 @@ class LibrariumCard extends StatelessWidget {
           decoration: BoxDecoration(
             color: AppTheme.defaultBlue,
             borderRadius: BorderRadius.circular(20),
-            boxShadow: [
+            boxShadow: const [
               BoxShadow(
-                color: const Color.fromRGBO(174, 174, 174, 0.6),
+                color: Color.fromRGBO(174, 174, 174, 0.6),
                 spreadRadius: 1,
                 blurRadius: 5,
-                offset: const Offset(1,3), // changes position of shadow
+                offset: Offset(1,3), // changes position of shadow
               ),
             ],
           ),
@@ -272,7 +202,119 @@ class LibrariumCard extends StatelessWidget {
             ),
           ),
         ),
-        borderRadius: const BorderRadius.all(Radius.circular(10)),
+      ),
+    );
+  }
+}
+
+
+class BottomNavBarFb1 extends StatelessWidget {
+  const BottomNavBarFb1({Key? key}) : super(key: key);
+
+  final primaryColor = AppTheme.defaultBlue;
+  final back = const Color(0xffffffff);
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipRRect(
+      borderRadius: const BorderRadius.only(
+        topLeft: Radius.circular(60),
+        topRight: Radius.circular(60),
+      ),
+      child: BottomAppBar(
+        color: AppTheme.defaultYellow,
+        surfaceTintColor: AppTheme.defaultYellow,
+        shadowColor: Colors.grey.withOpacity(0.5),
+        child: SizedBox(
+          height: 45,
+          width: MediaQuery.of(context).size.width,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                IconBottomBar2(
+                    text: "Book Loans",
+                    icon: Icons.feed,
+                    selected: false,
+                    onPressed: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => LoansPage()));
+                    }),
+                IconBottomBar2(
+                    text: "Book Reviews",
+                    icon: Icons.reviews_rounded,
+                    selected: false,
+                    onPressed: () {
+                       Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ReviewPage()));
+                    }),
+                IconBottomBar2(
+                    text: "Home",
+                    icon: Icons.home,
+                    selected: true,
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const MyHomePage()));
+                    }),
+                IconBottomBar2(
+                    text: "Book Request",
+                    icon: Icons.live_help_rounded,
+                    selected: false,
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const RequestPage()));
+                    }),
+                IconBottomBar2(
+                    text: "User Settings",
+                    icon: Icons.account_circle_rounded,
+                    selected: false,
+                    onPressed: () {
+                      Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => UserPage()));
+                    })
+              ],
+            ),
+          ),
+        ),
+      ),  
+    );
+  }
+}
+
+class IconBottomBar2 extends StatelessWidget {
+  const IconBottomBar2(
+      {Key? key,
+      required this.text,
+      required this.icon,
+      required this.selected,
+      required this.onPressed})
+      : super(key: key);
+  final String text;
+  final IconData icon;
+  final bool selected;
+  final Function() onPressed;
+  final primaryColor = AppTheme.defaultYellow;
+  @override
+  Widget build(BuildContext context) {
+    return CircleAvatar(
+      backgroundColor: selected ? AppTheme.defaultBlue : primaryColor,
+      minRadius: selected ? 40.0 : 25.0,
+      child: IconButton(
+        onPressed: onPressed,
+        icon: Icon(
+          icon,
+          size: selected ? 35 : 25,
+          color: selected ? Colors.white : AppTheme.defaultBlue,
+        ),
       ),
     );
   }

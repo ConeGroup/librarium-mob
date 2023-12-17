@@ -68,5 +68,3 @@ class Fields {
         "is_recommended": isRecommended,
     };
 }
-
-
