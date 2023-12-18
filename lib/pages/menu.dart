@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:librarium_mob/main.dart';
 import 'package:librarium_mob/pages/loans_page.dart';
-import 'package:librarium_mob/pages/request_page.dart';
+import 'package:librarium_mob/requests/request_page.dart';
 import 'package:librarium_mob/pages/reviews/components/book_scroll.dart';
 import 'package:librarium_mob/pages/reviews/review_page.dart';
 import 'package:librarium_mob/widgets/left_drawer.dart';
 import 'package:librarium_mob/apptheme.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
-
 import 'package:librarium_mob/pages/collections/collections_page.dart';
-
 import 'edit_profile.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -25,7 +23,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final List<LibrariumItem> items = [
     LibrariumItem("Collections", Icons.collections_bookmark),
-    LibrariumItem("Book Request", Icons.question_mark_rounded),
+    LibrariumItem("Book Request", Icons.library_add_rounded),
     LibrariumItem("Book Loans", Icons.library_books),
     LibrariumItem("Book Reviews", Icons.reviews_rounded),
     LibrariumItem("User Settings", Icons.settings),
@@ -60,7 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
                 constraints: const BoxConstraints.expand(height:50.0),
-                child:  const Column(
+                child: const Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
@@ -147,7 +145,9 @@ class LibrariumCard extends StatelessWidget {
                     builder: (context) => ReviewPage()));
           } else if (item.name == "User Settings") {
             Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (context) => UserPage()));
+                context,
+                MaterialPageRoute(
+                    builder: (context) => UserPage()));
           } else if (item.name == "Logout") {
             final response = await request.logout(
               // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
@@ -156,7 +156,7 @@ class LibrariumCard extends StatelessWidget {
             if (response['status']) {
               String uname = response["username"];
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text("$message Sampai jumpa, $uname."),
+                content: Text("$message see you, $uname."),
               ));
               Navigator.pushReplacement(
                 context,
@@ -265,7 +265,7 @@ class BottomNavBarFb1 extends StatelessWidget {
                     }),
                 IconBottomBar2(
                     text: "Book Request",
-                    icon: Icons.live_help_rounded,
+                    icon: Icons.library_add_rounded,
                     selected: false,
                     onPressed: () {
                       Navigator.pushReplacement(
