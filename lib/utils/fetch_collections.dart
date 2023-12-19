@@ -40,7 +40,7 @@ import 'package:pbp_django_auth/pbp_django_auth.dart';
       throw Exception('Error: $error');
     }
   }
-
+  // mengambil buku berdasarkan ID
     Future<Book> fetchBookById(int bookId) async {
       var url = Uri.parse('http://localhost:8000/collection/get-book-by-id-json-mob/$bookId/');
       var response = await http.get(
@@ -59,15 +59,15 @@ import 'package:pbp_django_auth/pbp_django_auth.dart';
 
 
   // mengambil semua collections dari user
-  Future<List<CollectionItem>> fetchCollection(CookieRequest request) async {
+  Future<List<CollectionItemModel>> fetchCollection(CookieRequest request) async {
       try {
         var response = await request.get('http://127.0.0.1:8000/collection/get-collections-by-user-mob/');
 
-          List<CollectionItem> listCollection = [];
+          List<CollectionItemModel> listCollection = [];
 
           for (var reviewJson in response) {
             if (reviewJson != null) {
-              listCollection.add(CollectionItem.fromJson(reviewJson));
+              listCollection.add(CollectionItemModel.fromJson(reviewJson));
             }
           }
           return listCollection;
@@ -77,16 +77,17 @@ import 'package:pbp_django_auth/pbp_django_auth.dart';
       }
     }
 
-  Future<List<CollectionItem>> fetchCollectionBook(CookieRequest request, int bookId) async {
+  //Mengambil collection yang terdapat buku berdasarkan id buku
+  Future<List<CollectionItemModel>> fetchCollectionBook(CookieRequest request, int bookId) async {
     var response;
       try {
         response = await request.get('http://127.0.0.1:8000/collection/get-collections-by-book-json-mob/$bookId/');
 
-          List<CollectionItem> listCollection = [];
+          List<CollectionItemModel> listCollection = [];
 
           for (var reviewJson in response) {
             if (reviewJson != null) {
-              listCollection.add(CollectionItem.fromJson(reviewJson));
+              listCollection.add(CollectionItemModel.fromJson(reviewJson));
             }
           }
           return listCollection;
@@ -94,17 +95,17 @@ import 'package:pbp_django_auth/pbp_django_auth.dart';
         return [];
       }
     }
-
-    Future<List<CollectionItem>> fetchBookCollection(CookieRequest request, int collectionId) async {
+    //Mengambil semua buku yang ada di collections
+    Future<List<CollectionItemModel>> fetchBookCollection(CookieRequest request, int collectionId) async {
       var response;
         try {
           response = await request.get('http://127.0.0.1:8000/collection/get-book-by-collection-json-mob/$collectionId/');
 
-            List<CollectionItem> listCollection = [];
+            List<CollectionItemModel> listCollection = [];
 
             for (var reviewJson in response) {
               if (reviewJson != null) {
-                listCollection.add(CollectionItem.fromJson(reviewJson));
+                listCollection.add(CollectionItemModel.fromJson(reviewJson));
               }
             }
             return listCollection;
