@@ -49,14 +49,14 @@ class _LoginPageState extends State<LoginPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(height: 20),
+            // SizedBox(height: 20),
 
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset(
                   'lib/images/librarium-logo.png',
-                  height: 150,
+                  height: 100,
                 ),
               ],
             ),
@@ -69,7 +69,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
 
-            const SizedBox(height: 50),
+            const SizedBox(height: 20),
 
             Text(
               'Welcome back, you\'ve been missed!',
@@ -139,7 +139,7 @@ class _LoginPageState extends State<LoginPage> {
                 // Untuk menyambungkan Android emulator dengan Django pada localhost,
                 // gunakan URL http://10.0.2.2/
                 final response =
-                    await request.login("http://127.0.0.1:8000/auth/login/", {
+                    await request.login("https://librarium-c01-tk.pbp.cs.ui.ac.id/auth/login/", {
                   'username': username,
                   'password': password,
                 });
@@ -213,7 +213,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
 
-            const SizedBox(height: 20),
+            const SizedBox(height: 15),
 
             // Create Account
             Row(
