@@ -1,5 +1,3 @@
-// import 'dart:html';
-
 import 'package:librarium_mob/pages/menu.dart';
 import 'package:librarium_mob/pages/register_page.dart';
 import 'package:flutter/material.dart';
@@ -62,7 +60,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ],
             ),
-            Text(
+            const Text(
               'Librarium',
               style: TextStyle(
                 color: AppTheme.defaultBlue,
@@ -98,7 +96,7 @@ class _LoginPageState extends State<LoginPage> {
                     fillColor: Colors.white,
                     filled: true,
                     hintText: 'Username',
-                    hintStyle: TextStyle(color: AppTheme.defaultBlue)),
+                    hintStyle: const TextStyle(color: AppTheme.defaultBlue)),
               ),
             ),
 
@@ -113,7 +111,7 @@ class _LoginPageState extends State<LoginPage> {
                   labelText: 'Password',
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30),
-                    borderSide: BorderSide(color: Colors.grey),
+                    borderSide: const BorderSide(color: Colors.grey),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30),
@@ -122,7 +120,7 @@ class _LoginPageState extends State<LoginPage> {
                   fillColor: Colors.white,
                   filled: true,
                   hintText: 'Password',
-                  hintStyle: TextStyle(color: AppTheme.defaultBlue),
+                  hintStyle: const TextStyle(color: AppTheme.defaultBlue),
                 ),
                 obscureText: true,
               ),
