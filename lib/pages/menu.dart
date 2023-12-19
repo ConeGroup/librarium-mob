@@ -9,7 +9,6 @@ import 'package:librarium_mob/widgets/left_drawer.dart';
 import 'package:librarium_mob/apptheme.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
-import 'package:librarium_mob/pages/collections/collections_page.dart';
 import 'edit_profile.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -125,34 +124,34 @@ class LibrariumCard extends StatelessWidget {
 
           // TODO: Navigate to the corresponding route based on the item
           if (item.name == "Collections") {
-            Navigator.pushReplacement(
+            Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) => const CollectionListPage()));
           } else if (item.name == "Book Request") {
-            Navigator.pushReplacement(
+            Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) => const RequestPage()));
           } else if (item.name == "Book Loans") {
-            Navigator.pushReplacement(
+            Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) => LoansPage()));
           } else if (item.name == "Book Reviews") {
-            Navigator.pushReplacement(
+            Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) => ReviewPage()));
           } else if (item.name == "User Settings") {
-            Navigator.pushReplacement(
+            Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) => UserPage()));
           } else if (item.name == "Logout") {
             final response = await request.logout(
               // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
-                "http://127.0.0.1:8000/auth/logout/");
+                "https://librarium-c01-tk.pbp.cs.ui.ac.id/auth/logout/");
             String message = response["message"];
             if (response['status']) {
               String uname = response["username"];
@@ -239,7 +238,7 @@ class BottomNavBarFb1 extends StatelessWidget {
                     icon: Icons.feed,
                     selected: false,
                     onPressed: () {
-                        Navigator.pushReplacement(
+                        Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => LoansPage()));
@@ -249,7 +248,7 @@ class BottomNavBarFb1 extends StatelessWidget {
                     icon: Icons.reviews_rounded,
                     selected: false,
                     onPressed: () {
-                       Navigator.pushReplacement(
+                       Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => ReviewPage()));
@@ -269,7 +268,7 @@ class BottomNavBarFb1 extends StatelessWidget {
                     icon: Icons.library_add_rounded,
                     selected: false,
                     onPressed: () {
-                      Navigator.pushReplacement(
+                      Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => const RequestPage()));
@@ -279,7 +278,7 @@ class BottomNavBarFb1 extends StatelessWidget {
                     icon: Icons.account_circle_rounded,
                     selected: false,
                     onPressed: () {
-                      Navigator.pushReplacement(context,
+                      Navigator.push(context,
                         MaterialPageRoute(builder: (context) => UserPage()));
                     })
               ],

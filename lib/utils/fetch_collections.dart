@@ -6,7 +6,7 @@ import 'package:pbp_django_auth/pbp_django_auth.dart';
 
     // Fetch ini digunakan untuk mengambil data buku berdasarkan id DONE
     Future<Book> fetchUserbyId(int userId) async {
-        var url = Uri.parse('http://127.0.0.1:8000/collection/get-book-by-id-json-mob/$userId/');
+        var url = Uri.parse('https://librarium-c01-tk.pbp.cs.ui.ac.id/collection/get-book-by-id-json-mob/$userId/');
         var response = await http.get(
           url,
           headers: {"Content-Type": "application/json"},
@@ -22,7 +22,7 @@ import 'package:pbp_django_auth/pbp_django_auth.dart';
 
     // Fetch ini digunakan untuk mengambil semua buku yang ada DONE
     Future<List<Book>> fetchBookCatalog() async {
-    var url = Uri.parse('http://127.0.0.1:8000/collection/get-book-json/');
+    var url = Uri.parse('https://librarium-c01-tk.pbp.cs.ui.ac.id/collection/get-book-json/');
     try {
       var response = await http.get(
         url,
@@ -42,7 +42,7 @@ import 'package:pbp_django_auth/pbp_django_auth.dart';
   }
   // mengambil buku berdasarkan ID
     Future<Book> fetchBookById(int bookId) async {
-      var url = Uri.parse('http://localhost:8000/collection/get-book-by-id-json-mob/$bookId/');
+      var url = Uri.parse('https://librarium-c01-tk.pbp.cs.ui.ac.id/collection/get-book-by-id-json-mob/$bookId/');
       var response = await http.get(
         url,
         headers: {"Content-Type": "application/json"},
@@ -61,7 +61,7 @@ import 'package:pbp_django_auth/pbp_django_auth.dart';
   // mengambil semua collections dari user
   Future<List<CollectionItemModel>> fetchCollection(CookieRequest request) async {
       try {
-        var response = await request.get('http://127.0.0.1:8000/collection/get-collections-by-user-mob/');
+        var response = await request.get('https://librarium-c01-tk.pbp.cs.ui.ac.id/collection/get-collections-by-user-mob/');
 
           List<CollectionItemModel> listCollection = [];
 
@@ -81,7 +81,7 @@ import 'package:pbp_django_auth/pbp_django_auth.dart';
   Future<List<CollectionItemModel>> fetchCollectionBook(CookieRequest request, int bookId) async {
     var response;
       try {
-        response = await request.get('http://127.0.0.1:8000/collection/get-collections-by-book-json-mob/$bookId/');
+        response = await request.get('https://librarium-c01-tk.pbp.cs.ui.ac.id/collection/get-collections-by-book-json-mob/$bookId/');
 
           List<CollectionItemModel> listCollection = [];
 
@@ -99,7 +99,7 @@ import 'package:pbp_django_auth/pbp_django_auth.dart';
     Future<List<CollectionItemModel>> fetchBookCollection(CookieRequest request, int collectionId) async {
       var response;
         try {
-          response = await request.get('http://127.0.0.1:8000/collection/get-book-by-collection-json-mob/$collectionId/');
+          response = await request.get('https://librarium-c01-tk.pbp.cs.ui.ac.id/collection/get-book-by-collection-json-mob/$collectionId/');
 
             List<CollectionItemModel> listCollection = [];
 

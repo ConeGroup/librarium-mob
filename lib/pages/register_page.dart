@@ -39,27 +39,6 @@ class _RegisterPage extends State<RegisterPage> {
   Widget build(BuildContext context) {
     final request = context.watch<CookieRequest>();
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text('Register'),
-      //   actions: [
-      //     TextButton(
-      //       onPressed: () {
-      //         Navigator.pushReplacement(
-      //           context,
-      //           MaterialPageRoute(builder: (context) => const LoginPage()),
-      //         );
-      //       },
-      //       child: const Text(
-      //         'Already Have Account?',
-      //         style: TextStyle(
-      //           fontSize: 15,
-      //           color: Colors.black,
-      //           fontWeight: FontWeight.bold,
-      //         ),
-      //       ),
-      //     )
-      //   ],
-      // ),
       body: Container(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -77,7 +56,7 @@ class _RegisterPage extends State<RegisterPage> {
                 ),
               ],
             ),
-            Text(
+            const Text(
               'Librarium',
               style: TextStyle(
                 color: AppTheme.defaultBlue,
@@ -277,7 +256,7 @@ class _RegisterPage extends State<RegisterPage> {
                     onTap: () async {
                       if (_registerFormKey.currentState!.validate()) {
                         final response = await request.post(
-                            "http://127.0.0.1:8000/auth/registerFlutter/",
+                            "https://librarium-c01-tk.pbp.cs.ui.ac.id/auth/registerFlutter/",
                             convert.jsonEncode({
                               'username': username,
                               'email': email,

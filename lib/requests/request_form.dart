@@ -24,9 +24,7 @@ class _RequestFormPageState extends State<RequestFormPage> {
   String _initialReview = "";
   String _imageM = "";
 
-  final String defaultImage = "https://img.freepik.com/free-psd/3d-rendering-"
-      "back-school-icon_23-2149589337.jpg?w=740&t=st=1702892479~exp=1702893079~"
-      "hmac=23a92c816c97af49db0a81d320c015c31c53ec3bddf9d116464b6a4afe0650e7";
+  final String defaultImage = "https://imagetolink.com/ib/Xc443szDm3.jpg";
 
   String get defaultImageLink => defaultImage;
 
@@ -258,7 +256,7 @@ class _RequestFormPageState extends State<RequestFormPage> {
                         // Kirim ke Django dan tunggu respons
                         // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
                         final response = await request.postJson(
-                            "http://127.0.0.1:8000/book-request/create-flutter/",
+                            "https://librarium-c01-tk.pbp.cs.ui.ac.id/book-request/create-flutter/",
                             jsonEncode(<String, String>{
                               // TODO: Sesuaikan field data sesuai dengan aplikasimu
                               'title': _title,

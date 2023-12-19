@@ -31,31 +31,31 @@ class PopularBooks extends StatelessWidget {
           child: Row(
             children: [
               PopularBookCard(
-                image: "http://images.amazon.com/images/P/0446310786.01.LZZZZZZZ.jpg",
+                image: "https://imagetolink.com/ib/ci40gcsPfc.jpg",
                 title: "To Kill a Mockingbird",
                 author: "Harper Lee",
                 bookId: 38,
               ),
               PopularBookCard(
-                image: "http://images.amazon.com/images/P/0441783589.01.LZZZZZZZ.jpg",
+                image: "https://imagetolink.com/ib/x7X6zgJCoL.jpg",
                 title: "Starship Troopers",
                 author: "Robert A. Heinlein",
                 bookId: 78,
               ),
               PopularBookCard(
-                image: "http://images.amazon.com/images/P/0316769487.01.LZZZZZZZ.jpg",
+                image: "https://imagetolink.com/ib/fvGaLho4zk.jpg",
                 title: "The Catcher in the Rye",
                 author: "J.D. Salinger",
                 bookId: 91,
               ),
               PopularBookCard(
-                image: "http://images.amazon.com/images/P/0440234743.01.LZZZZZZZ.jpg",
+                image: "https://imagetolink.com/ib/2vEriHVajx.jpg",
                 title: "The Testament",
                 author: "John Grisham",
                 bookId: 19,
               ),
               PopularBookCard(
-                image: "http://images.amazon.com/images/P/1552041778.01.LZZZZZZZ.jpg",
+                image: "https://imagetolink.com/ib/z64TawZ0Jv.jpg",
                 title: "Jane Doe",
                 author: "R. J. Kaiser",
                 bookId: 14,

@@ -57,9 +57,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text(widget.title),
-      // ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -72,7 +69,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ],
           ),
-          Text(
+          const Text(
             'Librarium',
             style: TextStyle(
               color: AppTheme.defaultBlue,
@@ -107,8 +104,8 @@ class _HomePageState extends State<HomePage> {
               },
               cursor: _cursorTypeLogin,
               child: Container(
-                padding: EdgeInsets.all(20),
-                margin: EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.all(20),
+                margin: const EdgeInsets.symmetric(horizontal: 20),
                 decoration: BoxDecoration(
                   border: Border.all(
                     color: isHoveredLogin ? Colors.black : AppTheme.defaultBlue,
@@ -149,7 +146,7 @@ class _HomePageState extends State<HomePage> {
             onTap: () {
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => RegisterPage()),
+                MaterialPageRoute(builder: (context) => const RegisterPage()),
               );
             },
 
@@ -168,8 +165,8 @@ class _HomePageState extends State<HomePage> {
               },
               cursor: _cursorTypeRegister,
               child: Container(
-                padding: EdgeInsets.all(20),
-                margin: EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.all(20),
+                margin: const EdgeInsets.symmetric(horizontal: 20),
                 decoration: BoxDecoration(
                   border: Border.all(
                     color: isHoveredRegister ? Colors.black : AppTheme.defaultBlue,
@@ -212,7 +209,7 @@ class _HomePageState extends State<HomePage> {
             onTap: () {
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => MyHomePage()),
+                MaterialPageRoute(builder: (context) => const MyHomePage()),
               );
             },
 
@@ -231,8 +228,8 @@ class _HomePageState extends State<HomePage> {
               },
               cursor: _cursorTypeEnter,
               child: Container(
-                padding: EdgeInsets.all(20),
-                margin: EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.all(20),
+                margin: const EdgeInsets.symmetric(horizontal: 20),
                 decoration: BoxDecoration(
                   border: Border.all(
                     color: isHoveredEnter ? Colors.black : AppTheme.defaultBlue,
@@ -240,7 +237,6 @@ class _HomePageState extends State<HomePage> {
                   ),
                   color: isHoveredEnter ? Colors.white : AppTheme.defaultBlue,
                   borderRadius: BorderRadius.circular(40),
-
 
                 ),
                 child: Center(

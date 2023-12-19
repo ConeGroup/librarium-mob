@@ -42,7 +42,7 @@ class RequestListItem extends StatelessWidget {
             width: 125,
             height: 175,
             margin: const EdgeInsets.symmetric(
-              horizontal: 16,
+              horizontal: 12,
               vertical: 12,
             ),
             decoration: BoxDecoration(
@@ -69,28 +69,28 @@ class RequestListItem extends StatelessWidget {
           // Left side (book details)
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.only(left: 8, top: 16, bottom: 16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     bookRequest.fields.title,
                     style: const TextStyle(
-                      fontSize: 18.0,
+                      fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   const SizedBox(height: 8),
                   Text(
                     "by ${bookRequest.fields.author}",
-                    style: const TextStyle(fontSize: 14),
+                    style: const TextStyle(fontSize: 12),
                   ),
                   const SizedBox(height: 8),
                   Text(
                     bookRequest.fields.year,
-                    style: const TextStyle(fontSize: 14),
+                    style: const TextStyle(fontSize: 12),
                   ),
-                  const SizedBox(height: 35),
+                  // const SizedBox(height: 10),
                 ],
               ),
             ),
@@ -99,8 +99,8 @@ class RequestListItem extends StatelessWidget {
             width: 125,
             height: 175,
             margin: const EdgeInsets.symmetric(
-              horizontal: 12,
-              vertical: 12,
+              // horizontal: 8,
+              vertical: 10,
             ),
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -277,7 +277,7 @@ class RequestListItem extends StatelessWidget {
                                     child: const Text('Yes'),
                                     onPressed: () async {
                                       await request.get(
-                                          "http://127.0.0.1:8000/book-request/remove-request/${bookRequest.pk}/")
+                                          "https://librarium-c01-tk.pbp.cs.ui.ac.id/book-request/remove-request/${bookRequest.pk}/")
                                           .then((value) => {
                                           Navigator.pop(context),
                                           Navigator.pushReplacement(context,

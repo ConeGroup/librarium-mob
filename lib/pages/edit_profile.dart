@@ -88,7 +88,7 @@ class _UserProfileContentState extends State<UserProfileContent> {
     final request = context.watch<CookieRequest>();
     requestglobal = request;
     final response = await request
-        .get('http://127.0.0.1:8000/userprofile/api/show_userprofile/');
+        .get('https://librarium-c01-tk.pbp.cs.ui.ac.id/userprofile/api/show_userprofile/');
     Countloansbook = response['CountLoansBook'];
     CountReviewBook = response['CountReviewBook'];
     CountRequestBook = response['CountRequestBook'];
@@ -181,7 +181,7 @@ class EditUsernamePasswordContent extends StatelessWidget {
       return;
     }
 
-    String url = "http://127.0.0.1:8000/userprofile/api/change_password/";
+    String url = "https://librarium-c01-tk.pbp.cs.ui.ac.id/userprofile/api/change_password/";
     // String token = await storage.read(key: "token");
     // print(requestglobal);
     // print(oldPassword);
@@ -198,7 +198,7 @@ class EditUsernamePasswordContent extends StatelessWidget {
     // );
 
     var response = await requestglobal.postJson(
-        "http://127.0.0.1:8000/userprofile/api/change_password/",
+        "https://librarium-c01-tk.pbp.cs.ui.ac.id/userprofile/api/change_password/",
         jsonEncode(<String, String>{
           'old_password': oldPassword,
           'new_password1': newPassword,
@@ -285,7 +285,7 @@ class EditEmailContent extends StatelessWidget {
       return;
     }
 
-    String url = "http://127.0.0.1:8000/userprofile/api/edit_profile/";
+    String url = "https://librarium-c01-tk.pbp.cs.ui.ac.id/userprofile/api/edit_profile/";
     // String token = await storage.read(key: "token");
     // print(requestglobal);
     // print(oldPassword);
@@ -302,7 +302,7 @@ class EditEmailContent extends StatelessWidget {
     // );
 
     var response = await requestglobal.postJson(
-        "http://127.0.0.1:8000/userprofile/api/edit_profile/",
+        "https://librarium-c01-tk.pbp.cs.ui.ac.id/userprofile/api/edit_profile/",
         jsonEncode(<String, String>{
           'username': requestglobal.jsonData["username"],
           'email': newEmail,

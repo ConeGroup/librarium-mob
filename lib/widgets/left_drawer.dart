@@ -8,7 +8,6 @@ import 'package:librarium_mob/pages/reviews/review_page.dart';
 import 'package:librarium_mob/apptheme.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
-import 'package:librarium_mob/pages/collections/collections_page.dart';
 import 'package:librarium_mob/pages/edit_profile.dart';
 import '../pages/menu.dart';
 
@@ -71,7 +70,7 @@ class LeftDrawer extends StatelessWidget {
             title: const Text('Collections'),
             onTap: () {
               // Handle redirection to the Collection page
-              Navigator.pushReplacement(
+              Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => const CollectionListPage(),
@@ -124,7 +123,7 @@ class LeftDrawer extends StatelessWidget {
             onTap: () async {
               final response = await request.logout(
                 // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
-                  "http://127.0.0.1:8000/auth/logout/");
+                  "https://librarium-c01-tk.pbp.cs.ui.ac.id/auth/logout/");
               String message = response["message"];
               if (response['status']) {
                 String uname = response["username"];
