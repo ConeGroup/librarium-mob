@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:librarium_mob/pages/collections/collections_list_page.dart';
 import 'package:librarium_mob/pages/menu.dart';
 import 'package:librarium_mob/apptheme.dart';
 
@@ -59,6 +60,11 @@ class LeftDrawer extends StatelessWidget {
             title: const Text('Collection'),
             onTap: () {
               // Handle redirection to the Collection page
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const CollectionListPage(),
+                  ));
             },
           ),
           ListTile(

@@ -1,19 +1,11 @@
 // ignore_for_file: use_build_context_synchronously, unnecessary_brace_in_string_interps
 
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:librarium_mob/apptheme.dart';
-import 'package:librarium_mob/models/book_model.dart';
-import 'package:librarium_mob/models/collections_model.dart';
-import 'package:librarium_mob/pages/collections/collections_page.dart';
-import 'package:librarium_mob/pages/register_page.dart';
-import 'package:librarium_mob/widgets/left_drawer.dart';
+import 'package:librarium_mob/pages/collections/collections_list_page.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
-import 'package:librarium_mob/models/book_model.dart' as book_model;
-import 'package:librarium_mob/models/collections_model.dart' as collections_model;
-
 
 class CollectionFormPage extends StatefulWidget {
 
@@ -25,9 +17,9 @@ class CollectionFormPage extends StatefulWidget {
 
 class _CollectionFormPageState extends State<CollectionFormPage> {
   final _formKey = GlobalKey<FormState>();
-  String _nameCollection = '';
-  List<book_model.Book> _books = [];
-  List<collections_model.CollectionItem> _collections = [];
+  String _nameCollection = "";
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -36,8 +28,17 @@ class _CollectionFormPageState extends State<CollectionFormPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Add Collection'),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+
+
+        ),
+        backgroundColor: AppTheme.defaultBlue,
+        foregroundColor: Colors.white,
       ),
-      drawer: const LeftDrawer(),
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: Form(
@@ -88,7 +89,7 @@ class _CollectionFormPageState extends State<CollectionFormPage> {
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => CollectionsPage(),
+                            builder: (context) => const CollectionListPage(),
                           ),
                         );
                       } else {
@@ -114,4 +115,3 @@ class _CollectionFormPageState extends State<CollectionFormPage> {
 
 
 
-  //Lanjutkan Metode Ini untuk membuat list collection dan nantinya list collection tersebut akan dapat diisi buku

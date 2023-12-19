@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:librarium_mob/main.dart';
+import 'package:librarium_mob/pages/collections/collections_list_page.dart';
 import 'package:librarium_mob/pages/loans_page.dart';
 import 'package:librarium_mob/pages/request_page.dart';
 import 'package:librarium_mob/pages/reviews/components/book_scroll.dart';
@@ -8,8 +9,6 @@ import 'package:librarium_mob/widgets/left_drawer.dart';
 import 'package:librarium_mob/apptheme.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
-
-import 'package:librarium_mob/pages/collections/collections_page.dart';
 
 import 'edit_profile.dart';
 
@@ -129,7 +128,7 @@ class LibrariumCard extends StatelessWidget {
             Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => CollectionsPage()));
+                    builder: (context) => const CollectionListPage()));
           } else if (item.name == "Book Request") {
             Navigator.pushReplacement(
                 context,
