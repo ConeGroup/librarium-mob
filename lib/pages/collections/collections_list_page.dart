@@ -21,7 +21,7 @@ class CollectionListPage extends StatefulWidget {
 
 Future<List<CollectionItemModel>> fetchCollection(CookieRequest request) async {
   try {
-    var response = await request.get('http://127.0.0.1:8000/collection/get-collections-by-user-mob/');
+    var response = await request.get('https://fazle-ilahi-c01librarium.stndar.dev/collection/get-collections-by-user-mob/');
 
     List<CollectionItemModel> listCollection = [];
 
@@ -38,7 +38,7 @@ Future<List<CollectionItemModel>> fetchCollection(CookieRequest request) async {
 }
 
 Future<List<Book>> fetchBookCatalog() async {
-  var url = Uri.parse('http://127.0.0.1:8000/collection/get-book-json/');
+  var url = Uri.parse('https://fazle-ilahi-c01librarium.stndar.dev/collection/get-book-json/');
   try {
     var response = await http.get(
       url,
@@ -88,11 +88,7 @@ class _CollectionListPageState extends State<CollectionListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Center(child: Text("Your Collections")),
-        backgroundColor: AppTheme.defaultBlue,
-        foregroundColor: Colors.white,
-      ),
+      appBar: const AppBarBuild(),
       body: FutureBuilder<List<CollectionItemModel>>(
         future: _collectionUser,
         builder: (context, snapshot) {

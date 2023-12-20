@@ -23,7 +23,7 @@ class LoansPage extends StatelessWidget {
     final request = context.watch<CookieRequest>();
 
     return Scaffold(
-      appBar: appBar,
+      appBar: const AppBarBuild(),
       drawer: const LeftDrawer(),
       bottomNavigationBar: const BottomNavBarFb1(),
       body: SingleChildScrollView(
@@ -52,6 +52,15 @@ class LoansPage extends StatelessWidget {
                         ),
                       ]),
                 ),
+              ),
+              const Text(
+                "Empower Your Reading Journey: Seamlessly Borrow, Explore, and Dive into New Worlds with Our Book Loans Feature!",
+                textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: AppTheme.defaultBlue,
+                    fontWeight: FontWeight.normal,
+                  ),
               ),
               // Grid layout
               GridView.count(
@@ -91,6 +100,7 @@ class LoansCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       color: AppTheme.defaultBlue,
+      borderRadius: BorderRadius.circular(15.0), 
       child: InkWell(
         // Area responsive terhadap sentuhan
         onTap: () {
@@ -124,7 +134,7 @@ class LoansCard extends StatelessWidget {
               children: [
                 Icon(
                   item.icon,
-                  color: Colors.white,
+                  color: AppTheme.defaultYellow,
                   size: 30.0,
                 ),
                 const Padding(padding: EdgeInsets.all(3)),

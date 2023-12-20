@@ -22,7 +22,7 @@ class ReviewPage extends StatelessWidget {
     final request = context.watch<CookieRequest>();
 
     return Scaffold(
-      appBar: appBar,
+      appBar: const AppBarBuild(),
       drawer: const LeftDrawer(),
       bottomNavigationBar: const BottomNavBarFb1(),
       floatingActionButton: const FloatingAddReviewBtn(),

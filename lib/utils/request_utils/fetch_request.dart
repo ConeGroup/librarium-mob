@@ -6,8 +6,8 @@ Future<List<BookRequest>> fetchRequest(request) async {
 
   List<BookRequest> requestList = [];
 
-  var url = Uri.parse('http://127.0.0.1:8000/book-request/json/');
-  var response = await request.get('http://127.0.0.1:8000/book-request/json/');
+  var url = Uri.parse('https://fazle-ilahi-c01librarium.stndar.dev/book-request/json/');
+  var response = await request.get('https://fazle-ilahi-c01librarium.stndar.dev/book-request/json/');
 
   // // melakukan decode response menjadi bentuk json
   // var data = jsonDecode(utf8.decode(response.bodyBytes));

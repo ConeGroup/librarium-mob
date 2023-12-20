@@ -1,5 +1,3 @@
-// import 'dart:html';
-
 import 'package:librarium_mob/pages/menu.dart';
 import 'package:librarium_mob/pages/register_page.dart';
 import 'package:flutter/material.dart';
@@ -51,18 +49,18 @@ class _LoginPageState extends State<LoginPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(height: 20),
+            // SizedBox(height: 20),
 
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset(
                   'lib/images/librarium-logo.png',
-                  height: 150,
+                  height: 100,
                 ),
               ],
             ),
-            Text(
+            const Text(
               'Librarium',
               style: TextStyle(
                 color: AppTheme.defaultBlue,
@@ -71,7 +69,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
 
-            const SizedBox(height: 50),
+            const SizedBox(height: 20),
 
             Text(
               'Welcome back, you\'ve been missed!',
@@ -93,12 +91,12 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30),
-                      borderSide: BorderSide(color: AppTheme.defaultBlue),
+                      borderSide: const BorderSide(color: AppTheme.defaultBlue),
                     ),
                     fillColor: Colors.white,
                     filled: true,
                     hintText: 'Username',
-                    hintStyle: TextStyle(color: AppTheme.defaultBlue)),
+                    hintStyle: const TextStyle(color: AppTheme.defaultBlue)),
               ),
             ),
 
@@ -113,7 +111,7 @@ class _LoginPageState extends State<LoginPage> {
                   labelText: 'Password',
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30),
-                    borderSide: BorderSide(color: Colors.grey),
+                    borderSide: const BorderSide(color: Colors.grey),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30),
@@ -122,7 +120,7 @@ class _LoginPageState extends State<LoginPage> {
                   fillColor: Colors.white,
                   filled: true,
                   hintText: 'Password',
-                  hintStyle: TextStyle(color: AppTheme.defaultBlue),
+                  hintStyle: const TextStyle(color: AppTheme.defaultBlue),
                 ),
                 obscureText: true,
               ),
@@ -136,12 +134,8 @@ class _LoginPageState extends State<LoginPage> {
                 String username = _usernameController.text;
                 String password = _passwordController.text;
 
-                // Cek kredensial
-                // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
-                // Untuk menyambungkan Android emulator dengan Django pada localhost,
-                // gunakan URL http://10.0.2.2/
                 final response =
-                    await request.login("http://127.0.0.1:8000/auth/login/", {
+                    await request.login("https://fazle-ilahi-c01librarium.stndar.dev/auth/login/", {
                   'username': username,
                   'password': password,
                 });
@@ -191,8 +185,8 @@ class _LoginPageState extends State<LoginPage> {
                 },
                 cursor: _cursorType,
                 child: Container(
-                  padding: EdgeInsets.all(20),
-                  margin: EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.all(20),
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: isHovered ? Colors.black : AppTheme.defaultBlue,
@@ -215,7 +209,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
 
-            const SizedBox(height: 20),
+            const SizedBox(height: 15),
 
             // Create Account
             Row(

@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:librarium_mob/main.dart';
 import 'package:librarium_mob/pages/collections/collections_list_page.dart';
 import 'package:librarium_mob/pages/loans_page.dart';
-import 'package:librarium_mob/pages/request_page.dart';
+import 'package:librarium_mob/requests/request_page.dart';
 import 'package:librarium_mob/pages/reviews/components/book_scroll.dart';
 import 'package:librarium_mob/pages/reviews/review_page.dart';
 import 'package:librarium_mob/widgets/left_drawer.dart';
 import 'package:librarium_mob/apptheme.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
-
 import 'edit_profile.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
+
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -24,7 +24,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final List<LibrariumItem> items = [
     LibrariumItem("Collections", Icons.collections_bookmark),
-    LibrariumItem("Book Request", Icons.question_mark_rounded),
+    LibrariumItem("Book Request", Icons.library_add_rounded),
     LibrariumItem("Book Loans", Icons.library_books),
     LibrariumItem("Book Reviews", Icons.reviews_rounded),
     LibrariumItem("User Settings", Icons.settings),
@@ -34,8 +34,9 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     final request = context.watch<CookieRequest>();
+
     return Scaffold(
-      appBar: appBar,
+      appBar: const AppBarBuild(),
       drawer: const LeftDrawer(),
       bottomNavigationBar: const BottomNavBarFb1(),
       body: SingleChildScrollView(
@@ -59,7 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
                 constraints: const BoxConstraints.expand(height:50.0),
-                child:  const Column(
+                child: const Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
@@ -81,7 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 crossAxisCount: 3,
                 shrinkWrap: true,
                 children: items.map((LibrariumItem item) {
-                  return LibrariumCard(item);
+                  return LibrariumCard(request, item);
                 }).toList(),
               ),
               Container(
@@ -105,8 +106,9 @@ class LibrariumItem {
 
 class LibrariumCard extends StatelessWidget {
   final LibrariumItem item;
+  final CookieRequest request;
 
-  const LibrariumCard(this.item, {Key? key}) : super(key: key);
+  const LibrariumCard(this. request, this.item, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -125,37 +127,39 @@ class LibrariumCard extends StatelessWidget {
 
           // TODO: Navigate to the corresponding route based on the item
           if (item.name == "Collections") {
-            Navigator.pushReplacement(
+            Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) => const CollectionListPage()));
           } else if (item.name == "Book Request") {
-            Navigator.pushReplacement(
+            Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) => const RequestPage()));
           } else if (item.name == "Book Loans") {
-            Navigator.pushReplacement(
+            Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) => LoansPage()));
           } else if (item.name == "Book Reviews") {
-            Navigator.pushReplacement(
+            Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) => ReviewPage()));
           } else if (item.name == "User Settings") {
-            Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (context) => UserPage()));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => UserPage()));
           } else if (item.name == "Logout") {
             final response = await request.logout(
               // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
-                "http://127.0.0.1:8000/auth/logout/");
+                "https://fazle-ilahi-c01librarium.stndar.dev/auth/logout/");
             String message = response["message"];
             if (response['status']) {
               String uname = response["username"];
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text("$message Sampai jumpa, $uname."),
+                content: Text("$message see you, $uname."),
               ));
               Navigator.pushReplacement(
                 context,
@@ -237,7 +241,7 @@ class BottomNavBarFb1 extends StatelessWidget {
                     icon: Icons.feed,
                     selected: false,
                     onPressed: () {
-                        Navigator.pushReplacement(
+                        Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => LoansPage()));
@@ -247,7 +251,7 @@ class BottomNavBarFb1 extends StatelessWidget {
                     icon: Icons.reviews_rounded,
                     selected: false,
                     onPressed: () {
-                       Navigator.pushReplacement(
+                       Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => ReviewPage()));
@@ -264,21 +268,21 @@ class BottomNavBarFb1 extends StatelessWidget {
                     }),
                 IconBottomBar2(
                     text: "Book Request",
-                    icon: Icons.live_help_rounded,
+                    icon: Icons.library_add_rounded,
                     selected: false,
                     onPressed: () {
-                      Navigator.pushReplacement(
+                      Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => const RequestPage()));
                     }),
                 IconBottomBar2(
-                    text: "User Settings",
-                    icon: Icons.account_circle_rounded,
+                    text: "Collections",
+                    icon: Icons.collections_bookmark,
                     selected: false,
                     onPressed: () {
-                      Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) => UserPage()));
+                      Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => const CollectionListPage()));
                     })
               ],
             ),

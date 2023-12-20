@@ -1,12 +1,11 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:librarium_mob/apptheme.dart';
 import 'package:librarium_mob/widgets/left_drawer.dart';
-import 'package:librarium_mob/pages/request_page.dart';
+import 'package:librarium_mob/requests/request_page.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
-import 'package:librarium_mob/pages/login_page.dart';
-import 'menu.dart';
-
+import '../utils/request_utils/validate_request_image.dart';
 
 class RequestFormPage extends StatefulWidget {
   const RequestFormPage({super.key});
@@ -24,7 +23,10 @@ class _RequestFormPageState extends State<RequestFormPage> {
   String _publisher = "";
   String _initialReview = "";
   String _imageM = "";
-  // String _user = "";
+
+  final String defaultImage = "https://imagetolink.com/ib/Xc443szDm3.jpg";
+
+  String get defaultImageLink => defaultImage;
 
   @override
   Widget build(BuildContext context) {
@@ -37,8 +39,14 @@ class _RequestFormPageState extends State<RequestFormPage> {
             'Request Form',
           ),
         ),
-        backgroundColor: Colors.indigo,
-        foregroundColor: Colors.white,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_rounded),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        backgroundColor: AppTheme.defaultBlue,
+        foregroundColor: AppTheme.defaultYellow,
       ),
       // TODO: Tambahkan drawer yang sudah dibuat di sini
       drawer: const LeftDrawer(),
@@ -48,6 +56,7 @@ class _RequestFormPageState extends State<RequestFormPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
@@ -55,7 +64,7 @@ class _RequestFormPageState extends State<RequestFormPage> {
                     hintText: "Book Title",
                     labelText: "Book Title",
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5.0),
+                      borderRadius: BorderRadius.circular(30),
                     ),
                   ),
                   onChanged: (String? value) {
@@ -78,7 +87,7 @@ class _RequestFormPageState extends State<RequestFormPage> {
                     hintText: "Author",
                     labelText: "Author",
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5.0),
+                      borderRadius: BorderRadius.circular(30),
                     ),
                   ),
                   // TODO: Tambahkan variabel yang sesuai
@@ -102,7 +111,7 @@ class _RequestFormPageState extends State<RequestFormPage> {
                     hintText: "ISBN",
                     labelText: "ISBN",
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5.0),
+                      borderRadius: BorderRadius.circular(30),
                     ),
                   ),
                   // TODO: Tambahkan variabel yang sesuai
@@ -118,6 +127,9 @@ class _RequestFormPageState extends State<RequestFormPage> {
                     if (int.tryParse(value) == null) {
                       return "Number type input required";
                     }
+                    if (value.length > 13 || value.length < 10) {
+                      return "ISBN is a 10-13 series number.";
+                    }
                     return null;
                   },
                 ),
@@ -129,7 +141,7 @@ class _RequestFormPageState extends State<RequestFormPage> {
                     hintText: "Year",
                     labelText: "Year",
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5.0),
+                      borderRadius: BorderRadius.circular(30),
                     ),
                   ),
                   // TODO: Tambahkan variabel yang sesuai
@@ -145,6 +157,9 @@ class _RequestFormPageState extends State<RequestFormPage> {
                     if (int.tryParse(value) == null) {
                       return "Number type input required";
                     }
+                    if (value.length < 4 || value.length > 4) {
+                      return "Please insert a valid year.";
+                    }
                     return null;
                   },
                 ),
@@ -156,7 +171,7 @@ class _RequestFormPageState extends State<RequestFormPage> {
                     hintText: "Publisher",
                     labelText: "Publisher",
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5.0),
+                      borderRadius: BorderRadius.circular(30),
                     ),
                   ),
                   // TODO: Tambahkan variabel yang sesuai
@@ -176,11 +191,13 @@ class _RequestFormPageState extends State<RequestFormPage> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
+                  maxLines: 9,
+                  minLines: 6,
                   decoration: InputDecoration(
-                    hintText: "Short Review",
+                    hintText: "Tell us how good this book is.",
                     labelText: "Short Review",
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5.0),
+                      borderRadius: BorderRadius.circular(30),
                     ),
                   ),
                   onChanged: (String? value) {
@@ -201,10 +218,10 @@ class _RequestFormPageState extends State<RequestFormPage> {
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
                   decoration: InputDecoration(
-                    hintText: "Book Cover",
-                    labelText: "Book Cover",
+                    hintText: "Insert a valid image link or leave it blank.",
+                    labelText: "Book's Image Link",
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5.0),
+                      borderRadius: BorderRadius.circular(30),
                     ),
                   ),
                   onChanged: (String? value) {
@@ -213,12 +230,6 @@ class _RequestFormPageState extends State<RequestFormPage> {
                       _imageM = value!;
                     });
                   },
-                  // validator: (String? value) {
-                  //   if (value == null || value.isEmpty) {
-                  //     return "Cover cannot be empty!";
-                  //   }
-                  //   return null;
-                  // },
                 ),
               ),
               Align(
@@ -226,15 +237,26 @@ class _RequestFormPageState extends State<RequestFormPage> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ElevatedButton(
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.indigo),
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 24,
+                          horizontal: 48
+                      ),
+                      backgroundColor: AppTheme.defaultBlue,
                     ),
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
+                        // Validate the image link before sending the request
+                        bool isValidImageLink = await validateImageLink(_imageM);
+
+                        if (!isValidImageLink) {
+                          // Set a default image link if the provided link is invalid
+                          _imageM = defaultImageLink;
+                        }
                         // Kirim ke Django dan tunggu respons
                         // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
                         final response = await request.postJson(
-                            "http://127.0.0.1:8000/book-request/create-flutter/",
+                            "https://fazle-ilahi-c01librarium.stndar.dev/book-request/create-flutter/",
                             jsonEncode(<String, String>{
                               // TODO: Sesuaikan field data sesuai dengan aplikasimu
                               'title': _title,
@@ -251,6 +273,7 @@ class _RequestFormPageState extends State<RequestFormPage> {
                               .showSnackBar(const SnackBar(
                             content: Text("Request saved"),
                           ));
+                          Navigator.pop(context);
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
@@ -267,7 +290,10 @@ class _RequestFormPageState extends State<RequestFormPage> {
                     },
                     child: const Text(
                       "Save",
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18
+                      ),
                     ),
                   ),
                 ),
