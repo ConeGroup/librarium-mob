@@ -84,14 +84,11 @@ _Project_ kami akan menggunakan sumber _dataset_ buku `Book Recommendation Datas
 [Book Recommendation Dataset by MÖBIUS](https://www.kaggle.com/datasets/arashnic/book-recommendation-dataset/)
 
 ## User Roles
-### Guest 🔒
-_Guest_ adalah pengguna yang belum _login_. Berikut ini hal-hal yang dapat dilakukan oleh _Guest_:
+### Member 🔓
+_Member_ merupakan pengguna yang sudah melakukan _register_. Berikut ini hal-hal yang dapat dilakukan oleh _Member_:
 - [x] Mengakses `Homepage`.
 - [x] Membuka halaman `About Us`.
 - [x] Memberikan kritik dan saran.
-### Member 🔓
-_Member_ merupakan pengguna yang sudah melakukan _register_. Berikut ini hal-hal yang dapat dilakukan oleh _Member_:
-- [x] Mengakses apa saja yang dapat diakses oleh _Guest_.
 - [x] Menyunting rincian data pribadi pada *User Profile*.
 - [x] Mengakses semua fitur utama Librarium, seperti *Book Reviews*, *Book Loans*, *Collections*, dan *Book Request*.
 
