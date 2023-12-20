@@ -117,7 +117,7 @@ class _LoansCatalogPageState extends State<LoansCatalogPage> {
   }
 
   Future<List<LoansCatalog>> fetchBookCatalog() async {
-    var url = Uri.parse('https://librarium-c01-tk.pbp.cs.ui.ac.id/show_loans/get_book_json/');
+    var url = Uri.parse('https://fazle-ilahi-c01librarium.stndar.dev/show_loans/get_book_json/');
 
     try {
       var response = await http.get(

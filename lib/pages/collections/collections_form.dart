@@ -79,7 +79,7 @@ class _CollectionFormPageState extends State<CollectionFormPage> {
                   onPressed: () async{
                     if (_formKey.currentState!.validate()) {
                       final response = await request.postJson(
-                        'https://librarium-c01-tk.pbp.cs.ui.ac.id/collection/create-collection-flutter/',
+                        'https://fazle-ilahi-c01librarium.stndar.dev/collection/create-collection-flutter/',
                         jsonEncode(<String, dynamic>{
                           'name': _nameCollection.toString(),
                         }));

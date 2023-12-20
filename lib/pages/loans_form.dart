@@ -113,7 +113,7 @@ class _ShopFormPageState extends State<LoansFormPage> {
 
                       final formatter = DateFormat('yyyy-MM-dd');
                       final response = await request.postJson(
-                          "https://librarium-c01-tk.pbp.cs.ui.ac.id/show_loans/create-loans-flutter/",
+                          "https://fazle-ilahi-c01librarium.stndar.dev/show_loans/create-loans-flutter/",
                           jsonEncode(<String, String>{
                             //'user': request.
                             'number_book': _number.toString(),

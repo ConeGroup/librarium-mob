@@ -277,7 +277,7 @@ class RequestListItem extends StatelessWidget {
                                     child: const Text('Yes'),
                                     onPressed: () async {
                                       await request.get(
-                                          "https://librarium-c01-tk.pbp.cs.ui.ac.id/book-request/remove-request/${bookRequest.pk}/")
+                                          "https://fazle-ilahi-c01librarium.stndar.dev/book-request/remove-request/${bookRequest.pk}/")
                                           .then((value) => {
                                           Navigator.pop(context),
                                           Navigator.pushReplacement(context,

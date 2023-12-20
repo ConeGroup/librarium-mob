@@ -21,7 +21,7 @@ class CollectionListPage extends StatefulWidget {
 
 Future<List<CollectionItemModel>> fetchCollection(CookieRequest request) async {
   try {
-    var response = await request.get('https://librarium-c01-tk.pbp.cs.ui.ac.id/collection/get-collections-by-user-mob/');
+    var response = await request.get('https://fazle-ilahi-c01librarium.stndar.dev/collection/get-collections-by-user-mob/');
 
     List<CollectionItemModel> listCollection = [];
 
@@ -38,7 +38,7 @@ Future<List<CollectionItemModel>> fetchCollection(CookieRequest request) async {
 }
 
 Future<List<Book>> fetchBookCatalog() async {
-  var url = Uri.parse('https://librarium-c01-tk.pbp.cs.ui.ac.id/collection/get-book-json/');
+  var url = Uri.parse('https://fazle-ilahi-c01librarium.stndar.dev/collection/get-book-json/');
   try {
     var response = await http.get(
       url,

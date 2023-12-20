@@ -90,7 +90,7 @@ class _AddBooksToCollectionPageState extends State<AddBooksToCollectionPage>{
                   onPressed: () async{
                     if (_formKey.currentState!.validate()) {
                       final response = await request.postJson(
-                        'https://librarium-c01-tk.pbp.cs.ui.ac.id/collection/add-book-to-collection-flutter/',
+                        'https://fazle-ilahi-c01librarium.stndar.dev/collection/add-book-to-collection-flutter/',
                         jsonEncode(<String, dynamic>{
                           'collection_id': widget.collection.pk,
                           'book_id': _numberBook,

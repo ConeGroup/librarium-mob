@@ -6,7 +6,7 @@ import 'package:pbp_django_auth/pbp_django_auth.dart';
 
 Future<List<Review>> fetchReview(CookieRequest request) async {
     try {
-      var response = await request.get('https://librarium-c01-tk.pbp.cs.ui.ac.id/reviews/get-rev-by-user-mob/');
+      var response = await request.get('https://fazle-ilahi-c01librarium.stndar.dev/reviews/get-rev-by-user-mob/');
 
         List<Review> listReview = [];
 
@@ -27,7 +27,7 @@ Future<List<Review>> fetchReview(CookieRequest request) async {
   }
 
     Future<List<Book>> fetchBookCatalog() async {
-    var url = Uri.parse('https://librarium-c01-tk.pbp.cs.ui.ac.id/reviews/get-book-json/');
+    var url = Uri.parse('https://fazle-ilahi-c01librarium.stndar.dev/reviews/get-book-json/');
     try {
       var response = await http.get(
         url,
@@ -48,7 +48,7 @@ Future<List<Review>> fetchReview(CookieRequest request) async {
 
 
   Future<Book> fetchBookById(int bookId) async {
-      var url = Uri.parse('https://librarium-c01-tk.pbp.cs.ui.ac.id/reviews/get-book-by-id-mob/$bookId/');
+      var url = Uri.parse('https://fazle-ilahi-c01librarium.stndar.dev/reviews/get-book-by-id-mob/$bookId/');
       var response = await http.get(
         url,
         headers: {"Content-Type": "application/json"},
@@ -65,7 +65,7 @@ Future<List<Review>> fetchReview(CookieRequest request) async {
 // mengambil semua review yang ada
   Future<List<Review>> fetchAllReview(CookieRequest request) async {
     try {
-      var response = await request.get('https://librarium-c01-tk.pbp.cs.ui.ac.id/reviews/get-review-json/');
+      var response = await request.get('https://fazle-ilahi-c01librarium.stndar.dev/reviews/get-review-json/');
         List<Review> listReview = [];
 
         for (var reviewJson in response) {
@@ -80,7 +80,7 @@ Future<List<Review>> fetchReview(CookieRequest request) async {
   }
 
    Future<Book> fetchUserbyId(int userId) async {
-      var url = Uri.parse('https://librarium-c01-tk.pbp.cs.ui.ac.id/reviews/get-book-by-id-mob/$userId/');
+      var url = Uri.parse('https://fazle-ilahi-c01librarium.stndar.dev/reviews/get-book-by-id-mob/$userId/');
       var response = await http.get(
         url,
         headers: {"Content-Type": "application/json"},
@@ -98,7 +98,7 @@ Future<List<Review>> fetchReview(CookieRequest request) async {
 Future<List<Review>> fetchBookReview(CookieRequest request, int bookId) async {
   var response;
     try {
-      response = await request.get('https://librarium-c01-tk.pbp.cs.ui.ac.id/reviews/get-rev-by-book-mob/$bookId/');
+      response = await request.get('https://fazle-ilahi-c01librarium.stndar.dev/reviews/get-rev-by-book-mob/$bookId/');
 
         List<Review> listReview = [];
 
