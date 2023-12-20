@@ -169,7 +169,7 @@ class _ReviewFormPageState extends State<ReviewFormPage> {
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             final response = await request.postJson(
-                                "https://librarium-c01-tk.pbp.cs.ui.ac.id/reviews/create-review/",
+                                "https://fazle-ilahi-c01librarium.stndar.dev/reviews/create-review/",
                                 jsonEncode(<String, dynamic>{
                                   'book_id': widget.book.pk.toString(),
                                   'rating': _rating.toString(),

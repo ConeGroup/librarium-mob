@@ -256,7 +256,7 @@ class _RequestFormPageState extends State<RequestFormPage> {
                         // Kirim ke Django dan tunggu respons
                         // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
                         final response = await request.postJson(
-                            "https://librarium-c01-tk.pbp.cs.ui.ac.id/book-request/create-flutter/",
+                            "https://fazle-ilahi-c01librarium.stndar.dev/book-request/create-flutter/",
                             jsonEncode(<String, String>{
                               // TODO: Sesuaikan field data sesuai dengan aplikasimu
                               'title': _title,

@@ -256,7 +256,7 @@ class _RegisterPage extends State<RegisterPage> {
                     onTap: () async {
                       if (_registerFormKey.currentState!.validate()) {
                         final response = await request.post(
-                            "https://librarium-c01-tk.pbp.cs.ui.ac.id/auth/registerFlutter/",
+                            "https://fazle-ilahi-c01librarium.stndar.dev/auth/registerFlutter/",
                             convert.jsonEncode({
                               'username': username,
                               'email': email,
