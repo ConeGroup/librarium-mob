@@ -87,7 +87,6 @@ _Project_ kami akan menggunakan sumber _dataset_ buku `Book Recommendation Datas
 ### Member 🔓
 _Member_ merupakan pengguna yang sudah melakukan _register_. Berikut ini hal-hal yang dapat dilakukan oleh _Member_:
 - [x] Mengakses `Homepage`.
-- [x] Membuka halaman `About Us`.
 - [x] Memberikan kritik dan saran.
 - [x] Menyunting rincian data pribadi pada *User Profile*.
 - [x] Mengakses semua fitur utama Librarium, seperti *Book Reviews*, *Book Loans*, *Collections*, dan *Book Request*.
