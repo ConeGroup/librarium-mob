@@ -11,7 +11,7 @@
 [Tautan Berita Acara](https://univindonesia-my.sharepoint.com/:x:/g/personal/calista_sekar_office_ui_ac_id/EUnjZrQaeM9GgEaQnD3NUeABI_EVRlMdAIquNQ7l8XRvLQ?e=5akaGa)
 # Librarium 📖
 ## Tautan Situs
-http://librarium-c01-tk.pbp.cs.ui.ac.id.
+https://fazle-ilahi-librarium.stndar.dev. 
 ## Tautan Aplikasi Mobile
 https://install.appcenter.ms/orgs/pas-c01/apps/librarium/distribution_groups/public.
 ## Background Story
@@ -62,8 +62,8 @@ Fitur ini menampilkan daftar buku-buku yang tersedia di `Librarium`. Pengguna ju
 
 Pada modul ini, kami mengimplementasikan beberapa _event handler_ :
 
-* `onTap` pada tiap _card_ di halaman *Collections* sebagai pemicu `Navigator.push` untuk melakukan _push_ ke halaman *Edit Plan* jika ingin menyunting kategori buku tersebut.
-* `onPressed` untuk _button_ `Add Collection`, `Add Book`, dan `Edit Collection`.
+1. `onChanged` digunakan pada _file_ `collections_form.dart` dan _file_ `collections_add_book_form.dart` yang berfungsi untuk inisiasi ketika ada perubahan pada `TextFormField` pada _form_ penambahan collection dan books.
+2. `onPressed` untuk _button_ `Add Collection`, `Add Book`, dan `View Catalog`.
 
 ### 📥 Book Request (Bimo)
 _User_ dan _Guest_ dapat menambahkan permintaan buku yang ingin diunggah di aplikasi Librarium. Para pengguna dapat menambahkan rincian buku, seperti nama, tahun terbit, nomor ISBN, dan ulasan singkat sebagai bahan pertimbangan pengembang untuk menambahkan buku tersebut ke dalam aplikasi Librarium. Modul ini menerapkan `get` untuk mengambil rincian mengenai buku yang kemudian akan ditampilkan pada laman pengguna. Selain itu, modul ini juga menggunakan metode `post` untuk menambahkan permintaan buku baru serta menyunting permintaan yang sudah ada.<br>
