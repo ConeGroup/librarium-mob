@@ -11,7 +11,7 @@
 [Tautan Berita Acara](https://univindonesia-my.sharepoint.com/:x:/g/personal/calista_sekar_office_ui_ac_id/EUnjZrQaeM9GgEaQnD3NUeABI_EVRlMdAIquNQ7l8XRvLQ?e=5akaGa)
 # Librarium 📖
 ## Tautan Situs
-https://fazle-ilahi-librarium.stndar.dev. 
+https://fazle-ilahi-c01librarium.stndar.dev/
 ## Tautan Aplikasi Mobile
 https://install.appcenter.ms/orgs/pas-c01/apps/librarium/distribution_groups/public.
 ## Background Story
