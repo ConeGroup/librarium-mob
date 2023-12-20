@@ -88,11 +88,7 @@ class _CollectionListPageState extends State<CollectionListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Center(child: Text("Your Collections")),
-        backgroundColor: AppTheme.defaultBlue,
-        foregroundColor: Colors.white,
-      ),
+      appBar: const AppBarBuild(),
       body: FutureBuilder<List<CollectionItemModel>>(
         future: _collectionUser,
         builder: (context, snapshot) {

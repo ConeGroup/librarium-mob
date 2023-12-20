@@ -14,6 +14,7 @@ import 'edit_profile.dart';
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
 
+
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
@@ -33,8 +34,9 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     final request = context.watch<CookieRequest>();
+
     return Scaffold(
-      appBar: appBar,
+      appBar: const AppBarBuild(),
       drawer: const LeftDrawer(),
       bottomNavigationBar: const BottomNavBarFb1(),
       body: SingleChildScrollView(
@@ -80,7 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 crossAxisCount: 3,
                 shrinkWrap: true,
                 children: items.map((LibrariumItem item) {
-                  return LibrariumCard(item);
+                  return LibrariumCard(request, item);
                 }).toList(),
               ),
               Container(
@@ -104,8 +106,9 @@ class LibrariumItem {
 
 class LibrariumCard extends StatelessWidget {
   final LibrariumItem item;
+  final CookieRequest request;
 
-  const LibrariumCard(this.item, {Key? key}) : super(key: key);
+  const LibrariumCard(this. request, this.item, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -274,12 +277,12 @@ class BottomNavBarFb1 extends StatelessWidget {
                               builder: (context) => const RequestPage()));
                     }),
                 IconBottomBar2(
-                    text: "User Settings",
-                    icon: Icons.account_circle_rounded,
+                    text: "Collections",
+                    icon: Icons.collections_bookmark,
                     selected: false,
                     onPressed: () {
                       Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => UserPage()));
+                        MaterialPageRoute(builder: (context) => const CollectionListPage()));
                     })
               ],
             ),

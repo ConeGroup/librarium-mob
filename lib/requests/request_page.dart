@@ -28,7 +28,7 @@ class _RequestPageState extends State<RequestPage> {
     _request = fetchRequest(request);
 
     return Scaffold(
-      appBar: appBar,
+      appBar: const AppBarBuild(),
       drawer: const LeftDrawer(),
       bottomNavigationBar: const BottomNavBarFb1(),
       floatingActionButton: const FloatingAddRequestBtn(),

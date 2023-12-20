@@ -91,7 +91,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30),
-                      borderSide: BorderSide(color: AppTheme.defaultBlue),
+                      borderSide: const BorderSide(color: AppTheme.defaultBlue),
                     ),
                     fillColor: Colors.white,
                     filled: true,
@@ -134,10 +134,6 @@ class _LoginPageState extends State<LoginPage> {
                 String username = _usernameController.text;
                 String password = _passwordController.text;
 
-                // Cek kredensial
-                // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
-                // Untuk menyambungkan Android emulator dengan Django pada localhost,
-                // gunakan URL http://10.0.2.2/
                 final response =
                     await request.login("https://fazle-ilahi-c01librarium.stndar.dev/auth/login/", {
                   'username': username,
@@ -189,8 +185,8 @@ class _LoginPageState extends State<LoginPage> {
                 },
                 cursor: _cursorType,
                 child: Container(
-                  padding: EdgeInsets.all(20),
-                  margin: EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.all(20),
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: isHovered ? Colors.black : AppTheme.defaultBlue,
