@@ -66,7 +66,7 @@ Pada modul ini, kami mengimplementasikan beberapa _event handler_ :
 2. `onPressed` untuk _button_ `Add Collection`, `Add Book`, dan `View Catalog`.
 
 ### 📥 Book Request (Bimo)
-_User_ dan _Guest_ dapat menambahkan permintaan buku yang ingin diunggah di aplikasi Librarium. Para pengguna dapat menambahkan rincian buku, seperti nama, tahun terbit, nomor ISBN, dan ulasan singkat sebagai bahan pertimbangan pengembang untuk menambahkan buku tersebut ke dalam aplikasi Librarium. Modul ini menerapkan `get` untuk mengambil rincian mengenai buku yang kemudian akan ditampilkan pada laman pengguna. Selain itu, modul ini juga menggunakan metode `post` untuk menambahkan permintaan buku baru serta menyunting permintaan yang sudah ada.<br>
+_User_ dapat menambahkan permintaan buku yang ingin diunggah di aplikasi Librarium. Para pengguna dapat menambahkan rincian buku, seperti nama, tahun terbit, nomor ISBN, dan ulasan singkat sebagai bahan pertimbangan pengembang untuk menambahkan buku tersebut ke dalam aplikasi Librarium. Modul ini menerapkan `get` untuk mengambil rincian mengenai buku yang kemudian akan ditampilkan pada laman pengguna. Selain itu, modul ini juga menggunakan metode `post` untuk menambahkan permintaan buku baru serta menyunting permintaan yang sudah ada.<br>
 
 Pada modul ini, kami mengimplementasikan beberapa _event handler_ :
 
@@ -75,9 +75,9 @@ Pada modul ini, kami mengimplementasikan beberapa _event handler_ :
 
 ## Integrasi Web dengan Aplikasi
 Berikut adalah langkah-langkah yang akan dilakukan untuk mengintegrasikan aplikasi dengan server _web_:
-* Mengimplementasikan sebuah _wrapper class_ dengan menggunakan _library_ `http` dan `map` untuk mendukung penggunaan _cookie-based authentication_ pada aplikasi.
+* Mengimplementasikan sebuah _wrapper class_ dengan menggunakan _library_ `https` dan `map` untuk mendukung penggunaan _cookie-based authentication_ pada aplikasi.
 * Mengimplementasikan REST API pada Django (`views.py`) dengan menggunakan `JsonResponse` atau Django JSON `Serializer`.
-* Mengimplementasikan desain _front-end_ untuk aplikasi berdasarkan desain _website_ yang sudah ada sebelumnya.
+* Meningkatkan desain _front-end_ untuk aplikasi berdasarkan referensi desain _website_ yang sudah ada sebelumnya.
 * Melakukan integrasi antara _front-end_ dan _back-end_ dengan menggunakan konsep _asynchronous_ `HTTP`.
 ## Datasets
 _Project_ kami akan menggunakan sumber _dataset_ buku `Book Recommendation Dataset` oleh MÖBIUS dari _platform_ Kaggle
@@ -87,9 +87,11 @@ _Project_ kami akan menggunakan sumber _dataset_ buku `Book Recommendation Datas
 ### Member 🔓
 _Member_ merupakan pengguna yang sudah melakukan _register_. Berikut ini hal-hal yang dapat dilakukan oleh _Member_:
 - [x] Mengakses `Homepage`.
-- [x] Memberikan kritik dan saran.
+- [x] Memberikan review terhadap setiap buku dengan cara mengaksesnya pada fitur *Book Reviews*.
+- [x] Meminjam buku yang tersedia di katalog pada dengan cara mengaksesnya pada fitur *Book Loans*.
+- [x] Membuat sebuah koleksi buku yang diinginkan user dengan cara mengaksesnya pada fitur *Collections*.
+- [x] Menambahkan sebuah buku yang ingin ditambahkan dalam database librarium dengan cara mengaksesnya pada fitur *Book Request*.
 - [x] Menyunting rincian data pribadi pada *User Profile*.
-- [x] Mengakses semua fitur utama Librarium, seperti *Book Reviews*, *Book Loans*, *Collections*, dan *Book Request*.
 
 ### Build Status
 [![Build status](https://build.appcenter.ms/v0.1/apps/19edfacb-ce87-48b6-a8ff-0ebe61f1c3f9/branches/main/badge)](https://appcenter.ms)
