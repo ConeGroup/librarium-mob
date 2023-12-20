@@ -201,57 +201,6 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-
-          const SizedBox(height: 20),
-
-          // Guest Button
-          GestureDetector(
-            onTap: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => const MyHomePage()),
-              );
-            },
-
-            child: MouseRegion(
-              onEnter: (_) {
-                setState(() {
-                  isHoveredEnter = true;
-                  _cursorTypeEnter = SystemMouseCursors.click;
-                });
-              },
-              onExit: (_) {
-                setState(() {
-                  isHoveredEnter = false;
-                  _cursorTypeEnter = SystemMouseCursors.basic;
-                });
-              },
-              cursor: _cursorTypeEnter,
-              child: Container(
-                padding: const EdgeInsets.all(20),
-                margin: const EdgeInsets.symmetric(horizontal: 20),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: isHoveredEnter ? Colors.black : AppTheme.defaultBlue,
-                    width: 3,
-                  ),
-                  color: isHoveredEnter ? Colors.white : AppTheme.defaultBlue,
-                  borderRadius: BorderRadius.circular(40),
-
-                ),
-                child: Center(
-                  child: Text(
-                    'Enter as Guest',
-                    style: TextStyle(
-                      color: isHoveredEnter ? Colors.black : Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
         ],
       ),
     );
